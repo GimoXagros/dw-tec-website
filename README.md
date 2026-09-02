@@ -21,6 +21,7 @@ npm run check
 npm run build
 npm run test:links
 npm run test:privacy
+npm run test:history
 npm run test:smoke
 npm audit
 ```
@@ -31,6 +32,8 @@ npm audit
 
 - Astro 7 정적 출력, TypeScript strict, npm lockfile
 - Pretendard 로컬 분할 글꼴, AVIF/WebP 이미지, 최소 브라우저 스크립트
+- CSS·IntersectionObserver 기반 1회 모션, reduced-motion 및 JavaScript 비활성 지원
+- 기업 소개용 AI 플랜트 콘셉트와 실제 자사 사옥 사진의 명확한 구분
 - Playwright + axe 접근성 검사, 내부 경로 검사, 공개 파일 안전성 검사
 - GitHub Actions 품질 검사 후 GitHub Pages 배포
 - 서버·데이터베이스·API 키·문의 폼·방문자 분석 도구 없음
@@ -49,6 +52,8 @@ npm audit
 | `local-only/`                     | 출처 감사·DNS 백업·검증 보고서. Git 제외 |
 
 [콘텐츠 수정 안내](docs/content-guide.md) · [배포 안내](docs/deployment.md) · [DNS와 메일 보호](docs/dns-and-mail-safety.md)
+
+[디자인 진단](docs/design-audit.md) · [모션 시스템](docs/motion-system.md) · [개편 QA](docs/corporate-refresh-qa.md) · [이미지 출처](docs/visual-assets.md)
 
 ## 보안과 이용 조건
 
