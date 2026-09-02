@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import CompanyNav from "../../components/CompanyNav.astro";
+import { company, principles } from "../../data/company";
+---
+
+<BaseLayout
+  title="회사소개"
+  description="2022년 설립된 주식회사 대원기술의 회사 개요와 경영 철학을 소개합니다. 안전·품질·신뢰를 기준으로 발전·산업 플랜트 현장을 수행합니다."
+>
+  <PageIntro
+    title="회사소개"
+    eyebrow="ABOUT DW-TEC"
+    description="현장을 이해하고 약속을 완성하는 발전·산업 플랜트 시공 파트너"
+  />
+  <div class="container page-content">
+    <CompanyNav />
+    <section class="info-grid stack-section" aria-labelledby="company-overview">
+      <div>
+        <p class="eyebrow">COMPANY PROFILE</p><h2 id="company-overview">
+          기술의 전문성을<br />현장의 신뢰로.
+        </h2><dl class="info-table">
+          <div><dt>회사명</dt><dd>{company.name}</dd></div><div>
+            <dt>대표이사</dt><dd>{company.representative}</dd>
+          </div><div><dt>설립일</dt><dd>2022년 6월 20일</dd></div><div>
+            <dt>소재지</dt><dd>{company.address}</dd>
+          </div><div>
+            <dt>대표전화</dt><dd><a href={`tel:${company.phone}`}>{company.phone}</a></dd>
+          </div><div>
+            <dt>팩스</dt><dd>{company.fax}</dd>
+          </div><div>
+            <dt>이메일</dt><dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+          </div>
+        </dl>
+      </div><div>
+        <img
+          class="wide-photo"
+          src="/images/company-exterior.webp"
+          width="1200"
+          height="676"
+          alt="주식회사 대원기술의 간판과 사옥 외관"
+          loading="lazy"
+        /><p class="note">경상북도 울진군 소재 본사</p>
+      </div>
+    </section>
+    <section class="stack-section prose" aria-labelledby="ceo-message">
+      <p class="eyebrow">CEO MESSAGE</p><h2 id="ceo-message">
+        기본을 지키는 기술이<br />가장 강한 신뢰가 됩니다.
+      </h2><p>안녕하십니까. 주식회사 대원기술 대표이사 김동현입니다.</p><p>
+        대원기술은 발전·산업 플랜트 현장에서 요구되는 전기, 기계설비, 비계·구조물, 소방시설 분야의
+        전문성을 바탕으로 성장해 왔습니다.
+      </p><p>
+        우리는 공사의 규모보다 안전과 품질의 기준을 먼저 생각합니다. 착공 전 위험요소를 확인하고,
+        시공 중 품질을 기록하며, 준공 후 결과까지 책임지는 것이 대원기술의 일하는 방식입니다.
+      </p><p>고객의 목표를 현장에서 실현하는 책임 있는 파트너가 되겠습니다.</p><p>
+        <strong>{company.name} 대표이사 {company.representative}</strong>
+      </p>
+    </section>
+    <section class="stack-section" aria-label="경영 원칙">
+      <div class="principles">
+        {
+          principles.map((p, i) => (
+            <article>
+              <>
+                <span class="value-number">0{i + 1}</span>
+                <p class="small-label">{p.english}</p>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

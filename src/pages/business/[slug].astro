@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { businesses } from "../../data/company";
+export function getStaticPaths() {
+  return businesses.map((business) => ({ params: { slug: business.slug }, props: { business } }));
+}
+const { business } = Astro.props;
+---
+
+<BaseLayout title={business.title} description={business.summary + " " + business.description}>
+  <PageIntro title={business.title} eyebrow={business.english} description={business.summary} />
+  <div class="container page-content">
+    <nav class="section-subnav" aria-label="사업 분야">
+      {
+        businesses.map((b) => (
+          <a
+            href={`/business/${b.slug}/`}
+            aria-current={b.slug === business.slug ? "page" : undefined}
+          >
+            {b.title}
+          </a>
+        ))
+      }
+    </nav><div class="detail-grid">
+      <div>
+        <div class="prose"><h2>현장을 위한 전문 시공</h2><p>{business.description}</p></div><section
+          class="stack-section"
+        >
+          <h2>주요 수행 범위</h2><ul class="clean-list">
+            {business.services.map((s) => <li>{s}</li>)}
+          </ul>
+        </section>
+      </div><aside class="aside-panel">
+        <h2>작업의 기준</h2><ul class="clean-list">{business.checks.map((c) => <li>{c}</li>)}</ul><p
+          class="note"
+        >
+          구체적인 작업 범위와 투입 계획은 현장 요구조건 및 계약 범위에 따라 협의합니다.
+        </p><a class="button button-dark" href="/contact/"
+          >프로젝트 문의 <span aria-hidden="true">↗</span></a
+        >
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dw-tec.co.kr/sitemap-index.xml

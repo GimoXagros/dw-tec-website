@@ -1,0 +1,17 @@
+---
+const links = [
+  { href: "/company/", label: "회사소개" },
+  { href: "/company/history/", label: "연혁" },
+  { href: "/company/capabilities/", label: "기술·인증" },
+];
+---
+
+<nav class="section-subnav" aria-label="회사소개 하위 메뉴">
+  {
+    links.map((link) => (
+      <a href={link.href} aria-current={Astro.url.pathname === link.href ? "page" : undefined}>
+        {link.label}
+      </a>
+    ))
+  }
+</nav>

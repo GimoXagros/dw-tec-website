@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import CompanyNav from "../../components/CompanyNav.astro";
+import { history } from "../../data/company";
+---
+
+<BaseLayout
+  title="회사 연혁"
+  description="대원기술의 설립부터 공사업 등록, 품질·환경·안전보건 인증, 전문소방시설공사업 등록까지 주요 연혁을 확인하세요."
+>
+  <PageIntro
+    title="회사 연혁"
+    eyebrow="OUR HISTORY"
+    description="현장 경험과 기술 기반을 차근차근 넓혀 왔습니다."
+  />
+  <div class="container page-content">
+    <CompanyNav /><div class="timeline">
+      {
+        history.map((item) => (
+          <section class="timeline-row">
+            <>
+              <h2>{item.year}</h2>
+              <ul>
+                {item.events.map((event) => (
+                  <li>{event}</li>
+                ))}
+              </ul>
+            </>
+          </section>
+        ))
+      }
+    </div><p class="note">
+      2026년 8월 제공 자료 기준. 특허는 등록특허가 아닌 특허결정 완료 기준입니다.
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import { portfolio } from "../../data/company";
+---
+
+<BaseLayout
+  title="수행실적"
+  description="발전설비 전기·계측, 기계설비·배관, 비계 정비 지원, 화재감지·방호 설비 분야의 대원기술 수행 경험을 소개합니다."
+>
+  <PageIntro
+    title="수행실적"
+    eyebrow="FIELD EXPERIENCE"
+    description="현장의 안전과 품질을 지키며 다양한 공종의 수행 경험을 축적하고 있습니다."
+  />
+  <div class="container page-content">
+    <div class="portfolio-grid">
+      {
+        portfolio.map((p) => (
+          <article class="portfolio-item">
+            <>
+              <p class="eyebrow">{p.category} · 수행 분야</p>
+              <h2>{p.title}</h2>
+              <p>{p.text}</p>
+            </>
+          </article>
+        ))
+      }
+    </div><section class="stack-section aside-panel">
+      <h2>프로젝트별 실적 자료가 필요하신가요?</h2><p>
+        현장과 발주처의 보안 기준을 고려해 웹사이트에는 수행유형 중심으로 소개합니다. 입찰·협력업체
+        등록 등 업무 목적에 맞는 상세 실적과 증빙은 별도로 안내해 드립니다.
+      </p><a class="text-link" href="/contact/">실적 자료 문의 <span aria-hidden="true">→</span></a>
+    </section><p class="note">
+      소방 관련 항목에는 전문소방시설공사업 등록 이전의 전기공사·협력 수행기록이 포함됩니다. 해당
+      기록을 모두 소방공사업 면허 실적으로 표현하지 않습니다.
+    </p>
+  </div>
+</BaseLayout>

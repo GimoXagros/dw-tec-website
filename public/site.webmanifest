@@ -1,0 +1,10 @@
+{
+  "name": "주식회사 대원기술",
+  "short_name": "DW-TEC",
+  "lang": "ko",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#102e55",
+  "icons": [{ "src": "/favicon.png", "sizes": "96x96", "type": "image/png" }]
+}
