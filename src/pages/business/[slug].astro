@@ -8,7 +8,11 @@ export function getStaticPaths() {
 const { business } = Astro.props;
 ---
 
-<BaseLayout title={business.title} description={business.summary + " " + business.description}>
+<BaseLayout
+  title={business.title}
+  description={business.summary + " " + business.description}
+  socialImage={false}
+>
   <PageIntro title={business.title} eyebrow={business.english} description={business.summary} />
   <div class="container page-content">
     <nav class="section-subnav" aria-label="사업 분야">

@@ -18,6 +18,7 @@
     "test:links": "node scripts/check-output.mjs",
     "test:smoke": "playwright test",
     "test:privacy": "node scripts/check-public-safety.mjs",
+    "test:history": "node scripts/check-history.mjs",
     "validate": "npm run format:check && npm run lint && npm run check && npm run build && npm run test:links && npm run test:privacy && npm run test:smoke"
   },
   "dependencies": {
