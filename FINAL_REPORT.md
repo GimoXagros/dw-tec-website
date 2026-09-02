@@ -1,6 +1,6 @@
 # DW-TEC 홈페이지 제작·배포 검증 보고서
 
-검토 기준: 2026-09-02. **로컬 제작·검증 단계이며 실도메인 배포는 아직 완료되지 않았습니다.**
+검토 기준: 2026-09-02. **GitHub 업로드와 Pages 배포 작업은 성공했습니다. 전체 DNS 백업이 확보되지 않아 실도메인 연결·HTTPS는 아직 완료되지 않았습니다.**
 
 ## 1. 자료와 공개 범위
 
@@ -46,23 +46,25 @@ Lighthouse 13.4.1, 기본 모바일 시뮬레이션, 로컬 프로덕션 preview
 
 ## 4. GitHub·실도메인 상태
 
-| 항목                       | 상태                                                      |
-| -------------------------- | --------------------------------------------------------- |
-| GitHub 소유자              | 연결 계정과 웹 화면에서 GimoXagros 확인                   |
-| 업로드용 CLI 인증          | 아직 미연결. 사용자 승인 필요                             |
-| 저장소                     | GimoXagros/dw-tec-website 예정, 아직 생성/업로드하지 않음 |
-| 기본 브랜치                | 로컬 main 생성. 원격 업로드 전                            |
-| 최종 공개 commit SHA       | 아직 없음                                                 |
-| v1.0.0 태그·Release        | 미생성                                                    |
-| Actions 배포 실행 URL·상태 | 미실행                                                    |
-| https://dw-tec.co.kr       | 목표 주소. 서비스 연결·인증서 미검증                      |
-| www 리디렉션               | 미설정·미검증                                             |
+| 항목                        | 상태                                                                                            |
+| --------------------------- | ----------------------------------------------------------------------------------------------- |
+| GitHub 소유자               | 연결 계정과 웹 화면에서 GimoXagros 확인                                                         |
+| 업로드용 CLI 인증           | 사용자 승인 완료. GimoXagros 계정 재확인                                                        |
+| 저장소                      | [GimoXagros/dw-tec-website](https://github.com/GimoXagros/dw-tec-website) 공개 생성·업로드 완료 |
+| 기본 브랜치                 | main, 로컬·원격 연결 완료                                                                       |
+| 검증·배포된 사이트 소스 SHA | 49ce521d5a608b048f738cfaa3da33ac203233a9                                                        |
+| v1.0.0 태그·Release         | 미생성                                                                                          |
+| Actions 배포 실행 URL·상태  | [33590141092](https://github.com/GimoXagros/dw-tec-website/actions/runs/33590141092) 성공       |
+| https://dw-tec.co.kr        | GitHub custom domain 등록 완료. DNS 미변경·인증서 미발급                                        |
+| www 리디렉션                | 미설정·미검증                                                                                   |
 
-CI·Pages 배포·Dependabot 설정은 작성되어 있습니다. GitHub 인증 후 기존 저장소 충돌 여부를 재확인하고 업로드·Actions·Pages 설정을 진행합니다. 목표 URL을 실제 배포 완료 링크로 오인하지 마세요.
+별도 [품질 검사 실행 33590141060](https://github.com/GimoXagros/dw-tec-website/actions/runs/33590141060)도 성공했습니다. Pages 배포 방식은 GitHub Actions이며, 업로드된 github-pages 결과물의 크기는 3,915,112바이트입니다. custom domain 등록은 DNS 연결 및 HTTPS 발급 완료를 의미하지 않습니다. 목표 URL은 아직 정상 서비스 주소로 안내하지 않습니다.
 
 ## 5. DNS와 메일
 
-권한 네임서버는 ns1~ns4.whoisdomain.kr입니다. 알려진 호스트를 권한 서버와 두 공개 리졸버에서 조회한 결과를 비공개로 보관했습니다. MX에서 ASPMX.daum.net(우선순위 10), ALT.ASPMX.daum.net(20)을 확인했습니다. 사용한 조회 도구의 CAA 형식 제한은 미확인 항목으로 기록했습니다. 전체 zone·TTL·알려지지 않은 selector까지 확보한 상태는 아니며, DNS 관리 사이트의 전체 내보내기를 추가 확보해야 합니다.
+권한 네임서버는 ns1~ns4.whoisdomain.kr입니다. 알려진 호스트를 권한 서버와 두 공개 리졸버에서 조회한 결과를 비공개로 보관했습니다. MX에서 ASPMX.daum.net(우선순위 10), ALT.ASPMX.daum.net(20)을 확인했습니다. 최초 조회 도구의 CAA 형식 제한은 Google 공개 DNS 추가 조회로 보완했으며 해당 조회에서는 apex CAA 응답이 없었습니다. 전체 zone·TTL·알려지지 않은 selector까지 확보한 상태는 아닙니다.
+
+후이즈의 회사 계정 및 대상 도메인 목록은 확인했습니다. 관리 화면의 '네임서버 설정 정보 다운로드' 실행 시 브라우저가 `ERR_BLOCKED_BY_CLIENT`로 차단했고, 백업 파일도 내려받아지지 않았습니다. 차단을 우회하지 않았으며 전체 백업 확보 전에는 DNS를 변경하지 않습니다. GitHub 도메인 소유권 확인용 TXT 값은 발급받아 비공개 작업 기록에 보관했으나 아직 DNS에 추가하지 않았습니다.
 
 - 웹 A·AAAA·CNAME: 변경하지 않음
 - NS·MX·SPF·DKIM·DMARC·기타 TXT: 변경하지 않음
@@ -74,12 +76,11 @@ GitHub custom domain 등록 → 관리자 전체 DNS 백업 → 웹용 레코드
 
 ## 6. 남은 작업과 복구
 
-1. GitHub CLI 사용자 인증 후 main 업로드, CI·Pages 실행 확인
-2. DNS 관리자 로그인·전체 레코드 백업 확보
-3. Pages 도메인 검증 및 custom domain 설정, 웹 DNS만 연결
-4. HTTPS·www·canonical·실서비스 Lighthouse·메일 레코드 보존 검증
-5. 허가된 실제 메일 송수신 시험 또는 담당자 수동 확인
-6. 검증된 커밋에 v1.0.0 태그·Release 생성 및 본 보고서의 URL·SHA 갱신
+1. 후이즈 전체 레코드 백업 파일 확보 및 TTL 보완 검증
+2. GitHub 도메인 소유권 TXT 추가·검증 후 웹 DNS만 연결
+3. HTTPS·www·canonical·실서비스 Lighthouse·메일 레코드 보존 검증
+4. 허가된 실제 메일 송수신 시험 또는 담당자 수동 확인
+5. 검증된 커밋에 v1.0.0 태그·Release 생성 및 본 보고서의 URL·SHA 갱신
 
 실제 현장 작업사진은 인터넷 공개 범위의 별도 승인을 요청한 상태입니다. 승인 전에는 게시하지 않으며, 승인 후에도 시설명·설비번호·도면·얼굴·명찰 등이 노출되는 사진은 제외하거나 안전한 영역만 사용하고 다시 검수해야 합니다.
 
