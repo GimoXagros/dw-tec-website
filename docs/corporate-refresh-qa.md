@@ -3,7 +3,8 @@
 검증일: 2026-09-02 (KST). 기준선 `21c9676f8f90f2df45cd16cc01ae56518931ba17`.
 웹 구현 최종 후보: `61601d213b805dab475980ad06ab90edf270b13b`.
 [개편 PR #1](https://github.com/GimoXagros/dw-tec-website/pull/1).
-이 문서의 현재 단계는 배포 전 검증이다. 운영 검증은 배포 성공 후 별도 기록한다.
+운영 배포 SHA: `4d1f192a2bc27656bd30a96da63680c817bdb9c7`.
+[배포 33601522673 · attempt 2](https://github.com/GimoXagros/dw-tec-website/actions/runs/33601522673/attempts/2) 성공. 운영 검증 완료.
 
 ## 검증 범위와 결과
 
@@ -16,7 +17,7 @@
 | 빌드          | npm run build: 정적 페이지 13개 생성                                                                   |
 | 내부 링크·SEO | npm run test:links: 434개 링크/자산, 고유 메타데이터·canonical·sitemap·CNAME 통과                      |
 | 공개 파일     | npm run test:privacy: 121개 배포 파일에서 금지 파일/민감 문자열 없음. 이미지 권리 검수를 대체하지 않음 |
-| Git 이력      | npm run test:history 통과 (최종 후보 시점 71개 이력 텍스트 객체)                                       |
+| Git 이력      | npm run test:history 통과 (배포 전 최종 검사 78개 이력 텍스트 객체)                                    |
 | 통합          | npm run validate 통과, Playwright 13개 테스트 모두 성공                                                |
 | 접근성        | 13개 경로 × 360/390/768/1024/1440/1920px = 78개 조합에서 Axe WCAG A/AA 위반 0                          |
 | 이미지/화면   | 대체텍스트·너비·높이·실제 로딩, 가로 overflow 없음                                                     |
@@ -61,7 +62,7 @@ Lighthouse 13.4.1, 동일한 기본 모바일 시뮬레이션, 로컬 production
 Git 제외 `local-only/corporate-refresh/` 아래 보관한다.
 
 - `before/local/`, `before/live/`: 11개 주요 경로 × 6개 폭, 각각 66개 전체 화면 + 모바일 메뉴.
-- `after/local/`: 같은 66개 전체 화면 + 모바일 메뉴. 배포 후 `after/live/`도 동일 조건으로 생성한다.
+- `after/local/`, `after/live/`: 같은 66개 전체 화면 + 모바일 메뉴, 각각 생성 완료. 운영 66개 모두 200·overflow false.
 - `screenshots-*.json`: 각 화면의 경로·크기·응답·overflow 결과.
 - `before/lighthouse-*.json/html`, `after/lighthouse-*.json/html`, `lighthouse-first/second-summary.json`, `bundle.json`.
 - 360/1440/1920 대표 합성 및 개별 화면에서 제목/본문/금액/선/간격/한글 줄바꿈/메뉴를 육안 확인. 사업 목록·상세 하단 간격과 모바일 문장 공백 보완.
@@ -69,6 +70,16 @@ Git 제외 `local-only/corporate-refresh/` 아래 보관한다.
 대용량 PNG와 원본 회사 자료는 저장소에 커밋하지 않는다.
 
 ## 운영·보안 범위
+
+2026-09-02 운영 주소의 12개 페이지 × 360/1440px = 24개 조합을 검사했다. 모든 HTML SHA-256이 로컬 검증 산출물과 일치했고, Axe 위반 0·이미지 정상 표시·가로 넘침 없음·콘솔/page error 없음이었다. 요청한 화면 설명 문구가 모든 페이지에서 제거되었음을 검사했다.
+
+모바일 메뉴·Escape 복귀·스크롤 잠금, 데스크톱 하위 메뉴, reduced-motion, JS 비활성 본문/탐색, 전화·이메일 링크, 404·robots·sitemap, TLS secure context, HTTP/www의 HTTPS 기본 주소 전환 통과. 결과는 `after/live-verification.json`, 화면은 `after/live/`에 보관한다.
+
+첫 운영 검증 보조 도구는 Axe가 명시적 browser context를 요구해 중단됐다. 도구의 context 생성만 수정한 뒤 동일한 기준으로 재검사해 통과했다. 사이트 코드나 접근성 기준을 바꾸지 않았다.
+
+첫 배포 시도는 검사용 폰트 다운로드 정체로 약 10분 후 게시 전에 취소했다. 동일 SHA·설정·검사로 재시도한 attempt 2에서 build 2분 11초, deploy 40초로 완료했다. PR 검증과 배포의 validate·audit 모두 통과했다.
+
+검증한 dist 121개 파일의 상대 경로/개별 SHA-256을 정렬·결합한 매니페스트 SHA-256: `9d90d7798be49a5d46b21019ed93a9b72dd85b551a94776ec1cb61fa15862508`. 보고서 전용 변경 후에도 사이트 산출물이 같은지 비교하는 기준이다.
 
 DNS write: **NONE**. Mail record write: **NONE**.
 네임서버·WHOIS·메일 관리자 설정 및 CNAME을 변경하지 않았다. 외부 추적·서버 폼·새 API 키 없음.
