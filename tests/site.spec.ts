@@ -166,6 +166,8 @@ test("reduced motion preserves content without transforms", async ({ page }) => 
   }
   await expect(page.locator(".corporate-hero-image")).toHaveCSS("animation-name", "none");
   await expect(page.locator(".capacity-grid")).toContainText("9.068억 원");
+  await expect(page.locator(".hero-caption")).toHaveCount(0);
+  await expect(page.locator(".corporate-hero-image")).toHaveAttribute("alt", /기업 소개용/);
 });
 
 test("all routes readable without JavaScript", async ({ browser }) => {

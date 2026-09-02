@@ -38,13 +38,15 @@ export function initMotion() {
       },
       { threshold: 0.05, rootMargin: "0px 0px -24px 0px" },
     );
+    // Read all geometry before writing styles/classes to avoid repeated layout work.
+    const initialTops = elements.map((el) => el.getBoundingClientRect().top);
     elements.forEach((el, index) => {
       const delay = Number(
         el.dataset.revealDelay ||
           (el.parentElement?.hasAttribute("data-reveal-group") ? (index % 3) * 70 : 0),
       );
       el.style.setProperty("--reveal-delay", `${Math.min(210, Math.max(0, delay))}ms`);
-      if (el.getBoundingClientRect().top < innerHeight - 24) el.classList.add("is-visible");
+      if (initialTops[index] < innerHeight - 24) el.classList.add("is-visible");
       else {
         el.classList.add("reveal-pending");
         observer?.observe(el);
