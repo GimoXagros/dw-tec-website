@@ -1,4 +1,5 @@
 ---
+import TechnicalMark from "../../components/TechnicalMark.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import { businesses } from "../../data/company";
@@ -17,13 +18,23 @@ import { businesses } from "../../data/company";
     <div class="service-grid">
       {
         businesses.map((b) => (
-          <article class="service-box">
+          <article class="service-box" data-reveal="up">
             <>
               <span class="eyebrow">
                 {b.number} / {b.english}
               </span>
-              <h2>{b.title}</h2>
-              <p>{b.summary}</p>
+              <>
+                <TechnicalMark kind={b.slug} />
+                <h2>{b.title}</h2>
+              </>
+              <>
+                <p>{b.summary}</p>
+                <ul class="clean-list">
+                  {b.services.map((service) => (
+                    <li>{service}</li>
+                  ))}
+                </ul>
+              </>
               <a class="text-link" href={`/business/${b.slug}/`}>
                 수행 범위 자세히 보기 <span aria-hidden="true">→</span>
               </a>

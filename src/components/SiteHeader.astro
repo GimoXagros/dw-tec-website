@@ -1,0 +1,86 @@
+---
+import { businesses, company } from "../data/company";
+const path = Astro.url.pathname;
+const nav = [
+  {
+    href: "/company/",
+    label: "회사소개",
+    children: [
+      { href: "/company/", label: "기업 개요" },
+      { href: "/company/history/", label: "회사 연혁" },
+      { href: "/company/capabilities/", label: "기술·인증" },
+    ],
+  },
+  {
+    href: "/business/",
+    label: "사업영역",
+    children: businesses.map((b) => ({ href: `/business/${b.slug}/`, label: b.title })),
+  },
+  { href: "/portfolio/", label: "수행실적", children: [] },
+  { href: "/company/capabilities/", label: "기술·인증", children: [] },
+  { href: "/contact/", label: "문의·오시는 길", children: [] },
+];
+---
+
+<header class="site-header">
+  <div class="header-inner container">
+    <a class="brand" href="/" aria-label="대원기술 홈"
+      ><img src="/images/logo.png" width="247" height="56" alt="주식회사 대원기술" /></a
+    >
+    <button
+      class="menu-button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="메뉴 열기"><span></span><span></span><span></span></button
+    >
+    <nav id="site-nav" aria-label="주 메뉴">
+      <ul class="nav-list">
+        {
+          nav.map((item) => (
+            <li
+              class:list={[
+                "nav-item",
+                {
+                  "has-submenu": item.children.length > 0,
+                  "is-current": path.startsWith(item.href),
+                },
+              ]}
+            >
+              <div class="nav-item-top">
+                <a href={item.href} aria-current={path === item.href ? "page" : undefined}>
+                  {item.label}
+                </a>
+                {item.children.length > 0 && (
+                  <button
+                    class="submenu-toggle"
+                    aria-label={`${item.label} 하위 메뉴`}
+                    aria-expanded="false"
+                    aria-controls={`sub-${item.href.split("/")[1]}`}
+                  >
+                    <span aria-hidden="true">⌄</span>
+                  </button>
+                )}
+              </div>
+              {item.children.length > 0 && (
+                <ul class="submenu" id={`sub-${item.href.split("/")[1]}`}>
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href} aria-current={path === child.href ? "page" : undefined}>
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mobile-contact">
+        <span>PROJECT INQUIRY</span><a href={`tel:${company.phone}`}>{company.phone}</a><a
+          href={`mailto:${company.email}`}>{company.email}</a
+        >
+      </div>
+    </nav>
+  </div>
+</header>

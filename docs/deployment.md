@@ -2,8 +2,8 @@
 
 ## 구성
 
-- 소유자 예정: `GimoXagros`
-- 저장소 예정: `dw-tec-website`
+- 소유자: `GimoXagros`
+- 저장소: `dw-tec-website`
 - 기본 브랜치: `main`
 - 기준 주소: `https://dw-tec.co.kr`
 - 산출물: `dist/`
@@ -14,6 +14,8 @@
 2026-09-02 공식 저장소 기준 checkout/setup-node v7, upload-pages-artifact/deploy-pages v5를 사용했습니다. [Astro 배포 문서](https://docs.astro.build/en/guides/deploy/github/)와 [GitHub custom domain 문서](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)를 변경 전에 다시 확인하세요.
 
 ## 최초 배포 순서
+
+아래는 최초 연결 시 참고 절차다. 현재 사용 중인 도메인·HTTPS는 유지하며, 이번 기업형 디자인 개편에서는 기존 Actions로만 재배포한다. DNS·네임서버·메일 설정은 수정하지 않는다. 최신 작업 범위와 검증 결과는 `corporate-refresh-qa.md`와 `FINAL_REPORT.md`에서 확인한다.
 
 1. `gh auth status`, `gh api user --jq .login`으로 소유자가 GimoXagros인지 확인합니다. 비밀번호·토큰은 문서나 대화에 입력하지 않습니다.
 2. 같은 이름의 저장소를 확인합니다. 다른 프로젝트라면 덮어쓰지 않습니다. 공개 파일 검토 후 저장소를 만들고 main을 push합니다.

@@ -1,7 +1,8 @@
 ---
+import TechnicalMark from "../../components/TechnicalMark.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageIntro from "../../components/PageIntro.astro";
-import { portfolio } from "../../data/company";
+import { portfolio, businesses } from "../../data/company";
 ---
 
 <BaseLayout
@@ -16,10 +17,13 @@ import { portfolio } from "../../data/company";
   <div class="container page-content">
     <div class="portfolio-grid">
       {
-        portfolio.map((p) => (
-          <article class="portfolio-item">
+        portfolio.map((p, i) => (
+          <article class="portfolio-item" data-reveal="up">
             <>
-              <p class="eyebrow">{p.category} · 수행 분야</p>
+              <>
+                <TechnicalMark kind={businesses[i].slug} />
+                <p class="eyebrow">{p.category} · 수행 분야</p>
+              </>
               <h2>{p.title}</h2>
               <p>{p.text}</p>
             </>
