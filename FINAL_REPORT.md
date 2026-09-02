@@ -2,12 +2,14 @@
 
 ## 상태 및 버전
 
-- 현재 단계: **PR READY — 운영 배포 검증 대기**
+- 현재 단계: **DEPLOYED — 운영 배포 및 실제 주소 검증 완료**
 - 기준선 SHA: `21c9676f8f90f2df45cd16cc01ae56518931ba17`
 - 검증한 웹 구현 SHA: `61601d213b805dab475980ad06ab90edf270b13b`
+- 검증한 운영 배포 SHA: `4d1f192a2bc27656bd30a96da63680c817bdb9c7` (PR #1 병합)
 - 브랜치: `codex/corporate-motion-refresh`
 - PR: [#1 기업형 디자인·이미지·모션 개편](https://github.com/GimoXagros/dw-tec-website/pull/1)
-- 배포 Actions: 현재 후보의 병합·배포 후 확인 예정. 이전 배포를 개편 완료로 표시하지 않음.
+- 배포 Actions: [33601522673 · attempt 2 성공](https://github.com/GimoXagros/dw-tec-website/actions/runs/33601522673/attempts/2), 2026-09-02 16:15 KST 완료.
+- 이 보고서는 위 웹 배포를 검증한 기록이다. 이후 보고서만 변경하는 커밋은 웹 구현 변경과 구분하며, 웹 배포 산출물의 동일성을 별도로 확인한다.
 - 운영 주소: [https://dw-tec.co.kr/](https://dw-tec.co.kr/)
 - 이번 문서는 기존 보고서의 미완료 DNS 연결 설명을 대체한다. 이번 작업은 기존 도메인·HTTPS·GitHub Pages를 유지한 콘텐츠/디자인 재배포다.
 
@@ -41,7 +43,11 @@
 
 `npm ci`, `npm run format`, `format:check`, `lint`, `check`, `build`, `test:links`, `test:privacy`, `test:history`, `test:smoke`, `validate`, `npm audit --audit-level=high` 실행·통과. 타입 오류/경고/힌트 0, 정적 13페이지와 434개 경로/자산 검사, 13개 브라우저 테스트 성공. 6가지 폭에서 78개 페이지/화면 조합의 Axe 위반 0·가로 넘침 없음.
 
-변경 전후 전체 화면은 Git 제외 `local-only/corporate-refresh/{before,after}/{local,live}/`에 보관한다. 운영 배포 후에는 정확한 HTML 일치·TLS·대표 메뉴·링크·콘솔·접근성을 다시 검사한다.
+변경 전후 전체 화면은 Git 제외 `local-only/corporate-refresh/{before,after}/{local,live}/`에 보관한다. 각 묶음은 11개 주요 경로 × 6개 폭의 66개 화면 및 모바일 메뉴다. 최종 운영 화면 66개 모두 200 응답·가로 넘침 없음.
+
+운영 주소의 12개 페이지를 360/1440px에서 검사한 24개 조합 모두 로컬 검증 HTML과 SHA-256 일치, Axe 위반 0, 이미지 정상 표시, 콘솔/page 오류 없음. 모바일 메뉴·Escape·스크롤 잠금, 데스크톱 하위 메뉴, reduced-motion, JS 비활성, 연락처 링크, 404·robots·sitemap을 확인했다. HTTPS 연결 및 http/www → https://dw-tec.co.kr/ 전환도 통과했다. 사용자가 삭제 요청한 화면 문구는 모든 페이지에서 검출되지 않았다. 세부 증거는 `local-only/corporate-refresh/after/live-verification.json`에 보관한다.
+
+첫 배포 시도는 검사용 폰트 다운로드가 약 10분 정체되어 게시 전 중단했다. 동일 SHA·동일 검사·동일 설정으로 새 실행 환경에서 재시도해 모든 검사와 배포를 통과했다. 검사 생략이나 설정 완화는 없었다.
 
 ## 사진·권리와 사실
 
@@ -63,6 +69,6 @@
 추가 실제 작업사진은 촬영자 권리와 현장 인터넷 공개 승인 범위가 확인된 자료만 반영할 수 있다. [필요 자료](docs/content-needed.md). 현재 사이트 완성의 필수 선행조건은 아니다.
 
 롤백 목표 SHA: `21c9676f8f90f2df45cd16cc01ae56518931ba17`.
-병합 후 신규 복구 브랜치에서 `git revert -m 1 <개편 PR 병합 SHA>`를 실행하고 검증·PR·정상 병합·기존 Pages Actions 배포 순으로 복구한다. 이력 재작성·force push·DNS/메일 변경을 하지 않는다.
+신규 복구 브랜치에서 `git revert -m 1 4d1f192a2bc27656bd30a96da63680c817bdb9c7`를 실행하고 검증·PR·정상 병합·기존 Pages Actions 배포 순으로 복구한다. 이후 보고서 전용 커밋은 사이트 원복에 영향을 주지 않는다. 이력 재작성·force push·DNS/메일 변경을 하지 않는다.
 
 [디자인 진단](docs/design-audit.md) · [모션 규칙](docs/motion-system.md) · [개편 QA](docs/corporate-refresh-qa.md) · [배포 안내](docs/deployment.md)
