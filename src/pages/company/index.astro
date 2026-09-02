@@ -16,7 +16,7 @@ import { company, principles } from "../../data/company";
   />
   <div class="container page-content">
     <CompanyNav />
-    <section class="info-grid stack-section" aria-labelledby="company-overview">
+    <section class="info-grid stack-section" data-reveal="up" aria-labelledby="company-overview">
       <div>
         <p class="eyebrow">COMPANY PROFILE</p><h2 id="company-overview">
           기술의 전문성을<br />현장의 신뢰로.
@@ -33,7 +33,7 @@ import { company, principles } from "../../data/company";
             <dt>이메일</dt><dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
           </div>
         </dl>
-      </div><div>
+      </div><div class="company-photo" data-reveal="image">
         <img
           class="wide-photo"
           src="/images/company-exterior.webp"
@@ -44,7 +44,7 @@ import { company, principles } from "../../data/company";
         /><p class="note">경상북도 울진군 소재 본사</p>
       </div>
     </section>
-    <section class="stack-section prose" aria-labelledby="ceo-message">
+    <section class="stack-section prose ceo-message" data-reveal="up" aria-labelledby="ceo-message">
       <p class="eyebrow">CEO MESSAGE</p><h2 id="ceo-message">
         기본을 지키는 기술이<br />가장 강한 신뢰가 됩니다.
       </h2><p>안녕하십니까. 주식회사 대원기술 대표이사 김동현입니다.</p><p>
@@ -61,7 +61,7 @@ import { company, principles } from "../../data/company";
       <div class="principles">
         {
           principles.map((p, i) => (
-            <article>
+            <article data-reveal="up">
               <>
                 <span class="value-number">0{i + 1}</span>
                 <p class="small-label">{p.english}</p>

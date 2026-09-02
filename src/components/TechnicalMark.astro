@@ -1,0 +1,30 @@
+---
+interface Props {
+  kind?: string;
+}
+const { kind = "electrical" } = Astro.props;
+const paths: Record<string, string> = {
+  electrical: "M8 8H27V18H43V34H56 M8 22H19V34H35V48H56 M8 38H13V56H56 M36 8V10H56",
+  mechanical: "M8 18H36V46H56 M8 26H28V54H56 M16 8V40H48V8 M8 40H56",
+  scaffolding:
+    "M12 8V56 M52 8V56 M12 14H52 M12 32H52 M12 50H52 M12 14L52 32L12 50 M52 14L12 32L52 50",
+  "fire-protection":
+    "M8 12H56 M20 12V28H44V12 M32 28V44 M20 44H44 M25 51L21 57 M32 51V59 M39 51L43 57",
+};
+---
+
+<svg
+  class="technical-mark"
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  ><path
+    d={paths[kind] || paths.electrical}
+    stroke="currentColor"
+    stroke-width="1.6"
+    stroke-linecap="square"
+    stroke-linejoin="miter"></path></svg
+>

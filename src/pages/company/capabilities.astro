@@ -17,10 +17,23 @@ import { businesses, capabilities } from "../../data/company";
   <div class="container page-content">
     <CompanyNav />
     <section class="stack-section">
-      <h2>4개 공사업 등록 기반</h2><div class="license-grid">
+      <h2>4개 공사업 등록 기반</h2><ul class="registration-list">
         {
           businesses.map((b) => (
-            <article class="license-card">
+            <li>
+              <span>
+                {b.number} / {b.english}
+              </span>
+              {b.title}
+            </li>
+          ))
+        }
+      </ul><p class="note">전문소방시설공사업 등록 완료: 2026년 8월 26일</p>
+    </section><section class="stack-section">
+      <h2>2026년 시공능력평가</h2><div class="license-grid">
+        {
+          businesses.map((b) => (
+            <article class="license-card" data-reveal="up">
               <>
                 <p class="small-label">{b.english}</p>
                 <h3>{b.title}</h3>
@@ -42,7 +55,7 @@ import { businesses, capabilities } from "../../data/company";
       <h2>품질·환경·안전보건 관리</h2><div class="principles">
         {
           capabilities.certifications.map((c) => (
-            <article>
+            <article data-reveal="up">
               <>
                 <p class="eyebrow">{c.code}</p>
                 <h3>{c.title}</h3>

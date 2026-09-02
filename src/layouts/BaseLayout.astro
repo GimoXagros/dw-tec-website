@@ -1,6 +1,9 @@
 ---
 import "../styles/global.css";
 import "../styles/corporate.css";
+import "../styles/motion.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { company } from "../data/company";
 interface Props {
   title: string;
@@ -13,13 +16,6 @@ const canonical = new URL(
   Astro.url.pathname === "/404/" ? "/404.html" : Astro.url.pathname,
   company.url,
 ).href;
-const nav = [
-  { href: "/company/", label: "회사소개" },
-  { href: "/business/", label: "사업영역" },
-  { href: "/portfolio/", label: "수행실적" },
-  { href: "/company/capabilities/", label: "기술·인증" },
-  { href: "/contact/", label: "문의·오시는 길" },
-];
 const structured = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -91,79 +87,19 @@ const structured = {
       set:html={JSON.stringify(structured).replace(/</g, "\\u003c")}
     />
   </head>
-  <body>
+  <body id="page-top">
     <a class="skip-link" href="#main">본문으로 바로가기</a>
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="대원기술 홈"
-        ><img src="/images/logo.png" width="247" height="56" alt="주식회사 대원기술" /></a
-      >
-      <button
-        class="menu-button"
-        aria-expanded="false"
-        aria-controls="site-nav"
-        aria-label="메뉴 열기"><span></span><span></span><span></span></button
-      >
-      <nav id="site-nav" aria-label="주 메뉴">
-        {
-          nav.map((item) => (
-            <a
-              href={item.href}
-              aria-current={Astro.url.pathname === item.href ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
-    </header>
-    <main id="main"><slot /></main>
-    <footer class="site-footer">
-      <div class="container footer-top">
-        <div><p class="footer-brand">{company.name}</p><p>{company.englishName}</p></div><a
-          class="footer-contact"
-          href={`tel:${company.phone}`}>{company.phone}<span>사업 및 제휴 문의</span></a
-        >
-      </div>
-      <div class="container footer-bottom">
-        <div>
-          <p>대표이사 {company.representative} · {company.address}</p><a
-            href={`mailto:${company.email}`}>{company.email}</a
-          >
-          <p>팩스 {company.fax}</p>
-        </div><div>
-          <a href="/privacy/">개인정보 안내</a><p>
-            © {new Date().getFullYear()} DW-TEC. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
+    <SiteHeader />
+    <main id="main" tabindex="-1"><slot /></main>
+    <SiteFooter />
     <script>
-      const button = document.querySelector<HTMLButtonElement>(".menu-button");
-      const nav = document.querySelector<HTMLElement>("#site-nav");
-      function setMenu(open: boolean) {
-        button?.setAttribute("aria-expanded", String(open));
-        button?.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
-        nav?.classList.toggle("is-open", open);
-      }
-      button?.addEventListener("click", () =>
-        setMenu(button.getAttribute("aria-expanded") !== "true"),
-      );
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && button?.getAttribute("aria-expanded") === "true") {
-          setMenu(false);
-          button.focus();
-        }
-      });
-      nav
-        ?.querySelectorAll("a")
-        .forEach((link) => link.addEventListener("click", () => setMenu(false)));
-      document.addEventListener("click", (event) => {
-        if (
-          event.target instanceof Node &&
-          !nav?.contains(event.target) &&
-          !button?.contains(event.target)
-        )
-          setMenu(false);
+      import { initMotion } from "../scripts/motion";
+      import { initNavigation } from "../scripts/navigation";
+      initNavigation();
+      initMotion();
+      document.addEventListener("astro:page-load", () => {
+        initNavigation();
+        initMotion();
       });
     </script>
   </body>
