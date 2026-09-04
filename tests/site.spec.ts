@@ -134,6 +134,11 @@ test("mobile menu keyboard, close and navigation", async ({ page }) => {
     "aria-expanded",
     "false",
   );
+  await page.goto("/business/electrical/");
+  await page.locator(".menu-button").click();
+  await page.locator(".mobile-language a[href='/en/business/electrical/']").click();
+  await expect(page).toHaveURL(/\/en\/business\/electrical\/$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
 
 test("navigation traps focus, locks scroll and supports desktop dropdowns", async ({ page }) => {
