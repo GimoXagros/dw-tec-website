@@ -83,6 +83,7 @@ export function initNavigation() {
   document.addEventListener(
     "pointerdown",
     (event) => {
+      if (mobile.matches) return;
       items.forEach((item) => {
         if (item.contains(event.target as Node)) return;
         item.classList.remove("submenu-open");
@@ -94,9 +95,15 @@ export function initNavigation() {
     { signal },
   );
   button.addEventListener("click", () => setMenu(!open), { signal });
-  nav
-    .querySelectorAll("a")
-    .forEach((link) => link.addEventListener("click", () => setMenu(false), { signal }));
+  nav.querySelectorAll("a").forEach((link) =>
+    link.addEventListener(
+      "click",
+      () => {
+        if (!link.matches("[data-language-link]")) setMenu(false);
+      },
+      { signal },
+    ),
+  );
   document.addEventListener(
     "keydown",
     (event) => {

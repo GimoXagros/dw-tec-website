@@ -149,6 +149,20 @@ const currentLanguage = languageItems.find((item) => item.short === currentShort
           </ul>
         </li>
       </ul>
+      <div class="mobile-language" aria-label={t.languageSwitcher.optionsLabel}>
+        <strong>{currentShort}</strong>
+        {
+          languageItems.map((language) => (
+            <a
+              href={language.href}
+              data-language-link
+              aria-current={language.short === currentShort ? "page" : undefined}
+            >
+              {language.label}
+            </a>
+          ))
+        }
+      </div>
       <div class="mobile-contact">
         <span>{contactTitle}</span><a href={`tel:${company.phone}`}>{company.phone}</a><a
           href={`mailto:${company.email}`}>{company.email}</a

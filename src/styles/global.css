@@ -244,7 +244,8 @@ main:focus {
   display: block;
 }
 .menu-button,
-.mobile-contact {
+.mobile-contact,
+.mobile-language {
   display: none;
 }
 .button {
@@ -905,6 +906,28 @@ main:focus {
   }
   .nav-ready .submenu-toggle {
     display: none;
+  }
+  .nav-ready .language-switch {
+    display: none;
+  }
+  .mobile-language {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-language strong {
+    color: var(--blue);
+    font-size: 12px;
+  }
+  .mobile-language a {
+    font-size: 15px;
+    padding: 6px 0;
+  }
+  .mobile-language a[aria-current] {
+    color: var(--blue);
+    font-weight: 700;
   }
   .mobile-contact {
     display: flex;
