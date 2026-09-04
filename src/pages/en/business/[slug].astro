@@ -1,0 +1,10 @@
+---
+import BusinessDetailPage from "../../../components/pages/BusinessDetailPage.astro";
+import { businesses } from "../../../data/company";
+export function getStaticPaths() {
+  return businesses.map((business) => ({ params: { slug: business.slug }, props: { business } }));
+}
+const { business } = Astro.props;
+---
+
+<BusinessDetailPage locale="en" business={business} />

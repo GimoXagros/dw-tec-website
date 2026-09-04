@@ -1,23 +1,39 @@
 ---
-import TechnicalMark from "./TechnicalMark.astro";
 interface Props {
   title: string;
   eyebrow: string;
   description: string;
+  locale?: "ko" | "en";
+  breadcrumbHomeLabel?: string;
+  breadcrumbHomeHref?: string;
 }
-const { title, eyebrow, description } = Astro.props;
-const quiet = Astro.url.pathname.startsWith("/privacy");
-const kind = Astro.url.pathname.split("/").filter(Boolean).at(-1);
+const {
+  title,
+  eyebrow,
+  description,
+  locale = "ko",
+  breadcrumbHomeLabel,
+  breadcrumbHomeHref = locale === "ko" ? "/" : "/en/",
+} = Astro.props;
 ---
 
-<section class:list={["page-hero", { "no-motion": quiet }]}>
+<section
+  class:list={[
+    "page-hero",
+    {
+      "no-motion":
+        locale === "ko"
+          ? Astro.url.pathname.startsWith("/privacy")
+          : Astro.url.pathname.startsWith("/en/privacy"),
+    },
+  ]}
+>
   <div class="container">
-    <nav class="breadcrumb" aria-label="현재 위치">
-      <a href="/">홈</a>
+    <nav class="breadcrumb" aria-label={locale === "ko" ? "현재 위치" : "Breadcrumb"}>
+      <a href={breadcrumbHomeHref}>{breadcrumbHomeLabel ?? (locale === "ko" ? "홈" : "Home")}</a>
       <span aria-hidden="true">/</span><span aria-current="page">{title}</span>
     </nav><p class="eyebrow">
       {eyebrow}
     </p><h1>{title}</h1><p class="lead">{description}</p>
-    {!quiet && <TechnicalMark kind={kind} />}
   </div>
 </section>

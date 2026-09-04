@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import { company } from "../../data/company";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ko = locale === "ko";
+const mapQuery = encodeURIComponent(company.address);
+---
+
+<BaseLayout
+  locale={locale}
+  title={ko ? "문의·오시는 길" : "Contact"}
+  description={ko
+    ? `주식회사 대원기술 사업·제휴 문의: ${company.phone}, ${company.email}.`
+    : `Business and partnership inquiries for DAEWON TECHNOLOGY: ${company.phone}, ${company.email}.`}
+>
+  <PageIntro
+    locale={locale}
+    title={ko ? "문의·오시는 길" : "Contact"}
+    eyebrow="CONTACT DW-TEC"
+    description={ko
+      ? "공사 수행, 협력업체 등록, 사업 제휴에 관한 문의를 기다립니다."
+      : "Contact us about construction services, vendor registration, or business partnerships."}
+  />
+  <div class="container page-content">
+    <div class="info-grid">
+      <section class="contact-card" data-reveal="up">
+        <h2>{ko ? "사업·제휴 문의" : "Business inquiries"}</h2><a href={`tel:${company.phone}`}
+          >{company.phone}</a
+        ><a href={`mailto:${company.email}`}>{company.email}</a><p>FAX {company.fax}</p><p>
+          {
+            ko
+              ? "전화나 이메일로 문의하시면 업무 내용에 맞춰 안내해 드립니다. 이메일에는 성명·회신 연락처와 문의 내용을 적어주세요. 주민등록번호·계좌정보 등 민감정보는 보내지 마세요."
+              : "Call or email us with your name, reply contact, and inquiry details. Please do not send sensitive identifiers or financial account information."
+          }
+        </p>
+      </section><section class="contact-card" data-reveal="up">
+        <h2>{ko ? "오시는 길" : "Directions"}</h2><p>
+          {
+            ko
+              ? company.address
+              : "2F, 64 Namsan-gil, Buk-myeon, Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
+          }
+        </p><a
+          class="button button-dark"
+          href={`https://map.naver.com/p/search/${mapQuery}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          >{ko ? "네이버지도에서 보기" : "Open Naver Map"}
+          <span aria-hidden="true">↗</span><span class="sr-only"
+            >{ko ? "(새 창)" : "(opens in a new tab)"}</span
+          ></a
+        ><p class="note">
+          {
+            ko
+              ? "외부 지도 서비스로 이동합니다. 방문 전 대표전화로 일정을 확인해 주세요."
+              : "This opens an external map service. Please confirm your visit by phone in advance."
+          }
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

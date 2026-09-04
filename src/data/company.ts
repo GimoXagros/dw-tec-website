@@ -31,187 +31,346 @@ export const company = companySchema.parse({
 const businessSchema = z.object({
   slug: z.string().regex(/^[a-z-]+$/),
   number: z.string(),
-  title: z.string(),
-  english: z.string(),
-  summary: z.string(),
-  description: z.string(),
-  services: z.array(z.string()).min(1),
-  checks: z.array(z.string()),
-  capacity: z.number().positive(),
-  capacityLabel: z.string(),
+  titleKo: z.string().min(1),
+  titleEn: z.string().min(1),
+  shortEn: z.string().min(1),
+  summaryKo: z.string().min(1),
+  summaryEn: z.string().min(1),
+  descriptionKo: z.string().min(1),
+  descriptionEn: z.string().min(1),
+  servicesKo: z.array(z.string()).min(1),
+  servicesEn: z.array(z.string()).min(1),
+  checksKo: z.array(z.string()),
+  checksEn: z.array(z.string()),
 });
 
 export const businesses = z.array(businessSchema).parse([
   {
     slug: "electrical",
     number: "01",
-    title: "전기공사",
-    english: "ELECTRICAL",
-    summary: "전원부터 계측까지, 설비의 안정적인 연결을 만듭니다.",
-    description:
+    titleKo: "전기공사",
+    titleEn: "Electrical Construction",
+    shortEn: "ELECTRICAL",
+    summaryKo: "전원부터 계측까지, 설비의 안정적인 연결을 만듭니다.",
+    summaryEn:
+      "From power distribution to instrumentation, we build stable, reliable installation.",
+    descriptionKo:
       "발전·산업 플랜트의 케이블, 전선관, 전기패널, 조명 및 제어설비 시공과 설비 개선을 수행합니다. 현장 조건과 기존 설비의 연결 관계를 검토하고 시공·검사 기록을 관리합니다.",
-    services: [
+    descriptionEn:
+      "We carry out electrical works for power, control panels, lighting, and instrumentation in industrial plants and support modernization where conditions require coordinated installation and test records.",
+    servicesKo: [
       "전력·제어 케이블 및 전선관 설치",
       "전기패널·조명 설비 설치 및 정비",
       "계측·통신 설비 연계 작업",
       "절연·도통 등 시공 후 기능 확인",
     ],
-    checks: [
+    servicesEn: [
+      "Power and control cable and conduit installation",
+      "Installation and maintenance of electrical panels and lighting systems",
+      "Instrumentation and communication system integration",
+      "Post-construction checks for insulation and continuity",
+    ],
+    checksKo: [
       "기존 설비와 작업 범위 확인",
       "전원 차단·작업허가 조건 확인",
       "결선·시험·검사 기록 관리",
     ],
-    capacity: 2299245000,
-    capacityLabel: "22.99억 원",
+    checksEn: [
+      "Scope review against existing plant systems",
+      "Confirmation of power lockout and work-approval conditions",
+      "Conduit, wiring, testing, and inspection record control",
+    ],
   },
   {
     slug: "mechanical",
     number: "02",
-    title: "기계가스설비공사",
-    english: "MECHANICAL",
-    summary: "배관·공조·기계장치를 현장의 조건에 맞게 시공합니다.",
-    description:
+    titleKo: "기계가스설비공사",
+    titleEn: "Mechanical & Gas Facilities Construction",
+    shortEn: "MECHANICAL",
+    summaryKo: "배관·공조·기계장치를 현장의 조건에 맞게 시공합니다.",
+    summaryEn:
+      "We implement mechanical systems and piping based on real site operating conditions.",
+    descriptionKo:
       "기계설비, 배관, 공조·환기 설비의 설치와 발전소 정비 지원을 수행합니다. 등록 공장을 기반으로 가공·제작부터 현장 설치까지 작업 흐름을 연결합니다.",
-    services: [
+    descriptionEn:
+      "We execute mechanical, piping, and HVAC works and support operation-level maintenance. We integrate fabrication and installation through a controlled workflow.",
+    servicesKo: [
       "기계설비·배관 설치",
       "공조·환기 설비 시공",
       "특수목적 장치 제작 및 설치",
       "용접·가공 및 정비 지원",
     ],
-    checks: [
+    servicesEn: [
+      "Mechanical and piping installation",
+      "HVAC and ventilation installation",
+      "Fabrication and erection of special-purpose equipment",
+      "Welding, machining, and maintenance support",
+    ],
+    checksKo: [
       "치수·간섭·설치 조건 사전 검토",
       "제작·설치 공정의 품질 확인",
       "체결·누설·기능 등 요구 검사 수행",
     ],
-    capacity: 1251003000,
-    capacityLabel: "12.51억 원",
+    checksEn: [
+      "Dimensional, interference, and installation-precondition review",
+      "Quality confirmation across fabrication and installation stages",
+      "Bolting, leakage, and function testing controls",
+    ],
   },
   {
     slug: "scaffolding",
     number: "03",
-    title: "구조물해체·비계공사",
-    english: "SCAFFOLDING",
-    summary: "안전한 접근과 작업 공간으로 정비 현장을 지원합니다.",
-    description:
+    titleKo: "구조물해체·비계공사",
+    titleEn: "Structural Demolition & Scaffolding",
+    shortEn: "SCAFFOLDING",
+    summaryKo: "안전한 접근과 작업 공간으로 정비 현장을 지원합니다.",
+    summaryEn: "We secure safe access and workspace to support maintenance execution.",
+    descriptionKo:
       "발전설비 계획예방정비와 현장 작업에 필요한 비계 설치·해체, 가설구조 및 구조물 철거·복구를 수행합니다. 공종 간 간섭과 작업 동선을 함께 관리합니다.",
-    services: [
+    descriptionEn:
+      "We perform scaffold erection/removal, temporary works, and structural work support for planned maintenance, while coordinating trade interfaces and work routes.",
+    servicesKo: [
       "강관비계 설치 및 해체",
       "계획예방정비 작업 지원",
       "가설구조 및 작업 접근성 확보",
       "구조물 철거·복구",
     ],
-    checks: [
+    servicesEn: [
+      "Pipe-and-cage scaffold erection and removal",
+      "Support for planned preventive maintenance",
+      "Temporary structures and safe access set-up",
+      "Structural dismantling and restoration support",
+    ],
+    checksKo: [
       "작업구역·통행·동선 사전 검토",
       "설치 상태와 안전시설 확인",
       "해체 순서 및 인계 상태 관리",
     ],
-    capacity: 2241645000,
-    capacityLabel: "22.42억 원",
+    checksEn: [
+      "Work-zone, access route, and traffic check",
+      "Scaffold condition and life-safety control review",
+      "Dismantling sequence and handover-state control",
+    ],
   },
   {
     slug: "fire-protection",
     number: "04",
-    title: "전문소방시설공사",
-    english: "FIRE PROTECTION",
-    summary: "전기·기계 소방 역량으로 설비의 신뢰성을 높입니다.",
-    description:
+    titleKo: "전문소방시설공사",
+    titleEn: "Specialized Fire Protection Facilities Construction",
+    shortEn: "FIRE PROTECTION",
+    summaryKo: "전기·기계 소방 역량으로 설비의 신뢰성을 높입니다.",
+    summaryEn:
+      "Our electrical and mechanical fire protection scope supports facility reliability and response readiness.",
+    descriptionKo:
       "2026년 8월 26일 전문소방시설공사업 등록을 완료했습니다. 소방 전기·기계 특급 기술인력을 기반으로 감지·경보 설비와 화재방호 설비의 시공·검사·복원을 수행합니다.",
-    services: [
+    descriptionEn:
+      "We completed registration as a specialized fire facility constructor on 2026-08-26 and perform detector/alarm, panel, relay, and fire-protection work, including field restoration support.",
+    servicesKo: [
       "감지·경보 설비 시공",
       "수신반·중계기 및 전선관·케이블 작업",
       "비상조명 설비 작업",
       "화재방호체 복원 및 동작 확인",
     ],
-    checks: [
+    servicesEn: [
+      "Fire detection and alarm installation",
+      "Fire receiver and repeater panel updates with conduit/cabling",
+      "Emergency lighting works",
+      "Fire protection restoration and functional checks",
+    ],
+    checksKo: [
       "기존 소방설비와 작업 조건 검토",
       "시공·결선·동작 확인",
       "변경사항 및 검사·복원 기록 관리",
     ],
-    capacity: 906800000,
-    capacityLabel: "9.068억 원",
+    checksEn: [
+      "Review of existing fire-system conditions",
+      "Verification of installation, wiring, and operation",
+      "Change-log and inspection-restoration records",
+    ],
   },
 ]);
 
 export const principles = z
   .array(
-    z.object({ english: z.string().min(1), title: z.string().min(1), text: z.string().min(1) }),
+    z.object({
+      english: z.string().min(1),
+      titleKo: z.string().min(1),
+      titleEn: z.string().min(1),
+      textKo: z.string().min(1),
+      textEn: z.string().min(1),
+    }),
   )
   .parse([
     {
       english: "SAFETY",
-      title: "안전을 먼저",
-      text: "작업 전에 위험요소와 현장 조건을 확인하고 안전 기준을 실행합니다.",
+      titleKo: "안전을 먼저",
+      titleEn: "Safety First",
+      textKo: "작업 전에 위험요소와 현장 조건을 확인하고 안전 기준을 실행합니다.",
+      textEn:
+        "We check risks and field conditions before work and apply practical safety controls.",
     },
     {
       english: "QUALITY",
-      title: "품질은 기록으로",
-      text: "계획·시공·검사·인계의 기록을 연결해 결과를 확인합니다.",
+      titleKo: "품질은 기록으로",
+      titleEn: "Quality by Records",
+      textKo: "계획·시공·검사·인계의 기록을 연결해 결과를 확인합니다.",
+      textEn: "We connect plan, execution, inspection, and handover records for traceable quality.",
     },
     {
       english: "TRUST",
-      title: "약속은 끝까지",
-      text: "공정과 변경사항을 투명하게 공유하고 맡은 범위를 책임 있게 마무리합니다.",
+      titleKo: "약속은 끝까지",
+      titleEn: "Trust Through Completion",
+      textKo: "공정과 변경사항을 투명하게 공유하고 맡은 범위를 책임 있게 마무리합니다.",
+      textEn:
+        "We communicate process and changes transparently and complete all assigned scope responsibly.",
     },
   ]);
 
 export const history = z
-  .array(z.object({ year: z.string().regex(/^\d{4}$/), events: z.array(z.string().min(1)).min(1) }))
+  .array(
+    z.object({
+      year: z.string().regex(/^\d{4}$/),
+      eventsKo: z.array(z.string().min(1)).min(1),
+      eventsEn: z.array(z.string().min(1)).min(1),
+    }),
+  )
   .parse([
     {
       year: "2026",
-      events: ["전문소방시설공사업 등록 완료 (8월 26일)", "ISO 9001·14001·45001 인증 갱신"],
+      eventsKo: ["전문소방시설공사업 등록 완료 (8월 26일)", "ISO 9001·14001·45001 인증 갱신"],
+      eventsEn: [
+        "Registered as a specialized fire facility constructor (2026-08-26)",
+        "ISO 9001, ISO 14001, and ISO 45001 certifications renewed",
+      ],
     },
-    { year: "2025", events: ["수처리용 교반기 특허결정", "발전설비 정비 분야 기술이전 계약 체결"] },
+    {
+      year: "2025",
+      eventsKo: ["수처리용 교반기 특허결정", "발전설비 정비 분야 기술이전 계약 체결"],
+      eventsEn: [
+        "Patent decision finalized for industrial agitation device",
+        "Technology transfer contract concluded for power-plant maintenance support",
+      ],
+    },
     {
       year: "2023",
-      events: [
+      eventsKo: [
         "기계가스설비·구조물해체비계 공사업 등록",
         "ISO 9001·14001·45001 인증",
         "공장등록 완료 (12월 21일)",
       ],
+      eventsEn: [
+        "Registered in mechanical/gas facilities and structural demolition/scaffolding construction",
+        "ISO 9001, ISO 14001, and ISO 45001 certifications obtained",
+        "Registered workshop completed (2023-12-21)",
+      ],
     },
-    { year: "2022", events: ["주식회사 대원기술 설립 (6월 20일)", "전기공사업 기반 구축"] },
+    {
+      year: "2022",
+      eventsKo: ["주식회사 대원기술 설립 (6월 20일)", "전기공사업 기반 구축"],
+      eventsEn: [
+        "Established DaeWon Technology Co., Ltd. on 2022-06-20",
+        "Established the electrical construction operating base",
+      ],
+    },
   ]);
 
 export const capabilities = z
   .object({
     certifications: z.array(
-      z.object({ code: z.string().min(1), title: z.string().min(1), text: z.string().min(1) }),
+      z.object({
+        code: z.string().min(1),
+        titleKo: z.string().min(1),
+        titleEn: z.string().min(1),
+        textKo: z.string().min(1),
+        textEn: z.string().min(1),
+      }),
     ),
-    equipment: z.array(z.string().min(1)),
+    equipmentKo: z.array(z.string().min(1)),
+    equipmentEn: z.array(z.string().min(1)),
   })
   .parse({
     certifications: [
-      { code: "ISO 9001", title: "품질경영시스템", text: "시공 품질과 업무 절차의 일관성 관리" },
-      { code: "ISO 14001", title: "환경경영시스템", text: "현장 환경영향과 자원 사용 관리" },
-      { code: "ISO 45001", title: "안전보건경영시스템", text: "위험요소 파악과 안전보건 관리" },
+      {
+        code: "ISO 9001",
+        titleKo: "품질경영시스템",
+        titleEn: "Quality Management System",
+        textKo: "시공 품질과 업무 절차의 일관성 관리",
+        textEn: "Consistent execution of construction quality and operating procedures",
+      },
+      {
+        code: "ISO 14001",
+        titleKo: "환경경영시스템",
+        titleEn: "Environmental Management System",
+        textKo: "현장 환경영향과 자원 사용 관리",
+        textEn: "Management of field environmental impact and resource use",
+      },
+      {
+        code: "ISO 45001",
+        titleKo: "안전보건경영시스템",
+        titleEn: "Occupational Health and Safety Management",
+        textKo: "위험요소 파악과 안전보건 관리",
+        textEn: "Hazard identification and safety-health process control",
+      },
     ],
-    equipment: ["케이블·배관 가공", "전기 시험·계측", "용접·절단·가공", "양중·운반", "안전·검사"],
+    equipmentKo: ["케이블·배관 가공", "전기 시험·계측", "용접·절단·가공", "양중·운반", "안전·검사"],
+    equipmentEn: [
+      "Cable and piping preparation",
+      "Electrical testing and measurement",
+      "Welding, cutting, and fabrication",
+      "Hoisting and transportation",
+      "Safety inspection support",
+    ],
   });
 
 export const portfolio = z
   .array(
-    z.object({ category: z.string().min(1), title: z.string().min(1), text: z.string().min(1) }),
+    z.object({
+      categoryKo: z.string().min(1),
+      categoryEn: z.string().min(1),
+      titleKo: z.string().min(1),
+      titleEn: z.string().min(1),
+      textKo: z.string().min(1),
+      textEn: z.string().min(1),
+    }),
   )
   .parse([
     {
-      category: "전기",
-      title: "발전설비 전기·계측 시공",
-      text: "케이블·패널·조명 설비의 설치와 정비 보조 등 발전설비 운영을 지원하는 전기공사를 수행했습니다.",
+      categoryKo: "전기",
+      categoryEn: "Electrical",
+      titleKo: "발전설비 전기·계측 시공",
+      titleEn: "Electrical and Instrumentation Installation for Power Plants",
+      textKo:
+        "케이블·패널·조명 설비의 설치와 정비 보조 등 발전설비 운영을 지원하는 전기공사를 수행했습니다.",
+      textEn:
+        "Electrical work supporting operations, including cable, panel, and lighting work for power and industrial facilities.",
     },
     {
-      category: "기계",
-      title: "기계설비·배관 개선",
-      text: "기계설비와 배관, 가설시설 및 리모델링 공사에서 현장 조건에 맞춘 설치 작업을 수행했습니다.",
+      categoryKo: "기계",
+      categoryEn: "Mechanical",
+      titleKo: "기계설비·배관 개선",
+      titleEn: "Mechanical Systems and Piping Support",
+      textKo:
+        "기계설비와 배관, 가설시설 및 리모델링 공사에서 현장 조건에 맞춘 설치 작업을 수행했습니다.",
+      textEn:
+        "Field-adapted installation support for mechanical systems, piping, temporary structures, and refurbishment works.",
     },
     {
-      category: "비계",
-      title: "계획예방정비 비계 지원",
-      text: "정비 작업의 접근성과 작업 공간 확보를 위한 비계 설치·해체를 수행했습니다.",
+      categoryKo: "비계",
+      categoryEn: "Scaffolding",
+      titleKo: "계획예방정비 비계 지원",
+      titleEn: "Preventive-Maintenance Scaffolding Support",
+      textKo: "정비 작업의 접근성과 작업 공간 확보를 위한 비계 설치·해체를 수행했습니다.",
+      textEn:
+        "Scaffold erection and dismantling to secure safe access and working space for maintenance tasks.",
     },
     {
-      category: "소방",
-      title: "화재감지·방호 설비 작업",
-      text: "자동화재탐지설비, 감지기 설치, 수신반·중계기 교체와 화재방호재 복원 관련 수행기록을 보유하고 있습니다.",
+      categoryKo: "소방",
+      categoryEn: "Fire",
+      titleKo: "화재감지·방호 설비 작업",
+      titleEn: "Fire Detection and Protection Works",
+      textKo:
+        "자동화재탐지설비, 감지기 설치, 수신반·중계기 교체와 화재방호재 복원 관련 수행기록을 보유하고 있습니다.",
+      textEn:
+        "Fire alarm and protection system work, including detector deployment and panel, repeater, and protective restoration tasks.",
     },
   ]);

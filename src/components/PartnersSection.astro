@@ -1,0 +1,53 @@
+---
+import { organizations } from "../data/organizations";
+interface Props {
+  locale?: "ko" | "en";
+}
+const { locale = "ko" } = Astro.props;
+const byOrder = (a: (typeof organizations)[number], b: (typeof organizations)[number]) =>
+  a.displayOrder - b.displayOrder;
+const clients = organizations.filter((item) => item.category === "client").sort(byOrder);
+const partners = organizations.filter((item) => item.category === "partner").sort(byOrder);
+---
+
+<section class="container section partners-section">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">CLIENTS &amp; PARTNERS</p>
+      <h2>
+        {locale === "ko" ? "주요 발주처 및 협력사" : "Clients & Partners"}
+      </h2>
+    </div>
+    <p>
+      {
+        locale === "ko"
+          ? "공개 가능한 수행·협력 기록을 기준으로 정리했습니다."
+          : "Compiled from publicly shareable project and collaboration records."
+      }
+    </p>
+  </div>
+  {
+    clients.length > 0 && (
+      <div class="partner-group">
+        <h3>{locale === "ko" ? "발주처" : "Clients"}</h3>
+        <ul class="partner-list">
+          {clients.map((org) => (
+            <li>{locale === "ko" ? org.nameKo : org.nameEn}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  {
+    partners.length > 0 && (
+      <div class="partner-group">
+        <h3>{locale === "ko" ? "협력업체" : "Partners"}</h3>
+        <ul class="partner-list">
+          {partners.map((org) => (
+            <li>{locale === "ko" ? org.nameKo : org.nameEn}</li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>

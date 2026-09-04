@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import CompanyNav from "../CompanyNav.astro";
+import { company, principles } from "../../data/company";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ko = locale === "ko";
+---
+
+<BaseLayout
+  locale={locale}
+  title={ko ? "회사소개" : "Company Overview"}
+  description={ko
+    ? "2022년 설립된 주식회사 대원기술의 회사 개요와 경영 철학을 소개합니다."
+    : "Company profile and operating principles of DAEWON TECHNOLOGY, established in 2022."}
+>
+  <PageIntro
+    locale={locale}
+    title={ko ? "회사소개" : "Company Overview"}
+    eyebrow="ABOUT DW-TEC"
+    description={ko
+      ? "현장을 이해하고 약속을 완성하는 발전·산업 플랜트 시공 파트너"
+      : "A power and industrial plant construction partner that understands the field and delivers on commitments."}
+  />
+  <div class="container page-content">
+    <CompanyNav locale={locale} />
+    <section class="info-grid stack-section" data-reveal="up" aria-labelledby="company-overview">
+      <div>
+        <p class="eyebrow">COMPANY PROFILE</p><h2 id="company-overview">
+          {
+            ko ? (
+              <>
+                기술의 전문성을
+                <br />
+                현장의 신뢰로.
+              </>
+            ) : (
+              <>
+                Field expertise.
+                <br />
+                Trust in delivery.
+              </>
+            )
+          }
+        </h2><dl class="info-table">
+          <div>
+            <dt>{ko ? "회사명" : "Company"}</dt><dd>{ko ? company.name : company.englishName}</dd>
+          </div><div><dt>{ko ? "대표이사" : "CEO"}</dt><dd>{company.representative}</dd></div><div>
+            <dt>{ko ? "설립일" : "Established"}</dt><dd>
+              {ko ? "2022년 6월 20일" : "June 20, 2022"}
+            </dd>
+          </div><div>
+            <dt>{ko ? "소재지" : "Address"}</dt><dd>
+              {
+                ko
+                  ? company.address
+                  : "2F, 64 Namsan-gil, Buk-myeon, Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
+              }
+            </dd>
+          </div><div>
+            <dt>{ko ? "대표전화" : "Phone"}</dt><dd>
+              <a href={`tel:${company.phone}`}>{company.phone}</a>
+            </dd>
+          </div><div><dt>{ko ? "팩스" : "FAX"}</dt><dd>{company.fax}</dd></div><div>
+            <dt>{ko ? "이메일" : "Email"}</dt><dd>
+              <a href={`mailto:${company.email}`}>{company.email}</a>
+            </dd>
+          </div>
+        </dl>
+      </div><div class="company-photo" data-reveal="image">
+        <img
+          class="wide-photo"
+          src="/images/company-exterior.webp"
+          width="1200"
+          height="676"
+          alt={ko ? "대원기술 사옥 외관" : "DAEWON TECHNOLOGY office exterior"}
+          loading="lazy"
+        /><p class="note">
+          {ko ? "경상북도 울진군 소재 본사" : "Head office in Uljin, Gyeongsangbuk-do"}
+        </p>
+      </div>
+    </section>
+    <section class="stack-section prose ceo-message" data-reveal="up" aria-labelledby="ceo-message">
+      <p class="eyebrow">CEO MESSAGE</p><h2 id="ceo-message">
+        {
+          ko ? (
+            <>
+              기본을 지키는 기술이
+              <br />
+              가장 강한 신뢰가 됩니다.
+            </>
+          ) : (
+            <>
+              Disciplined execution
+              <br />
+              builds lasting trust.
+            </>
+          )
+        }
+      </h2><p>
+        {
+          ko
+            ? "안녕하십니까. 주식회사 대원기술 대표이사 김동현입니다."
+            : "Welcome. I am Kim Dong-hyun, CEO of DAEWON TECHNOLOGY."
+        }
+      </p><p>
+        {
+          ko
+            ? "대원기술은 발전·산업 플랜트 현장에서 요구되는 전기, 기계설비, 비계·구조물, 소방시설 분야의 전문성을 바탕으로 성장해 왔습니다."
+            : "We have grown around the electrical, mechanical, scaffolding and structural, and fire-protection capabilities required at power and industrial plants."
+        }
+      </p><p>
+        {
+          ko
+            ? "공사의 규모보다 안전과 품질의 기준을 먼저 생각합니다. 착공 전 위험요소를 확인하고, 시공 중 품질을 기록하며, 준공 후 결과까지 책임집니다."
+            : "We place safety and quality before project scale: risks are reviewed before mobilization, quality is documented during execution, and results are followed through to completion."
+        }
+      </p><p>
+        <strong
+          >{
+            ko
+              ? `${company.name} 대표이사 ${company.representative}`
+              : `${company.englishName} CEO ${company.representative}`
+          }</strong
+        >
+      </p>
+    </section>
+    <section class="stack-section" aria-label={ko ? "경영 원칙" : "Operating principles"}>
+      <div class="principles">
+        {
+          principles.map((p, i) => (
+            <article data-reveal="up">
+              <>
+                <span class="value-number">0{i + 1}</span>
+                <p class="small-label">{p.english}</p>
+                <h3>{ko ? p.titleKo : p.titleEn}</h3>
+                <p>{ko ? p.textKo : p.textEn}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

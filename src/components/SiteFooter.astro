@@ -1,39 +1,79 @@
 ---
 import { businesses, company } from "../data/company";
+import type { Locale } from "../i18n/messages";
+import { getMessages } from "../i18n/messages";
+import { businessDetailPath, pathForKey } from "../i18n/routes";
+
+interface Props {
+  locale: Locale;
+}
+const { locale = "ko" } = Astro.props;
+const t = getMessages(locale);
+const companyOverview = locale === "ko" ? "회사소개" : "Company";
+const companyHistory = locale === "ko" ? "회사 연혁" : "Company history";
+const capabilitiesTitle = locale === "ko" ? "기술·인증" : "Capabilities";
+const experienceTitle = locale === "ko" ? "수행실적" : "Experience";
+const contactTitle = locale === "ko" ? "문의·오시는 길" : "Contact";
+const footerCompanyLabel =
+  locale === "ko"
+    ? "발전·산업 플랜트 전문 시공"
+    : "Power and industrial plant construction partner";
+const ceoTitle =
+  locale === "ko" ? `대표이사 ${company.representative}` : `CEO ${company.representative}`;
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-identity">
-      <a class="footer-brand" href="/">{company.name}</a><p>{company.englishName}</p><p>
-        발전·산업 플랜트 전문 시공
+      <a class="footer-brand" href={pathForKey("home", locale)}>{company.name}</a><p>
+        {company.englishName}
+      </p><p>
+        {footerCompanyLabel}
       </p>
     </div>
-    <nav class="footer-links" aria-label="하단 회사 메뉴">
-      <strong>COMPANY</strong><a href="/company/">회사소개</a><a href="/company/history/"
-        >회사 연혁</a
-      ><a href="/company/capabilities/">기술·인증</a><a href="/portfolio/">수행실적</a><a
-        href="/contact/">문의·오시는 길</a
-      >
+    <nav
+      class="footer-links"
+      aria-label={locale === "ko" ? "하단 회사 메뉴" : "Footer company menu"}
+    >
+      <strong>{t.footer.companyHeading}</strong>
+      <a href={pathForKey("company", locale)}>{companyOverview}</a><a
+        href={pathForKey("companyHistory", locale)}>{companyHistory}</a
+      ><a href={pathForKey("companyCapabilities", locale)}>{capabilitiesTitle}</a><a
+        href={pathForKey("portfolio", locale)}>{experienceTitle}</a
+      ><a href={pathForKey("contact", locale)}>{contactTitle}</a>
     </nav>
-    <nav class="footer-links" aria-label="하단 사업 메뉴">
-      <strong>BUSINESS</strong>{
-        businesses.map((b) => <a href={`/business/${b.slug}/`}>{b.title}</a>)
+    <nav
+      class="footer-links"
+      aria-label={locale === "ko" ? "하단 사업 메뉴" : "Footer business menu"}
+    >
+      <strong>{t.footer.businessHeading}</strong>{
+        businesses.map((b) => (
+          <a href={businessDetailPath(locale, b.slug)}>{locale === "ko" ? b.titleKo : b.titleEn}</a>
+        ))
       }
     </nav>
     <div class="footer-details">
-      <strong>CONTACT</strong><a class="footer-contact" href={`tel:${company.phone}`}
-        >{company.phone}</a
-      ><a href={`mailto:${company.email}`}>{company.email}</a><p>팩스 {company.fax}</p><p>
-        {company.address}
+      <strong>{t.footer.contactHeading}</strong><a
+        class="footer-contact"
+        href={`tel:${company.phone}`}>{company.phone}</a
+      ><a href={`mailto:${company.email}`}>{company.email}</a><p>
+        {locale === "ko" ? "팩스" : "FAX"}{" "}{company.fax}
+      </p><p>
+        {
+          locale === "ko"
+            ? company.address
+            : "2F, 64 Namsan-gil, Buk-myeon, Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
+        }
       </p>
     </div>
   </div>
   <div class="container footer-bottom">
     <p>
-      대표이사 {company.representative}<br />© {new Date().getFullYear()} DW-TEC. All rights reserved.
-    </p><a href="/privacy/">개인정보 안내</a><a class="back-top" href="#page-top"
-      >맨 위로 <span aria-hidden="true">↑</span></a
+      {ceoTitle}<br />©
+      {new Date().getFullYear()} DW-TEC. All rights reserved.
+    </p><a href={pathForKey("privacy", locale)}>{t.footer.privacy}</a><a
+      class="back-top"
+      href="#page-top">{t.footer.backTop}<span aria-hidden="true">{t.footer.toTop}</span></a
     >
   </div>
 </footer>

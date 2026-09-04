@@ -7,5 +7,10 @@ export default defineConfig({
   build: { inlineStylesheets: "always" },
   trailingSlash: "always",
   integrations: [sitemap()],
+  i18n: {
+    defaultLocale: "ko",
+    locales: ["ko", "en"],
+    routing: { prefixDefaultLocale: false, redirectToDefaultLocale: false },
+  },
   devToolbar: { enabled: false },
 });

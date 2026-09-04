@@ -15,10 +15,14 @@ export function initNavigation() {
   ];
   let open = false;
   const savedOverflow = document.body.style.overflow;
+  const isEnglish = document.documentElement.lang === "en";
   const setMenu = (next: boolean, restoreFocus = false) => {
     open = next && mobile.matches;
     button.setAttribute("aria-expanded", String(open));
-    button.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+    button.setAttribute(
+      "aria-label",
+      open ? (isEnglish ? "Close menu" : "메뉴 닫기") : isEnglish ? "Open menu" : "메뉴 열기",
+    );
     nav.classList.toggle("is-open", open);
     document.body.style.overflow = open ? "hidden" : savedOverflow;
     background.forEach((element) => {
@@ -69,13 +73,26 @@ export function initNavigation() {
       (event) => {
         if (event.key === "Escape" && !mobile.matches) {
           event.stopPropagation();
-          item.querySelector<HTMLAnchorElement>(".nav-item-top a")?.focus();
+          (toggle ?? item.querySelector<HTMLAnchorElement>(".nav-item-top a"))?.focus();
           set(false);
         }
       },
       { signal },
     );
   });
+  document.addEventListener(
+    "pointerdown",
+    (event) => {
+      items.forEach((item) => {
+        if (item.contains(event.target as Node)) return;
+        item.classList.remove("submenu-open");
+        item
+          .querySelector<HTMLButtonElement>(".submenu-toggle")
+          ?.setAttribute("aria-expanded", "false");
+      });
+    },
+    { signal },
+  );
   button.addEventListener("click", () => setMenu(!open), { signal });
   nav
     .querySelectorAll("a")
