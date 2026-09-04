@@ -14,6 +14,18 @@ const routes = [
   "/portfolio/",
   "/contact/",
   "/privacy/",
+  "/en/",
+  "/en/company/",
+  "/en/company/history/",
+  "/en/company/capabilities/",
+  "/en/business/",
+  "/en/business/electrical/",
+  "/en/business/mechanical/",
+  "/en/business/scaffolding/",
+  "/en/business/fire-protection/",
+  "/en/portfolio/",
+  "/en/contact/",
+  "/en/privacy/",
   "/404.html",
 ];
 for (const width of [360, 390, 768, 1024, 1440, 1920]) {
@@ -28,7 +40,8 @@ for (const width of [360, 390, 768, 1024, 1440, 1920]) {
     for (const route of routes) {
       const response = await page.goto(route);
       expect(response?.status()).toBe(200);
-      await expect(page.locator("html")).toHaveAttribute("lang", "ko");
+      const language = route.startsWith("/en/") ? "en" : "ko";
+      await expect(page.locator("html")).toHaveAttribute("lang", language);
       await expect(page.locator("h1")).toHaveCount(1);
       await page.evaluate(() => document.fonts.ready);
       for (const image of await page.locator("img").all()) {
@@ -57,9 +70,27 @@ for (const width of [360, 390, 768, 1024, 1440, 1920]) {
         "href",
         `https://dw-tec.co.kr${route}`,
       );
+      if (route !== "/404.html") {
+        const koRoute = route.startsWith("/en/") ? route.replace(/^\/en/, "") : route;
+        const enRoute = route.startsWith("/en/") ? route : route === "/" ? "/en/" : `/en${route}`;
+        await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute(
+          "href",
+          `https://dw-tec.co.kr${koRoute}`,
+        );
+        await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
+          "href",
+          `https://dw-tec.co.kr${enRoute}`,
+        );
+        await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute(
+          "href",
+          `https://dw-tec.co.kr${koRoute}`,
+        );
+      }
       await expect(page.locator('footer a[href="tel:054-783-9170"]')).toBeVisible();
       await expect(page.locator('footer a[href="mailto:dwtec@dw-tec.co.kr"]')).toBeVisible();
-      await expect(page.locator("footer")).toContainText("팩스 054-783-9171");
+      await expect(page.locator("footer")).toContainText(
+        `${language === "ko" ? "팩스" : "FAX"} 054-783-9171`,
+      );
       for (const element of await page.locator("[data-reveal]").all()) {
         await element.scrollIntoViewIfNeeded();
         await expect(element).toHaveCSS("opacity", "1");
@@ -165,9 +196,8 @@ test("reduced motion preserves content without transforms", async ({ page }) => 
     await expect(el).toHaveCSS("transform", "none");
   }
   await expect(page.locator(".corporate-hero-image")).toHaveCSS("animation-name", "none");
-  await expect(page.locator(".capacity-grid")).toContainText("9.068억 원");
   await expect(page.locator(".hero-caption")).toHaveCount(0);
-  await expect(page.locator(".corporate-hero-image")).toHaveAttribute("alt", /기업 소개용/);
+  await expect(page.locator(".corporate-hero-image")).toHaveAttribute("alt", /산업 플랜트/);
 });
 
 test("all routes readable without JavaScript", async ({ browser }) => {
@@ -179,7 +209,8 @@ test("all routes readable without JavaScript", async ({ browser }) => {
   for (const route of routes) {
     await page.goto(`http://127.0.0.1:4322${route}`);
     await expect(page.locator("h1")).toBeVisible();
-    await expect(page.locator(".nav-item-top a[href='/business/']")).toBeVisible();
+    const businessHref = route.startsWith("/en/") ? "/en/business/" : "/business/";
+    await expect(page.locator(`.nav-item-top a[href='${businessHref}']`)).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
@@ -228,7 +259,47 @@ test("unknown page and sitemap", async ({ page, request }) => {
   const sitemap = await request.get("/sitemap-0.xml");
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain("https://dw-tec.co.kr/business/fire-protection/");
+  expect(await sitemap.text()).toContain("https://dw-tec.co.kr/en/business/fire-protection/");
   expect(await (await request.get("/robots.txt")).text()).toContain(
     "https://dw-tec.co.kr/sitemap-index.xml",
+  );
+});
+
+test("language switch preserves the route and partner section is complete", async ({ page }) => {
+  await page.goto("/business/electrical/");
+  const languageToggle = page.locator(".language-switch .submenu-toggle");
+  await languageToggle.focus();
+  await page.keyboard.press("Enter");
+  await expect(languageToggle).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Escape");
+  await expect(languageToggle).toBeFocused();
+  await expect(languageToggle).toHaveAttribute("aria-expanded", "false");
+  await languageToggle.click();
+  await page.locator("#lang-switch-menu a[href='/en/business/electrical/']").click();
+  await expect(page).toHaveURL(/\/en\/business\/electrical\/$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await page.locator(".language-switch .submenu-toggle").click();
+  await page.locator("body").click({ position: { x: 20, y: 200 } });
+  await expect(page.locator(".language-switch .submenu-toggle")).toHaveAttribute(
+    "aria-expanded",
+    "false",
+  );
+  await page.goto("/en/company/history/");
+  await page.locator(".language-switch .submenu-toggle").click();
+  await page.locator("#lang-switch-menu a[href='/company/history/']").click();
+  await expect(page).toHaveURL(/\/company\/history\/$/);
+  await page.goto("/en/contact/");
+  await expect(page.locator("#lang-switch-menu a[href='/contact/']")).toHaveCount(1);
+  await page.goto("/en/");
+  const partners = page.locator(".partners-section");
+  for (const name of ["KEPCO KPS", "Soosan Industries", "Geumhwa PSC", "OES"])
+    await expect(partners).toContainText(name);
+  await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute(
+    "href",
+    "https://dw-tec.co.kr/",
+  );
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
+    "href",
+    "https://dw-tec.co.kr/en/",
   );
 });

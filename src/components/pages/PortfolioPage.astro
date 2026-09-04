@@ -1,0 +1,67 @@
+---
+import TechnicalMark from "../TechnicalMark.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import { portfolio, businesses } from "../../data/company";
+import { pathForKey } from "../../i18n/routes";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ko = locale === "ko";
+---
+
+<BaseLayout
+  locale={locale}
+  title={ko ? "수행실적" : "Project Experience"}
+  description={ko
+    ? "발전설비 전기·계측, 기계설비·배관, 비계 정비 지원, 화재감지·방호 설비 분야의 수행 경험을 소개합니다."
+    : "Experience in electrical and instrumentation, mechanical and piping, scaffolding support, and fire detection and protection work."}
+>
+  <PageIntro
+    locale={locale}
+    title={ko ? "수행실적" : "Project Experience"}
+    eyebrow="FIELD EXPERIENCE"
+    description={ko
+      ? "현장의 안전과 품질을 지키며 다양한 공종의 수행 경험을 축적하고 있습니다."
+      : "Building multidisciplinary field experience with safety and quality at the center."}
+  />
+  <div class="container page-content">
+    <div class="portfolio-grid">
+      {
+        portfolio.map((p, i) => (
+          <article class="portfolio-item" data-reveal="up">
+            <>
+              <TechnicalMark kind={businesses[i].slug} />
+              <p class="eyebrow">
+                {ko ? p.categoryKo : p.categoryEn} · {ko ? "수행 분야" : "Field"}
+              </p>
+              <h2>{ko ? p.titleKo : p.titleEn}</h2>
+              <p>{ko ? p.textKo : p.textEn}</p>
+            </>
+          </article>
+        ))
+      }
+    </div><section class="stack-section aside-panel">
+      <h2>
+        {ko ? "프로젝트별 실적 자료가 필요하신가요?" : "Need project-specific experience records?"}
+      </h2><p>
+        {
+          ko
+            ? "현장과 발주처의 보안 기준을 고려해 웹사이트에는 수행유형 중심으로 소개합니다. 입찰·협력업체 등록 등 업무 목적에 맞는 상세 실적과 증빙은 별도로 안내해 드립니다."
+            : "To respect site and client security requirements, this website presents work by category. Detailed records and supporting documents can be provided for legitimate tendering and vendor-registration purposes."
+        }
+      </p><a class="text-link" href={pathForKey("contact", locale)}
+        >{ko ? "실적 자료 문의" : "Request experience information"}
+        <span aria-hidden="true">→</span></a
+      >
+    </section><p class="note">
+      {
+        ko
+          ? "소방 관련 항목에는 전문소방시설공사업 등록 이전의 전기공사·협력 수행기록이 포함됩니다. 해당 기록을 모두 소방공사업 면허 실적으로 표현하지 않습니다."
+          : "Some fire-related records predate the specialized fire-facility registration and include electrical or collaborative work. They are not all represented as licensed fire-construction experience."
+      }
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import { businesses } from "../../data/company";
+import { businessDetailPath, pathForKey } from "../../i18n/routes";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+  business: (typeof businesses)[number];
+}
+const { locale, business } = Astro.props;
+const ko = locale === "ko";
+const title = ko ? business.titleKo : business.titleEn;
+const summary = ko ? business.summaryKo : business.summaryEn;
+---
+
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={`${summary} ${ko ? business.descriptionKo : business.descriptionEn}`}
+  socialImage={false}
+>
+  <PageIntro locale={locale} title={title} eyebrow={business.shortEn} description={summary} />
+  <div class="container page-content">
+    <nav class="section-subnav" aria-label={ko ? "사업 분야" : "Business disciplines"}>
+      {
+        businesses.map((b) => (
+          <a
+            href={businessDetailPath(locale, b.slug)}
+            aria-current={b.slug === business.slug ? "page" : undefined}
+          >
+            {ko ? b.titleKo : b.titleEn}
+          </a>
+        ))
+      }
+    </nav><div class="detail-grid">
+      <div>
+        <div class="prose" data-reveal="up">
+          <h2>{ko ? "현장을 위한 전문 시공" : "Specialized field execution"}</h2><p>
+            {ko ? business.descriptionKo : business.descriptionEn}
+          </p>
+        </div><section class="stack-section" data-reveal="up">
+          <h2>{ko ? "주요 수행 범위" : "Primary scope"}</h2><ul class="clean-list">
+            {(ko ? business.servicesKo : business.servicesEn).map((s) => <li>{s}</li>)}
+          </ul>
+        </section>
+      </div><aside class="aside-panel">
+        <h2>{ko ? "작업의 기준" : "Execution controls"}</h2><ul class="clean-list">
+          {(ko ? business.checksKo : business.checksEn).map((c) => <li>{c}</li>)}
+        </ul><p class="note">
+          {
+            ko
+              ? "구체적인 작업 범위와 투입 계획은 현장 요구조건 및 계약 범위에 따라 협의합니다."
+              : "Detailed work scope and mobilization plans are agreed based on field requirements and contract scope."
+          }
+        </p><a class="button button-dark" href={pathForKey("contact", locale)}
+          >{ko ? "프로젝트 문의" : "Project inquiry"} <span aria-hidden="true">↗</span></a
+        >
+      </aside>
+    </div><section class="stack-section">
+      <h2>{ko ? "함께 연결되는 사업" : "Related disciplines"}</h2><div class="related-business">
+        {
+          businesses
+            .filter((b) => b.slug !== business.slug)
+            .map((b) => (
+              <a href={businessDetailPath(locale, b.slug)}>
+                {ko ? b.titleKo : b.titleEn} <span aria-hidden="true">↗</span>
+              </a>
+            ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

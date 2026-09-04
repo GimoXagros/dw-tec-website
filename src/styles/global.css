@@ -239,6 +239,7 @@ main:focus {
   color: var(--blue);
 }
 .nav-ready .submenu-open > .submenu,
+.nav-ready .has-submenu:focus-within > .submenu,
 .site-header:not(.nav-ready) .nav-item:is(:hover, :focus-within) > .submenu {
   display: block;
 }

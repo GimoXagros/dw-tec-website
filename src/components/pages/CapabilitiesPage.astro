@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import CompanyNav from "../CompanyNav.astro";
+import { businesses, capabilities } from "../../data/company";
+import { businessDetailPath } from "../../i18n/routes";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ko = locale === "ko";
+---
+
+<BaseLayout
+  locale={locale}
+  title={ko ? "기술·인증" : "Capabilities"}
+  description={ko
+    ? "대원기술의 4개 공사업 등록, ISO 인증과 기술인력·공장·장비 운영 역량을 소개합니다."
+    : "DAEWON TECHNOLOGY's four registered construction disciplines, ISO systems, people, workshop, and equipment capabilities."}
+>
+  <PageIntro
+    locale={locale}
+    title={ko ? "기술·인증" : "Capabilities"}
+    eyebrow="CAPABILITIES"
+    description={ko
+      ? "등록 면허, 분야별 기술인력, 품질·안전 관리체계를 현장의 실행력으로 연결합니다."
+      : "Registered disciplines, qualified people, and quality and safety systems translated into field execution."}
+  />
+  <div class="container page-content">
+    <CompanyNav locale={locale} />
+    <section class="stack-section">
+      <h2>{ko ? "4개 공사업 등록 기반" : "Four registered construction disciplines"}</h2><ul
+        class="registration-list"
+      >
+        {
+          businesses.map((b) => (
+            <li>
+              <span>
+                {b.number} / {b.shortEn}
+              </span>
+              {ko ? b.titleKo : b.titleEn}
+            </li>
+          ))
+        }
+      </ul><p class="note">
+        {
+          ko
+            ? "전문소방시설공사업 등록 완료: 2026년 8월 26일"
+            : "Specialized fire facility construction registration completed on August 26, 2026."
+        }
+      </p>
+    </section>
+    <section class="stack-section">
+      <h2>{ko ? "등록 분야별 수행 역량" : "Execution capability by registered discipline"}</h2><div
+        class="license-grid"
+      >
+        {
+          businesses.map((b) => (
+            <article class="license-card" data-reveal="up">
+              <>
+                <p class="small-label">{b.shortEn}</p>
+                <h3>{ko ? b.titleKo : b.titleEn}</h3>
+                <p>{ko ? b.summaryKo : b.summaryEn}</p>
+                <a class="text-link" href={businessDetailPath(locale, b.slug)}>
+                  {ko ? "수행 분야 보기" : "View scope"} <span aria-hidden="true">→</span>
+                </a>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+    <section class="stack-section">
+      <h2>{ko ? "품질·환경·안전보건 관리" : "Quality, environmental, and OH&S management"}</h2><div
+        class="principles"
+      >
+        {
+          capabilities.certifications.map((c) => (
+            <article data-reveal="up">
+              <>
+                <p class="eyebrow">{c.code}</p>
+                <h3>{ko ? c.titleKo : c.titleEn}</h3>
+                <p>{ko ? c.textKo : c.textEn}</p>
+              </>
+            </article>
+          ))
+        }
+      </div><p class="note">
+        {
+          ko
+            ? "2026년 8월 제공 인증 자료 기준. 인증마크와 인증서 원본은 웹사이트에 게시하지 않습니다."
+            : "Based on certification materials available in August 2026. Certification marks and original certificates are not published on this website."
+        }
+      </p>
+    </section>
+    <section class="stack-section info-grid">
+      <div>
+        <p class="eyebrow">PEOPLE & OPERATIONS</p><h2>
+          {ko ? "전문인력과 현장 지원체계" : "Qualified people and field support"}
+        </h2><ul class="clean-list">
+          <li>
+            {
+              ko
+                ? "전기공사·기계설비·소방 전기·기계 분야 기술인력"
+                : "Qualified personnel across electrical, mechanical, and fire disciplines"
+            }
+          </li><li>
+            {
+              ko
+                ? "경영지원·품질기술·공사운영의 협업 체계"
+                : "Coordinated management, quality, engineering, and construction operations"
+            }
+          </li><li>
+            {
+              ko
+                ? "공무·품질·안전을 통합 지원하는 현장 운영"
+                : "Integrated field support for administration, quality, and safety"
+            }
+          </li>
+        </ul><p class="note">
+          {
+            ko
+              ? "전기공사 기술등급은 한국전기공사협회, 소방공사 기술등급은 한국소방시설협회 경력수첩 기준입니다."
+              : "Electrical and fire-protection grades follow the relevant Korean industry association career-record systems."
+          }
+        </p>
+      </div><div>
+        <p class="eyebrow">FACILITY & EQUIPMENT</p><h2>
+          {ko ? "등록 공장과 장비 운영" : "Registered workshop and equipment"}
+        </h2><p>
+          {
+            ko
+              ? "등록 공장을 기반으로 금속가공과 장치 제작, 현장 설치를 지원합니다."
+              : "Our registered workshop supports fabrication, equipment preparation, and field installation."
+          }
+        </p><ul class="clean-list">
+          {
+            (ko ? capabilities.equipmentKo : capabilities.equipmentEn).map((item) => (
+              <li>{item}</li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

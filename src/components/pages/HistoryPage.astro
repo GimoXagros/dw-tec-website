@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../PageIntro.astro";
+import CompanyNav from "../CompanyNav.astro";
+import { history } from "../../data/company";
+import type { Locale } from "../../i18n/types";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const ko = locale === "ko";
+---
+
+<BaseLayout
+  locale={locale}
+  title={ko ? "회사 연혁" : "Company History"}
+  description={ko
+    ? "대원기술의 설립부터 공사업 등록과 ISO 인증까지 주요 연혁을 소개합니다."
+    : "Key milestones from DAEWON TECHNOLOGY's establishment to construction registrations and ISO certifications."}
+>
+  <PageIntro
+    locale={locale}
+    title={ko ? "회사 연혁" : "Company History"}
+    eyebrow="OUR HISTORY"
+    description={ko
+      ? "현장 경험과 기술 기반을 차근차근 넓혀 왔습니다."
+      : "We have steadily expanded our field experience and technical foundation."}
+  />
+  <div class="container page-content">
+    <CompanyNav locale={locale} /><div class="timeline">
+      {
+        history.map((item) => (
+          <section class="timeline-row" data-reveal="line">
+            <>
+              <h2>{item.year}</h2>
+              <ul>
+                {(ko ? item.eventsKo : item.eventsEn).map((event) => (
+                  <li>{event}</li>
+                ))}
+              </ul>
+            </>
+          </section>
+        ))
+      }
+    </div><p class="note">
+      {
+        ko
+          ? "2026년 8월 제공 자료 기준. 특허는 등록특허가 아닌 특허결정 완료 기준입니다."
+          : "Based on materials available in August 2026. The patent item refers to a completed patent decision, not a registered patent."
+      }
+    </p>
+  </div>
+</BaseLayout>

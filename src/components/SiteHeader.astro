@@ -1,39 +1,83 @@
 ---
 import { businesses, company } from "../data/company";
-const path = Astro.url.pathname;
+import type { Locale } from "../i18n/messages";
+import { getMessages } from "../i18n/messages";
+import { businessDetailPath, pathForKey, toLocalePath } from "../i18n/routes";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale = "ko" } = Astro.props;
+const t = getMessages(locale);
+const currentPath = toLocalePath(Astro.url.pathname, locale);
+const languagePath = Astro.url.pathname.startsWith("/404") ? "/" : currentPath;
+const languageSuffix = Astro.url.search;
+const currentLocaleHome = pathForKey("home", locale);
+const currentShort = t.languageSwitcher.currentShort;
+const contactTitle = locale === "ko" ? "프로젝트 문의" : "Project inquiry";
+
 const nav = [
   {
-    href: "/company/",
-    label: "회사소개",
+    href: pathForKey("company", locale),
+    label: t.nav.company,
     children: [
-      { href: "/company/", label: "기업 개요" },
-      { href: "/company/history/", label: "회사 연혁" },
-      { href: "/company/capabilities/", label: "기술·인증" },
+      { href: pathForKey("company", locale), label: t.nav.companyChildren.overview },
+      { href: pathForKey("companyHistory", locale), label: t.nav.companyChildren.history },
+      {
+        href: pathForKey("companyCapabilities", locale),
+        label: t.nav.companyChildren.capabilities,
+      },
     ],
   },
   {
-    href: "/business/",
-    label: "사업영역",
-    children: businesses.map((b) => ({ href: `/business/${b.slug}/`, label: b.title })),
+    href: pathForKey("business", locale),
+    label: t.nav.business,
+    children: businesses.map((b) => ({
+      href: businessDetailPath(locale, b.slug),
+      label: locale === "ko" ? b.titleKo : b.titleEn,
+    })),
   },
-  { href: "/portfolio/", label: "수행실적", children: [] },
-  { href: "/company/capabilities/", label: "기술·인증", children: [] },
-  { href: "/contact/", label: "문의·오시는 길", children: [] },
+  { href: pathForKey("portfolio", locale), label: t.nav.portfolio, children: [] },
+  { href: pathForKey("companyCapabilities", locale), label: t.nav.capabilities, children: [] },
+  { href: pathForKey("contact", locale), label: t.nav.contact, children: [] },
 ];
+
+const languageItems = [
+  {
+    code: "ko" as const,
+    short: "KOR",
+    label: t.languageSwitcher.labelKo,
+    href: `${toLocalePath(languagePath, "ko")}${languageSuffix}`,
+  },
+  {
+    code: "en" as const,
+    short: "ENG",
+    label: t.languageSwitcher.labelEn,
+    href: `${toLocalePath(languagePath, "en")}${languageSuffix}`,
+  },
+];
+const currentLanguage = languageItems.find((item) => item.short === currentShort);
 ---
 
 <header class="site-header">
   <div class="header-inner container">
-    <a class="brand" href="/" aria-label="대원기술 홈"
-      ><img src="/images/logo.png" width="247" height="56" alt="주식회사 대원기술" /></a
+    <a
+      class="brand"
+      href={currentLocaleHome}
+      aria-label={locale === "ko" ? "대원기술 홈" : "DW-TEC home"}
     >
+      <img src="/images/logo.png" width="247" height="56" alt="주식회사 대원기술" />
+    </a>
     <button
       class="menu-button"
       aria-expanded="false"
       aria-controls="site-nav"
-      aria-label="메뉴 열기"><span></span><span></span><span></span></button
+      aria-label={locale === "ko" ? "메뉴 열기" : "Open menu"}
     >
-    <nav id="site-nav" aria-label="주 메뉴">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" aria-label={locale === "ko" ? "주 메뉴" : "Main menu"}>
       <ul class="nav-list">
         {
           nav.map((item) => (
@@ -42,30 +86,33 @@ const nav = [
                 "nav-item",
                 {
                   "has-submenu": item.children.length > 0,
-                  "is-current": path.startsWith(item.href),
+                  "is-current": currentPath.startsWith(item.href),
                 },
               ]}
             >
               <div class="nav-item-top">
-                <a href={item.href} aria-current={path === item.href ? "page" : undefined}>
+                <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
                   {item.label}
                 </a>
                 {item.children.length > 0 && (
                   <button
                     class="submenu-toggle"
-                    aria-label={`${item.label} 하위 메뉴`}
+                    aria-label={`${item.label} ${locale === "ko" ? "하위 메뉴" : "submenu"}`}
                     aria-expanded="false"
-                    aria-controls={`sub-${item.href.split("/")[1]}`}
+                    aria-controls={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}
                   >
                     <span aria-hidden="true">⌄</span>
                   </button>
                 )}
               </div>
               {item.children.length > 0 && (
-                <ul class="submenu" id={`sub-${item.href.split("/")[1]}`}>
+                <ul class="submenu" id={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}>
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.href} aria-current={path === child.href ? "page" : undefined}>
+                      <a
+                        href={child.href}
+                        aria-current={currentPath === child.href ? "page" : undefined}
+                      >
                         {child.label}
                       </a>
                     </li>
@@ -75,9 +122,35 @@ const nav = [
             </li>
           ))
         }
+        <li class="nav-item language-switch has-submenu">
+          <div class="nav-item-top">
+            <button
+              class="submenu-toggle"
+              aria-label={`${t.languageSwitcher.optionsLabel}: ${languageItems.find((item) => item.short !== currentShort)?.label}`}
+              aria-expanded="false"
+              aria-controls="lang-switch-menu"
+            >
+              <span>{currentLanguage?.short}</span><span aria-hidden="true">⌄</span>
+            </button>
+          </div>
+          <ul class="submenu" id="lang-switch-menu">
+            {
+              languageItems.map((language) => (
+                <li>
+                  <a
+                    href={language.href}
+                    aria-current={language.short === currentShort ? "page" : undefined}
+                  >
+                    {language.short} {language.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </li>
       </ul>
       <div class="mobile-contact">
-        <span>PROJECT INQUIRY</span><a href={`tel:${company.phone}`}>{company.phone}</a><a
+        <span>{contactTitle}</span><a href={`tel:${company.phone}`}>{company.phone}</a><a
           href={`mailto:${company.email}`}>{company.email}</a
         >
       </div>

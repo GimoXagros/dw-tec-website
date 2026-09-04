@@ -1,12 +1,28 @@
 ---
+import type { Locale } from "../i18n/messages";
+import { pathForKey } from "../i18n/routes";
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = "ko" } = Astro.props;
 const links = [
-  { href: "/company/", label: "회사소개" },
-  { href: "/company/history/", label: "연혁" },
-  { href: "/company/capabilities/", label: "기술·인증" },
+  {
+    href: pathForKey("company", locale),
+    label: locale === "ko" ? "회사 소개" : "Company Overview",
+  },
+  { href: pathForKey("companyHistory", locale), label: locale === "ko" ? "연혁" : "History" },
+  {
+    href: pathForKey("companyCapabilities", locale),
+    label: locale === "ko" ? "기술·인증" : "Capabilities",
+  },
 ];
 ---
 
-<nav class="section-subnav" aria-label="회사소개 하위 메뉴">
+<nav
+  class="section-subnav"
+  aria-label={locale === "ko" ? "회사소개 하위 메뉴" : "Company sub menu"}
+>
   {
     links.map((link) => (
       <a href={link.href} aria-current={Astro.url.pathname === link.href ? "page" : undefined}>
