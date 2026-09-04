@@ -1,5 +1,50 @@
 # DW-TEC 기업형 홈페이지 개편 최종 보고서
 
+## 2026-09-04 한·영 사이트 및 공개 콘텐츠 조정 — 운영 배포 완료
+
+- 기준선: `f3714ec5bd91c3a10dd23217de5a3974f5fc28f4`
+- 한·영 사이트 구현 커밋: `23782b8e29139fa1bccf7f116101b17d66b578b5`
+- PR #3 병합: `baa10403f52a7fb0b1b3fd03dde34012bdf1ad72`
+- 모바일 언어 전환 보완 커밋: `1ec560de188ffc77a42f0906d0928848f192c45e`
+- 최종 웹 구현·운영 배포 SHA: `a3ad23470f1e673b6c8a850bb61bae3a99047d3c`
+- PR: [#3 한·영 사이트 전환 및 주요 발주처·협력사 섹션 추가](https://github.com/GimoXagros/dw-tec-website/pull/3), [#4 모바일 언어 전환 동작 보완](https://github.com/GimoXagros/dw-tec-website/pull/4)
+- Pages 배포: [33839175510 · attempt 2 성공](https://github.com/GimoXagros/dw-tec-website/actions/runs/33839175510/attempts/2)
+- main 품질 검사: [33839175470 성공](https://github.com/GimoXagros/dw-tec-website/actions/runs/33839175470)
+
+### 구현 결과
+
+기존 한국어 URL 12개를 유지하면서 동일 경로의 영어 `/en/` 페이지 12개를 추가했다. 공통 페이지 컴포넌트와 한·영 데이터 구조를 사용해 본문, 메뉴, breadcrumb, 버튼, 대체 텍스트, 접근성 이름, title·description, Open Graph를 모두 번역했다. 헤더 Contact 오른쪽의 KOR/ENG 메뉴는 현재 페이지의 대응 경로와 query를 유지한다. 모바일에서는 메뉴 안의 독립 언어 영역으로 제공하며 일반 링크 기반의 JS 비활성 fallback을 유지한다.
+
+공개 홈페이지의 공종별 평가금액 보드·카드·데이터·설명과 전용 CSS를 제거했다. 메인은 4개 등록 공사업과 ISO 3개 시스템, 기술·인증 페이지는 등록 분야별 수행 역량과 품질·환경·안전보건 관리 중심으로 재구성했다. 현재 `src`, `public`, `docs`, `dist`, README와 이 보고서에서 제거 대상 문구·네 금액·데이터 필드 검색 결과는 0건이다.
+
+메인 FIELD EXPERIENCE 뒤, CONTACT 앞에 주요 발주처·협력사 섹션을 추가했다. 사용자 승인 지명원 목록을 기준으로 발주처는 한전KPS, 협력사는 수산인더스트리·금화PSC·OES로 분류했다. 타사 로고의 홈페이지 공개 사용권을 입증하는 원본이 없어 상호명 텍스트 타일을 사용했으며 다른 회사 사이트나 참고 영상의 로고·회사를 사용하지 않았다.
+
+### 검증과 운영 확인
+
+- Prettier, ESLint, Astro 타입 검사와 정적 빌드 통과. 타입 오류·경고·힌트 0.
+- 정적 25페이지, 내부 링크·자산 965개, 고유 메타데이터, sitemap과 `public/CNAME` 검사 통과.
+- 공개 파일·민감 문자열·Git 이력 검사 통과.
+- Playwright 14개 테스트 통과. 25개 페이지 × 360/390/768/1024/1440/1920px에서 Axe WCAG A/AA 위반 0, 가로 넘침 없음, 이미지와 내부 링크 정상.
+- ko/en 자기 canonical과 대응 `hreflang` ko/en/x-default, 언어 전환, 키보드·Escape·바깥 클릭, 모바일 focus trap, reduced-motion, JS 비활성 탐색을 확인.
+- 운영의 한국어·영어 홈, 기술·인증, 문의 페이지가 200이고 `lang`·제거 문구·연락처·파트너 목록이 정상임을 확인.
+- 운영 모바일에서 `/business/electrical/` → `/en/business/electrical/` 클릭 전환과 가로 넘침 없음 확인.
+- `npm audit --audit-level=high`는 PR 및 main 품질 검사에서 성공. Pages 첫 시도는 npm 보안 서버 네트워크 타임아웃으로 게시 전 실패했고, 동일 설정의 attempt 2에서 성공했다.
+
+이번 작업에서 새 dependency는 추가하지 않았다. 최종 초기 실행 JavaScript는 raw 4,132 bytes, gzip 1,570 bytes다. Lighthouse는 이번 콘텐츠·i18n 조정에서 재측정하지 않았으며, 브라우저 회귀·Axe·레이아웃 검사를 수행했다. 이전 개편의 Lighthouse 결과는 아래 기록을 유지한다.
+
+### 운영 주소와 변경하지 않은 설정
+
+- 한국어: [홈](https://dw-tec.co.kr/), [기술·인증](https://dw-tec.co.kr/company/capabilities/), [문의](https://dw-tec.co.kr/contact/)
+- 영어: [Home](https://dw-tec.co.kr/en/), [Capabilities](https://dw-tec.co.kr/en/company/capabilities/), [Contact](https://dw-tec.co.kr/en/contact/)
+- DNS changes: **NONE**
+- Name server changes: **NONE**
+- Mail record changes: **NONE**
+- 전화 `054-783-9170`, 팩스 `054-783-9171`, 이메일 `dwtec@dw-tec.co.kr`, `public/CNAME` 유지
+
+사람이 추가 확인할 항목은 타사 공식 영문 상호 표기와 로고의 웹 공개 사용권, 물리적 iOS/Android·Safari/Firefox·화면낭독기 수동 검사, 실제 사용자 성능 지표, 메일 송수신 및 침투·부하 시험이다.
+
+롤백 기준 SHA는 `f3714ec5bd91c3a10dd23217de5a3974f5fc28f4`다. 신규 복구 브랜치에서 `git revert -m 1 a3ad23470f1e673b6c8a850bb61bae3a99047d3c` 후 `git revert -m 1 baa10403f52a7fb0b1b3fd03dde34012bdf1ad72`를 실행하고 검증·PR·정상 병합·Pages 배포 순으로 복구한다. 이력 재작성, force push, DNS·메일 변경은 하지 않는다.
+
 ## 상태 및 버전
 
 - 현재 단계: **DEPLOYED — 운영 배포 및 실제 주소 검증 완료**
