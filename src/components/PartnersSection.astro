@@ -25,24 +25,44 @@ const orderedOrganizations = [...organizations].sort(byOrder);
       }
     </p>
   </div>
-  <ul class="organization-logo-grid">
-    {
-      orderedOrganizations.map((org) => {
-        const name = locale === "ko" ? org.nameKo : org.nameEn;
-        return (
-          <li>
-            <a
-              class:list={["organization-logo-link", { "is-dark": org.logoTheme === "dark" }]}
-              href={org.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${name} ${locale === "ko" ? "공식 홈페이지" : "official website"} (${locale === "ko" ? "새 창" : "opens in a new tab"})`}
-            >
-              <img src={org.logoSrc} width="240" height="80" alt={name} loading="lazy" />
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+  <div class="organization-logo-marquee">
+    <div class="organization-logo-track">
+      {
+        [false, true].map((isClone) => (
+          <ul
+            class:list={["organization-logo-list", { "is-clone": isClone }]}
+            aria-hidden={isClone}
+          >
+            {orderedOrganizations.map((org) => {
+              const name = locale === "ko" ? org.nameKo : org.nameEn;
+              return (
+                <li>
+                  <a
+                    class:list={["organization-logo-link", { "is-dark": org.logoTheme === "dark" }]}
+                    href={org.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabindex={isClone ? -1 : undefined}
+                    aria-label={
+                      isClone
+                        ? undefined
+                        : `${name} ${locale === "ko" ? "공식 홈페이지" : "official website"} (${locale === "ko" ? "새 창" : "opens in a new tab"})`
+                    }
+                  >
+                    <img
+                      src={org.logoSrc}
+                      width="240"
+                      height="80"
+                      alt={isClone ? "" : name}
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
 </section>

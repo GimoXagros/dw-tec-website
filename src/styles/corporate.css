@@ -432,26 +432,37 @@
   display: grid;
   gap: 44px;
 }
-.organization-logo-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.organization-logo-marquee {
+  width: 100%;
+  overflow: hidden;
+  border-top: 2px solid var(--navy);
+  border-bottom: 1px solid var(--line);
+}
+.organization-logo-track {
+  display: flex;
+  width: max-content;
+  animation: organization-logo-flow 52s linear infinite;
+}
+.organization-logo-marquee:hover .organization-logo-track,
+.organization-logo-marquee:focus-within .organization-logo-track {
+  animation-play-state: paused;
+}
+.organization-logo-list {
+  display: flex;
+  flex: none;
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 2px solid var(--navy);
 }
-.organization-logo-grid li {
-  min-width: 0;
+.organization-logo-list li {
+  flex: 0 0 clamp(210px, 18vw, 280px);
+  width: clamp(210px, 18vw, 280px);
   border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.organization-logo-grid li:nth-child(5n + 1) {
-  border-left: 1px solid var(--line);
 }
 .organization-logo-link {
   display: grid;
-  min-height: 176px;
-  padding: 38px 28px;
+  min-height: 164px;
+  padding: 34px 26px;
   place-items: center;
   background: #fff;
   transition:
@@ -479,6 +490,11 @@
   height: 74px;
   object-fit: contain;
 }
+@keyframes organization-logo-flow {
+  to {
+    transform: translateX(-50%);
+  }
+}
 .corporate-contact h2 {
   font-size: clamp(30px, 3vw, 44px);
 }
@@ -497,15 +513,6 @@
   padding-inline: 8px;
 }
 @media (max-width: 1190px) {
-  .organization-logo-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .organization-logo-grid li {
-    border-left: 0;
-  }
-  .organization-logo-grid li:nth-child(4n + 1) {
-    border-left: 1px solid var(--line);
-  }
   .business-shortcut-grid > a {
     padding-inline: 18px;
     gap: 12px;
@@ -533,15 +540,6 @@
   }
 }
 @media (max-width: 1023px) {
-  .organization-logo-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .organization-logo-grid li {
-    border-left: 0;
-  }
-  .organization-logo-grid li:nth-child(3n + 1) {
-    border-left: 1px solid var(--line);
-  }
   .business-shortcut-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -579,17 +577,12 @@
   }
 }
 @media (max-width: 767px) {
-  .organization-logo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .organization-logo-grid li {
-    border-left: 0;
-  }
-  .organization-logo-grid li:nth-child(odd) {
-    border-left: 1px solid var(--line);
+  .organization-logo-list li {
+    flex-basis: 190px;
+    width: 190px;
   }
   .organization-logo-link {
-    min-height: 132px;
+    min-height: 126px;
     padding: 26px 20px;
   }
   .organization-logo-link img {
@@ -774,5 +767,18 @@
   }
   .corporate-contact > div:last-child > p {
     font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organization-logo-marquee {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .organization-logo-track {
+    animation: none;
+  }
+  .organization-logo-list.is-clone {
+    display: none;
   }
 }
