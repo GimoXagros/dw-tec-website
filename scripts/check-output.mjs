@@ -29,7 +29,7 @@ for (const file of pages) {
   titles.add(title);
   assert(description && !descriptions.has(description), `Missing/duplicate description: ${file}`);
   descriptions.add(description);
-  assert(!/(?:src|href)="http:\/\//.test(html), `Mixed content: ${file}`);
+  assert(!/src="http:\/\//.test(html), `Mixed content asset: ${file}`);
   for (const claim of prohibitedPublicClaims)
     assert(!html.includes(claim), `Prohibited public claim '${claim}': ${file}`);
   if (!file.endsWith("404.html")) {
@@ -49,16 +49,60 @@ assert(fs.existsSync("dist/sitemap-index.xml"));
 assert(fs.readFileSync("dist/CNAME", "utf8").trim() === "dw-tec.co.kr");
 const homeKo = fs.readFileSync("dist/index.html", "utf8");
 const homeEn = fs.readFileSync("dist/en/index.html", "utf8");
-for (const name of ["한전KPS", "수산인더스트리", "금화PSC", "OES"])
-  assert(
-    homeKo.split(name).length === 2,
-    `Partner name missing or duplicated on Korean home: ${name}`,
-  );
-for (const name of ["KEPCO KPS", "Soosan Industries", "Geumhwa PSC", "OES"])
-  assert(
-    homeEn.split(name).length === 2,
-    `Partner name missing or duplicated on English home: ${name}`,
-  );
+for (const name of [
+  "한국수력원자력(주)",
+  "한전KPS(주)",
+  "수산ENS",
+  "(주)수산인더스트리",
+  "(주)금화피에스시",
+  "경상북도교육청",
+  "현대건설(주)",
+  "퍼스트키퍼스(주)",
+  "옵티멀에너지서비스(주)",
+  "(주)이투에스",
+  "(주)대원종합이엔지",
+  "(주)국제전기",
+  "유림기술(주)",
+  "(주)비케이비전",
+  "(주)무지기연",
+])
+  assert(homeKo.includes(name), `Organization name missing on Korean home: ${name}`);
+for (const name of [
+  "Korea Hydro &amp; Nuclear Power",
+  "KEPCO KPS",
+  "Soosan ENS",
+  "Soosan Industries",
+  "Geumhwa PSC",
+  "Gyeongsangbuk-do Office of Education",
+  "Hyundai Engineering &amp; Construction",
+  "First Keepers",
+  "Optimal Energy Service",
+  "E2S",
+  "Daewon General ENG",
+  "International Electric",
+  "Yurim Technology",
+  "BK Vision",
+  "Moojin Machinery",
+])
+  assert(homeEn.includes(name), `Organization name missing on English home: ${name}`);
+for (const website of [
+  "https://www.khnp.co.kr/main/index.do",
+  "https://www.kps.co.kr/web/index.do",
+  "https://www.soosanens.co.kr/",
+  "https://www.soosanind.co.kr/main/index.html",
+  "https://www.geumhwa.co.kr/main",
+  "https://www.gbe.kr/main/main.do",
+  "https://www.hdec.kr/",
+  "https://www.firstkeepers.co.kr/",
+  "http://www.oes.kr/",
+  "https://e2s.co.kr/",
+  "http://dwf119.co.kr/",
+  "https://www.ieckr.com/",
+  "http://www.yurimtech.co.kr/",
+  "http://www.bkvision.co.kr/",
+  "https://newmoojin.co.kr/",
+])
+  assert(homeKo.includes(`href="${website}"`), `Official organization link missing: ${website}`);
 console.log(
   `PASS: ${pages.length} pages, ${links} local links/assets, unique metadata, sitemap and CNAME`,
 );

@@ -44,6 +44,9 @@ for (const width of [360, 390, 768, 1024, 1440, 1920]) {
       await expect(page.locator("html")).toHaveAttribute("lang", language);
       await expect(page.locator("h1")).toHaveCount(1);
       await page.evaluate(() => document.fonts.ready);
+      await page.locator(".organization-logo-track").evaluateAll((tracks) => {
+        for (const track of tracks) (track as HTMLElement).style.animationPlayState = "paused";
+      });
       for (const image of await page.locator("img").all()) {
         await image.scrollIntoViewIfNeeded();
         await expect(image).toHaveJSProperty("complete", true);
@@ -58,10 +61,11 @@ for (const width of [360, 390, 768, 1024, 1440, 1920]) {
           width: img.getAttribute("width"),
           height: img.getAttribute("height"),
           loaded: img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0,
+          hiddenClone: img.closest('[aria-hidden="true"]') !== null,
         })),
       );
       for (const img of images) {
-        expect(img.alt).toBeTruthy();
+        if (!img.hiddenClone) expect(img.alt).toBeTruthy();
         expect(img.width).toBeTruthy();
         expect(img.height).toBeTruthy();
         expect(img.loaded).toBe(true);
@@ -201,6 +205,8 @@ test("reduced motion preserves content without transforms", async ({ page }) => 
     await expect(el).toHaveCSS("transform", "none");
   }
   await expect(page.locator(".corporate-hero-image")).toHaveCSS("animation-name", "none");
+  await expect(page.locator(".organization-logo-track")).toHaveCSS("animation-name", "none");
+  await expect(page.locator(".organization-logo-list.is-clone")).toHaveCSS("display", "none");
   await expect(page.locator(".hero-caption")).toHaveCount(0);
   await expect(page.locator(".corporate-hero-image")).toHaveAttribute("alt", /산업 플랜트/);
 });
@@ -297,8 +303,55 @@ test("language switch preserves the route and partner section is complete", asyn
   await expect(page.locator("#lang-switch-menu a[href='/contact/']")).toHaveCount(1);
   await page.goto("/en/");
   const partners = page.locator(".partners-section");
-  for (const name of ["KEPCO KPS", "Soosan Industries", "Geumhwa PSC", "OES"])
-    await expect(partners).toContainText(name);
+  const organizationList = partners.locator(".organization-logo-list:not(.is-clone)");
+  const organizationLinks = organizationList.locator(".organization-logo-link");
+  await expect(organizationLinks).toHaveCount(15);
+  await expect(partners.locator(".organization-logo-track")).toHaveCSS(
+    "animation-name",
+    "organization-logo-flow",
+  );
+  const logoTrack = partners.locator(".organization-logo-track");
+  const xPosition = () =>
+    logoTrack.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).m41);
+  const startX = await xPosition();
+  await page.waitForTimeout(250);
+  expect(await xPosition()).toBeLessThan(startX);
+  await partners.locator(".organization-logo-marquee").hover();
+  await expect(partners.locator(".organization-logo-track")).toHaveCSS(
+    "animation-play-state",
+    "paused",
+  );
+  await expect(partners.locator(".organization-logo-list.is-clone")).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
+  await expect(partners.locator(".organization-logo-list.is-clone a").first()).toHaveAttribute(
+    "tabindex",
+    "-1",
+  );
+  for (const [name, website] of [
+    ["Korea Hydro & Nuclear Power", "https://www.khnp.co.kr/main/index.do"],
+    ["KEPCO KPS", "https://www.kps.co.kr/web/index.do"],
+    ["Soosan ENS", "https://www.soosanens.co.kr/"],
+    ["Soosan Industries", "https://www.soosanind.co.kr/main/index.html"],
+    ["Geumhwa PSC", "https://www.geumhwa.co.kr/main"],
+    ["Gyeongsangbuk-do Office of Education", "https://www.gbe.kr/main/main.do"],
+    ["Hyundai Engineering & Construction", "https://www.hdec.kr/"],
+    ["First Keepers", "https://www.firstkeepers.co.kr/"],
+    ["Optimal Energy Service", "http://www.oes.kr/"],
+    ["E2S", "https://e2s.co.kr/"],
+    ["Daewon General ENG", "http://dwf119.co.kr/"],
+    ["International Electric", "https://www.ieckr.com/"],
+    ["Yurim Technology", "http://www.yurimtech.co.kr/"],
+    ["BK Vision", "http://www.bkvision.co.kr/"],
+    ["Moojin Machinery", "https://newmoojin.co.kr/"],
+  ]) {
+    const link = organizationList.locator(`a[href="${website}"]`);
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute("href", website);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link.locator("img")).toHaveAttribute("alt", name);
+  }
   await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute(
     "href",
     "https://dw-tec.co.kr/",
