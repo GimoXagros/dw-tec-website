@@ -297,8 +297,31 @@ test("language switch preserves the route and partner section is complete", asyn
   await expect(page.locator("#lang-switch-menu a[href='/contact/']")).toHaveCount(1);
   await page.goto("/en/");
   const partners = page.locator(".partners-section");
-  for (const name of ["KEPCO KPS", "Soosan Industries", "Geumhwa PSC", "OES"])
-    await expect(partners).toContainText(name);
+  const organizationLinks = partners.locator(".organization-logo-link");
+  await expect(organizationLinks).toHaveCount(15);
+  for (const [name, website] of [
+    ["Korea Hydro & Nuclear Power", "https://www.khnp.co.kr/main/index.do"],
+    ["KEPCO KPS", "https://www.kps.co.kr/web/index.do"],
+    ["Soosan ENS", "https://www.soosanens.co.kr/"],
+    ["Soosan Industries", "https://www.soosanind.co.kr/main/index.html"],
+    ["Geumhwa PSC", "https://www.geumhwa.co.kr/main"],
+    ["Gyeongsangbuk-do Office of Education", "https://www.gbe.kr/main/main.do"],
+    ["Hyundai Engineering & Construction", "https://www.hdec.kr/"],
+    ["First Keepers", "https://www.firstkeepers.co.kr/"],
+    ["Optimal Energy Service", "http://www.oes.kr/"],
+    ["E2S", "https://e2s.co.kr/"],
+    ["Daewon General ENG", "http://dwf119.co.kr/"],
+    ["International Electric", "https://www.ieckr.com/"],
+    ["Yurim Technology", "http://www.yurimtech.co.kr/"],
+    ["BK Vision", "http://www.bkvision.co.kr/"],
+    ["Moojin Machinery", "https://newmoojin.co.kr/"],
+  ]) {
+    const link = partners.locator(`a[href="${website}"]`);
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute("href", website);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link.locator("img")).toHaveAttribute("alt", name);
+  }
   await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute(
     "href",
     "https://dw-tec.co.kr/",
