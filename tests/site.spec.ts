@@ -306,6 +306,19 @@ test("language switch preserves the route and partner section is complete", asyn
   const organizationList = partners.locator(".organization-logo-list:not(.is-clone)");
   const organizationLinks = organizationList.locator(".organization-logo-link");
   await expect(organizationLinks).toHaveCount(16);
+  await expect
+    .poll(() =>
+      partners
+        .locator("img")
+        .evaluateAll(
+          (images) =>
+            images.filter(
+              (image) =>
+                !(image instanceof HTMLImageElement) || !image.complete || !image.naturalWidth,
+            ).length,
+        ),
+    )
+    .toBe(0);
   await expect(partners.locator(".organization-logo-track")).toHaveCSS(
     "animation-name",
     "organization-logo-flow",
