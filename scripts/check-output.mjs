@@ -65,6 +65,7 @@ for (const name of [
   "유림기술(주)",
   "(주)비케이비전",
   "(주)무지기연",
+  "리얼게인",
 ])
   assert(homeKo.includes(name), `Organization name missing on Korean home: ${name}`);
 for (const name of [
@@ -83,6 +84,7 @@ for (const name of [
   "Yurim Technology",
   "BK Vision",
   "Moojin Machinery",
+  "Realgain",
 ])
   assert(homeEn.includes(name), `Organization name missing on English home: ${name}`);
 for (const website of [
@@ -101,6 +103,7 @@ for (const website of [
   "http://www.yurimtech.co.kr/",
   "http://www.bkvision.co.kr/",
   "https://newmoojin.co.kr/",
+  "http://www.realgain.co.kr/kor/main/",
 ])
   assert(homeKo.includes(`href="${website}"`), `Official organization link missing: ${website}`);
 console.log(

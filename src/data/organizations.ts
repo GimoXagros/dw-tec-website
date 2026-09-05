@@ -150,4 +150,12 @@ export const organizations = organizationsSchema.parse([
     logoSrc: "/images/partners/moojin-machinery.png",
     displayOrder: 15,
   },
+  {
+    id: "realgain",
+    nameKo: "리얼게인",
+    nameEn: "Realgain",
+    website: "http://www.realgain.co.kr/kor/main/",
+    logoSrc: "/images/partners/realgain.png",
+    displayOrder: 16,
+  },
 ]);

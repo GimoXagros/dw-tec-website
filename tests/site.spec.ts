@@ -305,7 +305,7 @@ test("language switch preserves the route and partner section is complete", asyn
   const partners = page.locator(".partners-section");
   const organizationList = partners.locator(".organization-logo-list:not(.is-clone)");
   const organizationLinks = organizationList.locator(".organization-logo-link");
-  await expect(organizationLinks).toHaveCount(15);
+  await expect(organizationLinks).toHaveCount(16);
   await expect(partners.locator(".organization-logo-track")).toHaveCSS(
     "animation-name",
     "organization-logo-flow",
@@ -345,6 +345,7 @@ test("language switch preserves the route and partner section is complete", asyn
     ["Yurim Technology", "http://www.yurimtech.co.kr/"],
     ["BK Vision", "http://www.bkvision.co.kr/"],
     ["Moojin Machinery", "https://newmoojin.co.kr/"],
+    ["Realgain", "http://www.realgain.co.kr/kor/main/"],
   ]) {
     const link = organizationList.locator(`a[href="${website}"]`);
     await expect(link).toHaveCount(1);
