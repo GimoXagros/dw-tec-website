@@ -413,4 +413,11 @@ test("manufacturing scope, factory facts and home field list are complete", asyn
   await expect(page.locator("main")).not.toContainText("계약금액");
   await page.goto("/en/business/manufacturing/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Manufacturing & Supply");
+  await page.goto("/portfolio/");
+  await expect(page.locator(".portfolio-item")).toHaveCount(5);
+  await expect(page.locator(".portfolio-item").last()).toContainText("제조 및 납품");
+  await expect(page.locator(".portfolio-item").last()).toContainText("공장 기반 제작·조달·납품");
+  await page.goto("/en/portfolio/");
+  await expect(page.locator(".portfolio-item")).toHaveCount(5);
+  await expect(page.locator(".portfolio-item").last()).toContainText("Manufacturing & Supply");
 });
