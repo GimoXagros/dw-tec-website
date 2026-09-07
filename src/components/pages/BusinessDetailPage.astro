@@ -82,16 +82,12 @@ const evidence = ko ? business.evidenceKo : business.evidenceEn;
     </div>{
       evidence.length > 0 && (
         <section class="stack-section evidence-capability-section" data-reveal="up">
-          <p class="eyebrow">CONTRACT-BASED CAPABILITY</p>
-          <h2>
-            {ko
-              ? "계약 실적이 증명하는 제조·납품 역량"
-              : "Manufacturing and supply proven by contract experience"}
-          </h2>
+          <p class="eyebrow">MANUFACTURING &amp; SUPPLY</p>
+          <h2>{ko ? "제조 및 납품" : "Manufacturing & Supply"}</h2>
           <p class="evidence-intro">
             {ko
-              ? "제출된 발주기관 물품구매 계약 자료에서 반복적으로 확인된 제작·조달·검사·인도 조건을 수행역량 중심으로 정리했습니다. 민감한 계약 세부정보는 공개하지 않습니다."
-              : "These capabilities summarize recurring fabrication, procurement, inspection, and delivery requirements evidenced by submitted public-client purchase contracts. Sensitive contract details are not disclosed."}
+              ? "공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다. 도면과 사양 검토부터 품질·인도 조건 관리까지 연결해 제작품·동등품·기성품 등 다양한 발주 조건에 대응합니다."
+              : "We consistently manage a factory-based workflow spanning fabrication, procurement, inspection, and delivery. Drawing and specification review is connected with quality and delivery controls to support made-to-order, equivalent, and off-the-shelf requirements."}
           </p>
           <div class="evidence-capability-grid">
             {evidence.map((item, index) => (

@@ -32,6 +32,7 @@ const prohibitedPublicClaims = [
   "U250808010",
   "U260743010",
   "W250176010",
+  "계약 실적이 증명하는",
 ];
 for (const file of pages) {
   const html = fs.readFileSync(file, "utf8");
@@ -117,6 +118,10 @@ assert(
   "Manufacturing business missing on English home",
 );
 const manufacturingKo = fs.readFileSync("dist/business/manufacturing/index.html", "utf8");
+assert(
+  manufacturingKo.includes("공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다."),
+  "Refined manufacturing introduction missing",
+);
 for (const capability of [
   "도면·사양 기반 제작 대응",
   "전기·시험 품목 공급",
