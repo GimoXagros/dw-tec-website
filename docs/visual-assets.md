@@ -35,6 +35,6 @@ Constraints: no people, no corporate logos, no letters, no labels, no watermarks
 
 - 공개 파일: `public/images/partners/`
 - 회사명·표시순서·링크·파일 연결: `src/data/organizations.ts`
-- 로고는 형태·색상을 재디자인하지 않고 비율을 유지한다. 흰색 문자가 포함된 로고는 원본 식별성을 위해 네이비 배경 위에 표시한다.
+- 로고는 형태·색상을 재디자인하지 않고 비율을 유지한다. 국제전기 로고는 흰 배경으로 통일하고 흰색 글자의 식별성을 위해 검은 외곽선 효과를 적용한다.
 - 모든 링크는 새 창으로 열리며 `noopener noreferrer`를 적용한다.
 - OES·비케이비전·리얼게인의 제공 주소는 HTTP만 사용한다. 로고 이미지는 사이트 내부에 저장해 혼합 콘텐츠를 방지하지만 외부 이동 후 연결 보안은 해당 업체 홈페이지 운영 범위다.

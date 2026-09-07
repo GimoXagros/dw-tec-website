@@ -42,6 +42,8 @@ const businessSchema = z.object({
   servicesEn: z.array(z.string()).min(1),
   checksKo: z.array(z.string()),
   checksEn: z.array(z.string()),
+  evidenceKo: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).default([]),
+  evidenceEn: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).default([]),
 });
 
 export const businesses = z.array(businessSchema).parse([
@@ -222,6 +224,42 @@ export const businesses = z.array(businessSchema).parse([
       "Factory registered on 2023-12-21 · owner-occupied facility",
       "Site 1,985㎡ · manufacturing area 210㎡ · auxiliary facilities 582.5㎡",
       "Registered scope: other structural metal products and 28 additional categories",
+    ],
+    evidenceKo: [
+      {
+        title: "도면·사양 기반 제작 대응",
+        text: "신축이음관·파이프 스풀·설비 보호 커버 등 도면과 사양이 지정된 품목의 제작 조건을 검토하고 공정을 계획합니다.",
+      },
+      {
+        title: "전기·시험 품목 공급",
+        text: "계전기 시험장비·부하저항기 등 전기·시험 품목의 요구 성능과 동등성 조건을 확인해 조달·납품합니다.",
+      },
+      {
+        title: "기계·정비 자재 조달",
+        text: "베어링 관련 표준시편·동력전달 체인·윤활 자재 등 정비 품목의 제작품·동등품·기성품 조건에 대응합니다.",
+      },
+      {
+        title: "품질·인도 조건 관리",
+        text: "품질등급, 구매시방서, 현장 인도, 인수검사와 하자보증 조건을 제작·조달 일정과 연계해 관리합니다.",
+      },
+    ],
+    evidenceEn: [
+      {
+        title: "Drawing- and specification-based fabrication",
+        text: "We review fabrication requirements and plan the workflow for specified items such as expansion joints, pipe spools, and equipment protection covers.",
+      },
+      {
+        title: "Electrical and test equipment supply",
+        text: "We verify performance and equivalency requirements for electrical and test items, including relay test equipment and load resistors, before procurement and delivery.",
+      },
+      {
+        title: "Mechanical and maintenance materials",
+        text: "We respond to made-to-order, equivalent, and off-the-shelf conditions for maintenance items such as bearing-related reference specimens, power-transmission chains, and lubricants.",
+      },
+      {
+        title: "Quality and delivery controls",
+        text: "Quality grades, purchase specifications, site delivery, acceptance inspection, and warranty conditions are coordinated with fabrication and procurement schedules.",
+      },
     ],
   },
 ]);

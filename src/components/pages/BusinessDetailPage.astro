@@ -13,6 +13,7 @@ const ko = locale === "ko";
 const title = ko ? business.titleKo : business.titleEn;
 const summary = ko ? business.summaryKo : business.summaryEn;
 const manufacturing = business.slug === "manufacturing";
+const evidence = ko ? business.evidenceKo : business.evidenceEn;
 ---
 
 <BaseLayout
@@ -78,7 +79,32 @@ const manufacturing = business.slug === "manufacturing";
           >{ko ? "프로젝트 문의" : "Project inquiry"} <span aria-hidden="true">↗</span></a
         >
       </aside>
-    </div><section class="stack-section">
+    </div>{
+      evidence.length > 0 && (
+        <section class="stack-section evidence-capability-section" data-reveal="up">
+          <p class="eyebrow">CONTRACT-BASED CAPABILITY</p>
+          <h2>
+            {ko
+              ? "계약 실적이 증명하는 제조·납품 역량"
+              : "Manufacturing and supply proven by contract experience"}
+          </h2>
+          <p class="evidence-intro">
+            {ko
+              ? "제출된 발주기관 물품구매 계약 자료에서 반복적으로 확인된 제작·조달·검사·인도 조건을 수행역량 중심으로 정리했습니다. 민감한 계약 세부정보는 공개하지 않습니다."
+              : "These capabilities summarize recurring fabrication, procurement, inspection, and delivery requirements evidenced by submitted public-client purchase contracts. Sensitive contract details are not disclosed."}
+          </p>
+          <div class="evidence-capability-grid">
+            {evidence.map((item, index) => (
+              <article>
+                <span>0{index + 1}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }<section class="stack-section">
       <h2>{ko ? "함께 연결되는 사업" : "Related disciplines"}</h2><div class="related-business">
         {
           businesses

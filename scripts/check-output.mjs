@@ -20,6 +20,18 @@ const prohibitedPublicClaims = [
   ["22", ".42억"].join(""),
   ["9", ".068억"].join(""),
   ["시공능력", "평가"].join(""),
+  ["계약", "번호"].join(""),
+  ["계약", "금액"].join(""),
+  "P230047010",
+  "U230720010",
+  "U230893010",
+  "U231012010",
+  "U231016010",
+  "U231055010",
+  "U250053010",
+  "U250808010",
+  "U260743010",
+  "W250176010",
 ];
 for (const file of pages) {
   const html = fs.readFileSync(file, "utf8");
@@ -104,6 +116,14 @@ assert(
   homeEn.includes("Manufacturing &amp; Supply"),
   "Manufacturing business missing on English home",
 );
+const manufacturingKo = fs.readFileSync("dist/business/manufacturing/index.html", "utf8");
+for (const capability of [
+  "도면·사양 기반 제작 대응",
+  "전기·시험 품목 공급",
+  "기계·정비 자재 조달",
+  "품질·인도 조건 관리",
+])
+  assert(manufacturingKo.includes(capability), `Manufacturing capability missing: ${capability}`);
 console.log(
   `PASS: ${pages.length} pages, ${links} local links/assets, unique metadata, sitemap and CNAME`,
 );

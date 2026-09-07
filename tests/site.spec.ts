@@ -346,6 +346,11 @@ test("language switch preserves the route and partner section is complete", asyn
     "tabindex",
     "-1",
   );
+  const internationalElectric = organizationList.locator(
+    '.organization-logo-link[data-organization="international-electric"]',
+  );
+  await expect(internationalElectric).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(internationalElectric.locator("img")).not.toHaveCSS("filter", "none");
   for (const [name, website] of [
     ["Korea Hydro & Nuclear Power", "https://www.khnp.co.kr/main/index.do"],
     ["KEPCO KPS", "https://www.kps.co.kr/web/index.do"],
@@ -395,6 +400,14 @@ test("manufacturing scope, factory facts and home field list are complete", asyn
   await expect(page.locator("main")).toContainText("공장등록일 2023.12.21");
   await expect(page.locator("main")).toContainText("공장 부지 1,985㎡");
   await expect(page.locator("main")).toContainText("제조시설 210㎡");
+  await expect(page.locator("main")).toContainText("계약 실적이 증명하는 제조·납품 역량");
+  await expect(page.locator(".evidence-capability-grid article")).toHaveCount(4);
+  await expect(page.locator("main")).toContainText("도면·사양 기반 제작 대응");
+  await expect(page.locator("main")).toContainText("전기·시험 품목 공급");
+  await expect(page.locator("main")).toContainText("기계·정비 자재 조달");
+  await expect(page.locator("main")).toContainText("품질·인도 조건 관리");
+  await expect(page.locator("main")).not.toContainText("계약번호");
+  await expect(page.locator("main")).not.toContainText("계약금액");
   await page.goto("/en/business/manufacturing/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Manufacturing & Supply");
 });

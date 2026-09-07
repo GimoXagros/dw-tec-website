@@ -652,6 +652,39 @@ main:focus {
   border-bottom: 1px solid var(--line);
   padding: 12px 0;
 }
+.evidence-capability-section .evidence-intro {
+  max-width: 880px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.85;
+  margin: -12px 0 34px;
+}
+.evidence-capability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+.evidence-capability-grid article {
+  min-height: 220px;
+  padding: 34px 36px;
+  background: var(--paper);
+}
+.evidence-capability-grid article > span {
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 650;
+}
+.evidence-capability-grid h3 {
+  font-size: 24px;
+  margin: 18px 0 14px;
+}
+.evidence-capability-grid p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
 .portfolio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1030,6 +1063,16 @@ main:focus {
     font-size: 27px;
   }
   .service-box p {
+    font-size: 16px;
+  }
+  .evidence-capability-grid {
+    grid-template-columns: 1fr;
+  }
+  .evidence-capability-grid article {
+    min-height: 0;
+    padding: 28px 26px;
+  }
+  .evidence-capability-section .evidence-intro {
     font-size: 16px;
   }
   .principles {
