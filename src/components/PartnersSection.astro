@@ -42,6 +42,7 @@ const orderedOrganizations = [...organizations].sort(byOrder);
                     href={org.website}
                     target="_blank"
                     rel="noopener noreferrer"
+                    data-organization={org.id}
                     tabindex={isClone ? -1 : undefined}
                     aria-label={
                       isClone
