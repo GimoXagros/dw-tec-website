@@ -118,6 +118,13 @@ assert(
   "Manufacturing business missing on English home",
 );
 const manufacturingKo = fs.readFileSync("dist/business/manufacturing/index.html", "utf8");
+const portfolioKo = fs.readFileSync("dist/portfolio/index.html", "utf8");
+const portfolioEn = fs.readFileSync("dist/en/portfolio/index.html", "utf8");
+assert(portfolioKo.includes("공장 기반 제작·조달·납품"), "Manufacturing portfolio missing");
+assert(
+  portfolioEn.includes("Factory-Based Manufacturing and Supply"),
+  "English manufacturing portfolio missing",
+);
 assert(
   manufacturingKo.includes("공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다."),
   "Refined manufacturing introduction missing",

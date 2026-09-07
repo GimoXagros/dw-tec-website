@@ -409,4 +409,14 @@ export const portfolio = z
       textEn:
         "Fire alarm and protection system work, including detector deployment and panel, repeater, and protective restoration tasks.",
     },
+    {
+      categoryKo: "제조 및 납품",
+      categoryEn: "Manufacturing & Supply",
+      titleKo: "공장 기반 제작·조달·납품",
+      titleEn: "Factory-Based Manufacturing and Supply",
+      textKo:
+        "등록 공장을 기반으로 도면·사양 검토부터 제작품·동등품·기성품 조달, 품질검사와 현장 인도까지 일관된 흐름으로 관리합니다.",
+      textEn:
+        "From its registered factory, DAEWON TECHNOLOGY coordinates drawing and specification review, made-to-order, equivalent and off-the-shelf procurement, quality inspection, and site delivery as one workflow.",
+    },
   ]);
