@@ -7,5 +7,6 @@ local-only/
 !.env.example
 test-results/
 playwright-report/
+tmp/
 *.log
 .DS_Store

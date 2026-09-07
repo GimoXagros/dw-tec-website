@@ -57,12 +57,9 @@ for (const name of [
   "(주)금화피에스시",
   "경상북도교육청",
   "현대건설(주)",
-  "퍼스트키퍼스(주)",
   "옵티멀에너지서비스(주)",
   "(주)이투에스",
-  "(주)대원종합이엔지",
   "(주)국제전기",
-  "유림기술(주)",
   "(주)비케이비전",
   "(주)무지기연",
   "리얼게인",
@@ -76,12 +73,9 @@ for (const name of [
   "Geumhwa PSC",
   "Gyeongsangbuk-do Office of Education",
   "Hyundai Engineering &amp; Construction",
-  "First Keepers",
   "Optimal Energy Service",
   "E2S",
-  "Daewon General ENG",
   "International Electric",
-  "Yurim Technology",
   "BK Vision",
   "Moojin Machinery",
   "Realgain",
@@ -95,17 +89,21 @@ for (const website of [
   "https://www.geumhwa.co.kr/main",
   "https://www.gbe.kr/main/main.do",
   "https://www.hdec.kr/",
-  "https://www.firstkeepers.co.kr/",
   "http://www.oes.kr/",
   "https://e2s.co.kr/",
-  "http://dwf119.co.kr/",
   "https://www.ieckr.com/",
-  "http://www.yurimtech.co.kr/",
   "http://www.bkvision.co.kr/",
   "https://newmoojin.co.kr/",
   "http://www.realgain.co.kr/kor/main/",
 ])
   assert(homeKo.includes(`href="${website}"`), `Official organization link missing: ${website}`);
+for (const removedName of ["퍼스트키퍼스(주)", "(주)대원종합이엔지", "유림기술(주)"])
+  assert(!homeKo.includes(removedName), `Removed organization still present: ${removedName}`);
+assert(homeKo.includes("제조 및 납품"), "Manufacturing business missing on Korean home");
+assert(
+  homeEn.includes("Manufacturing &amp; Supply"),
+  "Manufacturing business missing on English home",
+);
 console.log(
   `PASS: ${pages.length} pages, ${links} local links/assets, unique metadata, sitemap and CNAME`,
 );

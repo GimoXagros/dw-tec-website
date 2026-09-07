@@ -12,6 +12,7 @@ const { locale, business } = Astro.props;
 const ko = locale === "ko";
 const title = ko ? business.titleKo : business.titleEn;
 const summary = ko ? business.summaryKo : business.summaryEn;
+const manufacturing = business.slug === "manufacturing";
 ---
 
 <BaseLayout
@@ -36,7 +37,17 @@ const summary = ko ? business.summaryKo : business.summaryEn;
     </nav><div class="detail-grid">
       <div>
         <div class="prose" data-reveal="up">
-          <h2>{ko ? "현장을 위한 전문 시공" : "Specialized field execution"}</h2><p>
+          <h2>
+            {
+              manufacturing
+                ? ko
+                  ? "등록 공장에서 시작하는 제조"
+                  : "Manufacturing from a registered factory"
+                : ko
+                  ? "현장을 위한 전문 시공"
+                  : "Specialized field execution"
+            }
+          </h2><p>
             {ko ? business.descriptionKo : business.descriptionEn}
           </p>
         </div><section class="stack-section" data-reveal="up">
@@ -45,7 +56,17 @@ const summary = ko ? business.summaryKo : business.summaryEn;
           </ul>
         </section>
       </div><aside class="aside-panel">
-        <h2>{ko ? "작업의 기준" : "Execution controls"}</h2><ul class="clean-list">
+        <h2>
+          {
+            manufacturing
+              ? ko
+                ? "공장등록 및 시설"
+                : "Factory registration & facilities"
+              : ko
+                ? "작업의 기준"
+                : "Execution controls"
+          }
+        </h2><ul class="clean-list">
           {(ko ? business.checksKo : business.checksEn).map((c) => <li>{c}</li>)}
         </ul><p class="note">
           {
