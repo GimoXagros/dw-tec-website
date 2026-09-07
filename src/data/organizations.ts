@@ -105,7 +105,7 @@ export const organizations = organizationsSchema.parse([
     nameKo: "(주)국제전기",
     nameEn: "International Electric",
     website: "https://www.ieckr.com/",
-    logoSrc: "/images/partners/international-electric.png",
+    logoSrc: "/images/partners/international-electric-text-outline.png",
     displayOrder: 10,
   },
   {

@@ -112,6 +112,10 @@ for (const website of [
   assert(homeKo.includes(`href="${website}"`), `Official organization link missing: ${website}`);
 for (const removedName of ["퍼스트키퍼스(주)", "(주)대원종합이엔지", "유림기술(주)"])
   assert(!homeKo.includes(removedName), `Removed organization still present: ${removedName}`);
+assert(
+  homeKo.includes("/images/partners/international-electric-text-outline.png"),
+  "Refined International Electric logo missing",
+);
 assert(homeKo.includes("제조 및 납품"), "Manufacturing business missing on Korean home");
 assert(
   homeEn.includes("Manufacturing &amp; Supply"),
