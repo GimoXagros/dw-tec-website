@@ -350,7 +350,11 @@ test("language switch preserves the route and partner section is complete", asyn
     '.organization-logo-link[data-organization="international-electric"]',
   );
   await expect(internationalElectric).toHaveCSS("background-color", "rgb(255, 255, 255)");
-  await expect(internationalElectric.locator("img")).not.toHaveCSS("filter", "none");
+  await expect(internationalElectric.locator("img")).toHaveAttribute(
+    "src",
+    "/images/partners/international-electric-text-outline.png",
+  );
+  await expect(internationalElectric.locator("img")).toHaveCSS("filter", "none");
   for (const [name, website] of [
     ["Korea Hydro & Nuclear Power", "https://www.khnp.co.kr/main/index.do"],
     ["KEPCO KPS", "https://www.kps.co.kr/web/index.do"],

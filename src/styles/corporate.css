@@ -493,9 +493,6 @@
   height: 74px;
   object-fit: contain;
 }
-.organization-logo-link[data-organization="international-electric"] img {
-  filter: drop-shadow(0 0 1px #111) drop-shadow(0 0 1px #111);
-}
 @keyframes organization-logo-flow {
   to {
     transform: translateX(-50%);
