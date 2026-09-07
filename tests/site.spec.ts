@@ -400,7 +400,10 @@ test("manufacturing scope, factory facts and home field list are complete", asyn
   await expect(page.locator("main")).toContainText("공장등록일 2023.12.21");
   await expect(page.locator("main")).toContainText("공장 부지 1,985㎡");
   await expect(page.locator("main")).toContainText("제조시설 210㎡");
-  await expect(page.locator("main")).toContainText("계약 실적이 증명하는 제조·납품 역량");
+  await expect(page.locator("main")).toContainText(
+    "공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다.",
+  );
+  await expect(page.locator(".evidence-capability-section h2")).toHaveText("제조 및 납품");
   await expect(page.locator(".evidence-capability-grid article")).toHaveCount(4);
   await expect(page.locator("main")).toContainText("도면·사양 기반 제작 대응");
   await expect(page.locator("main")).toContainText("전기·시험 품목 공급");

@@ -196,9 +196,9 @@ export const businesses = z.array(businessSchema).parse([
     titleKo: "제조 및 납품",
     titleEn: "Manufacturing & Supply",
     shortEn: "MANUFACTURING",
-    summaryKo: "등록 공장 기반의 제작·검사·납품 흐름을 일관되게 관리합니다.",
+    summaryKo: "공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다.",
     summaryEn:
-      "Our registered factory supports a controlled workflow from fabrication and inspection to delivery.",
+      "We consistently manage a factory-based workflow spanning fabrication, procurement, inspection, and delivery.",
     descriptionKo:
       "대원기술은 경상북도 울진군 북면 남산길 64 소재 자가 공장을 2023년 12월 21일 등록했습니다. 공장등록증상 기타 구조용 금속제품 제조업 외 28종의 등록 범위 안에서 금속 구조물과 설비 구성품의 가공·조립·검사·납품을 지원합니다.",
     descriptionEn:
