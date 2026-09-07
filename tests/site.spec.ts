@@ -403,12 +403,12 @@ test("manufacturing scope, factory facts and home field list are complete", asyn
   await expect(page.locator("main")).toContainText(
     "공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다.",
   );
-  await expect(page.locator(".evidence-capability-section h2")).toHaveText("제조 및 납품");
-  await expect(page.locator(".evidence-capability-grid article")).toHaveCount(4);
-  await expect(page.locator("main")).toContainText("도면·사양 기반 제작 대응");
-  await expect(page.locator("main")).toContainText("전기·시험 품목 공급");
-  await expect(page.locator("main")).toContainText("기계·정비 자재 조달");
-  await expect(page.locator("main")).toContainText("품질·인도 조건 관리");
+  await expect(page.locator(".evidence-capability-section")).toHaveCount(0);
+  await expect(page.locator("main")).toContainText("공장 기반 제조·납품 수행체계");
+  await expect(page.locator("main")).toContainText("도면·사양 기반 기계·배관");
+  await expect(page.locator("main")).toContainText("전기·시험 품목의 요구 성능");
+  await expect(page.locator("main")).toContainText("기계·정비 자재의 제작품·동등품·기성품 공급");
+  await expect(page.locator("main")).toContainText("가공·조립·검사·현장 인도");
   await expect(page.locator("main")).not.toContainText("계약번호");
   await expect(page.locator("main")).not.toContainText("계약금액");
   await page.goto("/en/business/manufacturing/");

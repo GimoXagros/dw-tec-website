@@ -123,10 +123,10 @@ assert(
   "Refined manufacturing introduction missing",
 );
 for (const capability of [
-  "도면·사양 기반 제작 대응",
-  "전기·시험 품목 공급",
-  "기계·정비 자재 조달",
-  "품질·인도 조건 관리",
+  "도면·사양 기반 기계·배관",
+  "전기·시험 품목의 요구 성능",
+  "기계·정비 자재의 제작품·동등품·기성품 공급",
+  "가공·조립·검사·현장 인도",
 ])
   assert(manufacturingKo.includes(capability), `Manufacturing capability missing: ${capability}`);
 console.log(
