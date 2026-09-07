@@ -42,8 +42,6 @@ const businessSchema = z.object({
   servicesEn: z.array(z.string()).min(1),
   checksKo: z.array(z.string()),
   checksEn: z.array(z.string()),
-  evidenceKo: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).default([]),
-  evidenceEn: z.array(z.object({ title: z.string().min(1), text: z.string().min(1) })).default([]),
 });
 
 export const businesses = z.array(businessSchema).parse([
@@ -200,20 +198,20 @@ export const businesses = z.array(businessSchema).parse([
     summaryEn:
       "We consistently manage a factory-based workflow spanning fabrication, procurement, inspection, and delivery.",
     descriptionKo:
-      "대원기술은 경상북도 울진군 북면 남산길 64 소재 자가 공장을 2023년 12월 21일 등록했습니다. 공장등록증상 기타 구조용 금속제품 제조업 외 28종의 등록 범위 안에서 금속 구조물과 설비 구성품의 가공·조립·검사·납품을 지원합니다.",
+      "공장 기반의 제작·조달·검사·납품 흐름을 일관되게 관리합니다. 대원기술은 경상북도 울진군 북면 남산길 64 소재 자가 공장을 2023년 12월 21일 등록했으며, 공장등록증상 기타 구조용 금속제품 제조업 외 28종의 등록 범위 안에서 도면·사양 검토, 제작품·동등품·기성품 조달, 품질검사와 현장 인도 조건을 연결해 수행합니다.",
     descriptionEn:
-      "DAEWON TECHNOLOGY registered its owner-occupied factory at 64 Namsan-gil, Buk-myeon, Uljin-gun on December 21, 2023. Within the registered scope of other structural metal product manufacturing and 28 additional business categories, the facility supports fabrication, assembly, inspection, and delivery of metal structures and equipment components.",
+      "We consistently manage a factory-based workflow spanning fabrication, procurement, inspection, and delivery. DAEWON TECHNOLOGY registered its owner-occupied factory at 64 Namsan-gil, Buk-myeon, Uljin-gun on December 21, 2023. Within the registered scope of other structural metal product manufacturing and 28 additional categories, we connect drawing and specification review with made-to-order, equivalent, and off-the-shelf procurement, quality inspection, and site delivery controls.",
     servicesKo: [
-      "등록 업종 범위 내 금속 구조물·설비 구성품 제작",
-      "제작 전 도면·사양·치수 검토",
-      "가공·조립·검사 및 출하 관리",
-      "현장 설치 공종과 연계한 납품 지원",
+      "도면·사양 기반 기계·배관 및 금속 구조물·설비 구성품 제작",
+      "전기·시험 품목의 요구 성능 및 동등성 검토·조달",
+      "기계·정비 자재의 제작품·동등품·기성품 공급",
+      "가공·조립·검사·현장 인도 및 하자보증 조건 관리",
     ],
     servicesEn: [
-      "Fabrication of metal structures and equipment components within the registered scope",
-      "Pre-fabrication review of drawings, specifications, and dimensions",
-      "Processing, assembly, inspection, and shipment control",
-      "Delivery support coordinated with field installation disciplines",
+      "Drawing- and specification-based fabrication of mechanical, piping, metal structure, and equipment components",
+      "Performance and equivalency review and procurement for electrical and test items",
+      "Supply of made-to-order, equivalent, and off-the-shelf mechanical and maintenance materials",
+      "Processing, assembly, inspection, site delivery, and warranty-condition control",
     ],
     checksKo: [
       "공장등록일 2023.12.21 · 자가 공장",
@@ -224,42 +222,6 @@ export const businesses = z.array(businessSchema).parse([
       "Factory registered on 2023-12-21 · owner-occupied facility",
       "Site 1,985㎡ · manufacturing area 210㎡ · auxiliary facilities 582.5㎡",
       "Registered scope: other structural metal products and 28 additional categories",
-    ],
-    evidenceKo: [
-      {
-        title: "도면·사양 기반 제작 대응",
-        text: "신축이음관·파이프 스풀·설비 보호 커버 등 도면과 사양이 지정된 품목의 제작 조건을 검토하고 공정을 계획합니다.",
-      },
-      {
-        title: "전기·시험 품목 공급",
-        text: "계전기 시험장비·부하저항기 등 전기·시험 품목의 요구 성능과 동등성 조건을 확인해 조달·납품합니다.",
-      },
-      {
-        title: "기계·정비 자재 조달",
-        text: "베어링 관련 표준시편·동력전달 체인·윤활 자재 등 정비 품목의 제작품·동등품·기성품 조건에 대응합니다.",
-      },
-      {
-        title: "품질·인도 조건 관리",
-        text: "품질등급, 구매시방서, 현장 인도, 인수검사와 하자보증 조건을 제작·조달 일정과 연계해 관리합니다.",
-      },
-    ],
-    evidenceEn: [
-      {
-        title: "Drawing- and specification-based fabrication",
-        text: "We review fabrication requirements and plan the workflow for specified items such as expansion joints, pipe spools, and equipment protection covers.",
-      },
-      {
-        title: "Electrical and test equipment supply",
-        text: "We verify performance and equivalency requirements for electrical and test items, including relay test equipment and load resistors, before procurement and delivery.",
-      },
-      {
-        title: "Mechanical and maintenance materials",
-        text: "We respond to made-to-order, equivalent, and off-the-shelf conditions for maintenance items such as bearing-related reference specimens, power-transmission chains, and lubricants.",
-      },
-      {
-        title: "Quality and delivery controls",
-        text: "Quality grades, purchase specifications, site delivery, acceptance inspection, and warranty conditions are coordinated with fabrication and procurement schedules.",
-      },
     ],
   },
 ]);
