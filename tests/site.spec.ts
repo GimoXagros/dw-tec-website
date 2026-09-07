@@ -11,6 +11,7 @@ const routes = [
   "/business/mechanical/",
   "/business/scaffolding/",
   "/business/fire-protection/",
+  "/business/manufacturing/",
   "/portfolio/",
   "/contact/",
   "/privacy/",
@@ -23,6 +24,7 @@ const routes = [
   "/en/business/mechanical/",
   "/en/business/scaffolding/",
   "/en/business/fire-protection/",
+  "/en/business/manufacturing/",
   "/en/portfolio/",
   "/en/contact/",
   "/en/privacy/",
@@ -271,6 +273,8 @@ test("unknown page and sitemap", async ({ page, request }) => {
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain("https://dw-tec.co.kr/business/fire-protection/");
   expect(await sitemap.text()).toContain("https://dw-tec.co.kr/en/business/fire-protection/");
+  expect(await sitemap.text()).toContain("https://dw-tec.co.kr/business/manufacturing/");
+  expect(await sitemap.text()).toContain("https://dw-tec.co.kr/en/business/manufacturing/");
   expect(await (await request.get("/robots.txt")).text()).toContain(
     "https://dw-tec.co.kr/sitemap-index.xml",
   );
@@ -305,7 +309,7 @@ test("language switch preserves the route and partner section is complete", asyn
   const partners = page.locator(".partners-section");
   const organizationList = partners.locator(".organization-logo-list:not(.is-clone)");
   const organizationLinks = organizationList.locator(".organization-logo-link");
-  await expect(organizationLinks).toHaveCount(16);
+  await expect(organizationLinks).toHaveCount(13);
   await expect
     .poll(() =>
       partners
@@ -350,12 +354,9 @@ test("language switch preserves the route and partner section is complete", asyn
     ["Geumhwa PSC", "https://www.geumhwa.co.kr/main"],
     ["Gyeongsangbuk-do Office of Education", "https://www.gbe.kr/main/main.do"],
     ["Hyundai Engineering & Construction", "https://www.hdec.kr/"],
-    ["First Keepers", "https://www.firstkeepers.co.kr/"],
     ["Optimal Energy Service", "http://www.oes.kr/"],
     ["E2S", "https://e2s.co.kr/"],
-    ["Daewon General ENG", "http://dwf119.co.kr/"],
     ["International Electric", "https://www.ieckr.com/"],
-    ["Yurim Technology", "http://www.yurimtech.co.kr/"],
     ["BK Vision", "http://www.bkvision.co.kr/"],
     ["Moojin Machinery", "https://newmoojin.co.kr/"],
     ["Realgain", "http://www.realgain.co.kr/kor/main/"],
@@ -374,4 +375,26 @@ test("language switch preserves the route and partner section is complete", asyn
     "href",
     "https://dw-tec.co.kr/en/",
   );
+});
+
+test("manufacturing scope, factory facts and home field list are complete", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".performance-lines > a")).toHaveCount(5);
+  await expect(
+    page.locator('.performance-lines a[href="/business/fire-protection/"]'),
+  ).toContainText("전문소방시설공사");
+  await expect(page.locator('.performance-lines a[href="/business/manufacturing/"]')).toContainText(
+    "제조 및 납품",
+  );
+  await expect(page.locator(".intro-photo img")).toHaveAttribute(
+    "src",
+    "/images/company-exterior.webp",
+  );
+  await page.goto("/business/manufacturing/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("제조 및 납품");
+  await expect(page.locator("main")).toContainText("공장등록일 2023.12.21");
+  await expect(page.locator("main")).toContainText("공장 부지 1,985㎡");
+  await expect(page.locator("main")).toContainText("제조시설 210㎡");
+  await page.goto("/en/business/manufacturing/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Manufacturing & Supply");
 });

@@ -20,7 +20,7 @@ export const company = companySchema.parse({
   brand: "DW-TEC",
   representative: "김동현",
   founded: "2022-06-20",
-  updated: "2026-09-02",
+  updated: "2026-09-07",
   address: "경상북도 울진군 북면 남산길 64, 2층",
   phone: "054-783-9170",
   fax: "054-783-9171",
@@ -186,6 +186,42 @@ export const businesses = z.array(businessSchema).parse([
       "Review of existing fire-system conditions",
       "Verification of installation, wiring, and operation",
       "Change-log and inspection-restoration records",
+    ],
+  },
+  {
+    slug: "manufacturing",
+    number: "05",
+    titleKo: "제조 및 납품",
+    titleEn: "Manufacturing & Supply",
+    shortEn: "MANUFACTURING",
+    summaryKo: "등록 공장 기반의 제작·검사·납품 흐름을 일관되게 관리합니다.",
+    summaryEn:
+      "Our registered factory supports a controlled workflow from fabrication and inspection to delivery.",
+    descriptionKo:
+      "대원기술은 경상북도 울진군 북면 남산길 64 소재 자가 공장을 2023년 12월 21일 등록했습니다. 공장등록증상 기타 구조용 금속제품 제조업 외 28종의 등록 범위 안에서 금속 구조물과 설비 구성품의 가공·조립·검사·납품을 지원합니다.",
+    descriptionEn:
+      "DAEWON TECHNOLOGY registered its owner-occupied factory at 64 Namsan-gil, Buk-myeon, Uljin-gun on December 21, 2023. Within the registered scope of other structural metal product manufacturing and 28 additional business categories, the facility supports fabrication, assembly, inspection, and delivery of metal structures and equipment components.",
+    servicesKo: [
+      "등록 업종 범위 내 금속 구조물·설비 구성품 제작",
+      "제작 전 도면·사양·치수 검토",
+      "가공·조립·검사 및 출하 관리",
+      "현장 설치 공종과 연계한 납품 지원",
+    ],
+    servicesEn: [
+      "Fabrication of metal structures and equipment components within the registered scope",
+      "Pre-fabrication review of drawings, specifications, and dimensions",
+      "Processing, assembly, inspection, and shipment control",
+      "Delivery support coordinated with field installation disciplines",
+    ],
+    checksKo: [
+      "공장등록일 2023.12.21 · 자가 공장",
+      "공장 부지 1,985㎡ · 제조시설 210㎡ · 부대시설 582.5㎡",
+      "등록 업종: 기타 구조용 금속제품 제조업 외 28종",
+    ],
+    checksEn: [
+      "Factory registered on 2023-12-21 · owner-occupied facility",
+      "Site 1,985㎡ · manufacturing area 210㎡ · auxiliary facilities 582.5㎡",
+      "Registered scope: other structural metal products and 28 additional categories",
     ],
   },
 ]);

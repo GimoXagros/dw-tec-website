@@ -85,20 +85,12 @@ export const organizations = organizationsSchema.parse([
     displayOrder: 7,
   },
   {
-    id: "firstkeepers",
-    nameKo: "퍼스트키퍼스(주)",
-    nameEn: "First Keepers",
-    website: "https://www.firstkeepers.co.kr/",
-    logoSrc: "/images/partners/firstkeepers.png",
-    displayOrder: 8,
-  },
-  {
     id: "oes",
     nameKo: "옵티멀에너지서비스(주)",
     nameEn: "Optimal Energy Service",
     website: "http://www.oes.kr/",
     logoSrc: "/images/partners/oes.png",
-    displayOrder: 9,
+    displayOrder: 8,
   },
   {
     id: "e2s",
@@ -106,16 +98,7 @@ export const organizations = organizationsSchema.parse([
     nameEn: "E2S",
     website: "https://e2s.co.kr/",
     logoSrc: "/images/partners/e2s.png",
-    displayOrder: 10,
-  },
-  {
-    id: "daewon-general-eng",
-    nameKo: "(주)대원종합이엔지",
-    nameEn: "Daewon General ENG",
-    website: "http://dwf119.co.kr/",
-    logoSrc: "/images/partners/daewon-eng.png",
-    logoTheme: "dark",
-    displayOrder: 11,
+    displayOrder: 9,
   },
   {
     id: "international-electric",
@@ -124,15 +107,7 @@ export const organizations = organizationsSchema.parse([
     website: "https://www.ieckr.com/",
     logoSrc: "/images/partners/international-electric.png",
     logoTheme: "dark",
-    displayOrder: 12,
-  },
-  {
-    id: "yurim-technology",
-    nameKo: "유림기술(주)",
-    nameEn: "Yurim Technology",
-    website: "http://www.yurimtech.co.kr/",
-    logoSrc: "/images/partners/yurim-technology.jpg",
-    displayOrder: 13,
+    displayOrder: 10,
   },
   {
     id: "bk-vision",
@@ -140,7 +115,7 @@ export const organizations = organizationsSchema.parse([
     nameEn: "BK Vision",
     website: "http://www.bkvision.co.kr/",
     logoSrc: "/images/partners/bk-vision.png",
-    displayOrder: 14,
+    displayOrder: 11,
   },
   {
     id: "moojin-machinery",
@@ -148,7 +123,7 @@ export const organizations = organizationsSchema.parse([
     nameEn: "Moojin Machinery",
     website: "https://newmoojin.co.kr/",
     logoSrc: "/images/partners/moojin-machinery.png",
-    displayOrder: 15,
+    displayOrder: 12,
   },
   {
     id: "realgain",
@@ -156,6 +131,6 @@ export const organizations = organizationsSchema.parse([
     nameEn: "Realgain",
     website: "http://www.realgain.co.kr/kor/main/",
     logoSrc: "/images/partners/realgain.png",
-    displayOrder: 16,
+    displayOrder: 13,
   },
 ]);

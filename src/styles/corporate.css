@@ -226,7 +226,7 @@
 .intro-photo img {
   width: 100%;
   height: auto;
-  aspect-ratio: 2/1;
+  aspect-ratio: 16/9;
   object-fit: cover;
 }
 .intro-photo figcaption {
@@ -260,6 +260,9 @@
   display: flex;
   flex-direction: column;
   transition: background var(--duration-fast);
+}
+.business-feature:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 .business-feature:is(:hover, :focus-within) {
   background: #eaf3f8;
@@ -391,7 +394,7 @@
   align-items: center;
   gap: 20px;
   border-top: 1px solid #ffffff35;
-  padding: 32px 0;
+  padding: 25px 0;
   transition: background var(--duration-fast);
 }
 .performance-lines > a:last-child {
@@ -405,8 +408,8 @@
   color: #8cdefa;
 }
 .performance-lines h3 {
-  font-size: 27px;
-  margin-bottom: 12px;
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 .performance-lines p {
   font-size: 14px;
@@ -549,6 +552,9 @@
   }
   .business-shortcut-grid > a:nth-child(2) {
     border-right: 1px solid #ffffff24;
+  }
+  .business-shortcut-grid > a:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
   .business-shortcut-grid strong {
     font-size: 20px;
@@ -699,6 +705,9 @@
   }
   .business-feature-grid {
     grid-template-columns: 1fr;
+  }
+  .business-feature:last-child:nth-child(odd) {
+    grid-column: auto;
   }
   .business-feature {
     padding: 28px 24px 0;

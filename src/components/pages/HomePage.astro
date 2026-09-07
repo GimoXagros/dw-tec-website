@@ -27,8 +27,8 @@ const localCertifications = capabilities.certifications.map((c) => ({
   locale={locale}
   title={ko ? "발전·산업 플랜트 전문 시공" : "Power & Industrial Plant Construction"}
   description={ko
-    ? "주식회사 대원기술은 전기·기계가스설비·구조물해체비계·전문소방시설공사를 수행하는 발전·산업 플랜트 시공 파트너입니다."
-    : "DAEWON TECHNOLOGY provides electrical, mechanical and gas facilities, structural demolition and scaffolding, and specialized fire protection construction for power and industrial plants."}
+    ? "주식회사 대원기술은 전기·기계가스설비·구조물해체비계·전문소방시설공사와 제조·납품을 수행하는 발전·산업 플랜트 파트너입니다."
+    : "DAEWON TECHNOLOGY provides electrical, mechanical and gas facilities, structural demolition and scaffolding, specialized fire protection construction, manufacturing, and supply for power and industrial plants."}
 >
   <section class="corporate-hero" aria-labelledby="hero-title">
     <img
@@ -50,8 +50,8 @@ const localCertifications = capabilities.certifications.map((c) => ({
       <p class="corporate-hero-copy">
         {
           ko
-            ? "전기·기계·비계·소방의 전문성을 연결해"
-            : "We connect electrical, mechanical, scaffolding, and fire protection expertise"
+            ? "전기·기계·비계·소방·제조 역량을 연결해"
+            : "We connect construction, fire protection, and manufacturing expertise"
         }<br />{
           ko
             ? "안전한 시공과 신뢰할 수 있는 결과를 만듭니다."
@@ -138,8 +138,8 @@ const localCertifications = capabilities.certifications.map((c) => ({
       </p><p>
         {
           ko
-            ? "서로 다른 공종의 작업 조건을 이해하고, 계획부터 시공·검사·인계까지 하나의 흐름으로 관리합니다. 안전을 우선하고 품질을 기록하며 현장의 약속을 지킵니다."
-            : "We understand the interfaces between disciplines and manage planning, construction, inspection, and handover as one workflow. Safety comes first, quality is documented, and field commitments are honored."
+            ? "서로 다른 공종과 제작·납품의 작업 조건을 이해하고, 계획부터 시공·검사·인계까지 하나의 흐름으로 관리합니다. 안전을 우선하고 품질을 기록하며 현장의 약속을 지킵니다."
+            : "We understand the interfaces between field disciplines and manufacturing, managing planning, execution, inspection, and handover as one workflow. Safety comes first, quality is documented, and commitments are honored."
         }
       </p><dl class="corporate-stats">
         <div>
@@ -157,11 +157,10 @@ const localCertifications = capabilities.certifications.map((c) => ({
     </div>
     <figure class="intro-photo" data-reveal="image">
       <img
-        src="/images/headquarters-800.avif"
-        srcset="/images/headquarters-800.avif 800w, /images/headquarters-1600.avif 1600w"
+        src="/images/company-exterior.webp"
         sizes="(max-width: 767px) 90vw, 45vw"
-        width="1600"
-        height="1000"
+        width="1200"
+        height="676"
         alt={ko ? "대원기술 사옥" : "DAEWON TECHNOLOGY headquarters"}
         loading="lazy"
       /><figcaption>
@@ -169,8 +168,8 @@ const localCertifications = capabilities.certifications.map((c) => ({
           ko ? company.address : "Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
         }<br />{
           ko
-            ? "전기·기계·비계·소방 분야의 전문성을 연결합니다."
-            : "Integrated expertise in electrical, mechanical, scaffolding, and fire protection work."
+            ? "전기·기계·비계·소방·제조 분야의 전문성을 연결합니다."
+            : "Integrated expertise in construction, fire protection, and manufacturing."
         }
       </figcaption>
     </figure>
@@ -183,13 +182,13 @@ const localCertifications = capabilities.certifications.map((c) => ({
             {
               ko ? (
                 <>
-                  4개 전문 분야,
+                  5개 수행 분야,
                   <br />
                   하나의 현장 수행체계
                 </>
               ) : (
                 <>
-                  Four disciplines.
+                  Five delivery areas.
                   <br />
                   One field delivery system.
                 </>
@@ -200,13 +199,13 @@ const localCertifications = capabilities.certifications.map((c) => ({
           {
             ko ? (
               <>
-                공종별 전문성을 바탕으로
+                공종별 전문성과 제조 기반을 바탕으로
                 <br />
                 현장의 작업과 품질을 통합 관리합니다.
               </>
             ) : (
               <>
-                Discipline-specific expertise,
+                Trade expertise and factory capability,
                 <br />
                 coordinated for field quality.
               </>
@@ -302,13 +301,13 @@ const localCertifications = capabilities.certifications.map((c) => ({
               <>
                 발전설비에서
                 <br />
-                산업시설까지.
+                산업시설·제조공장까지.
               </>
             ) : (
               <>
                 From power plants
                 <br />
-                to industrial facilities.
+                to industrial facilities and manufacturing.
               </>
             )
           }
@@ -318,11 +317,11 @@ const localCertifications = capabilities.certifications.map((c) => ({
               <>
                 현장 조건에 맞춘 시공과 설비 개선,
                 <br />
-                공종 간 간섭을 고려한 정비 지원을 수행합니다.
+                제작·납품까지 연결된 수행체계를 제공합니다.
               </>
             ) : (
               <>
-                Construction, facility improvement, and maintenance support
+                Construction, facility improvement, manufacturing, and supply
                 <br />
                 coordinated around real field conditions.
               </>
@@ -333,8 +332,8 @@ const localCertifications = capabilities.certifications.map((c) => ({
         >
       </div><div class="performance-lines" data-reveal="up">
         {
-          localBusiness.slice(0, 3).map((b) => (
-            <a href={pathForKey("portfolio", locale)}>
+          localBusiness.map((b) => (
+            <a href={businessDetailPath(locale, b.slug)}>
               <>
                 <span>{b.number}</span>
                 <div>
