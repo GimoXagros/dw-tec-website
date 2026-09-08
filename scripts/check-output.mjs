@@ -76,6 +76,7 @@ for (const name of [
   "(주)비케이비전",
   "(주)무지기연",
   "리얼게인",
+  "(주)우진엔텍",
 ])
   assert(homeKo.includes(name), `Organization name missing on Korean home: ${name}`);
 for (const name of [
@@ -92,6 +93,7 @@ for (const name of [
   "BK Vision",
   "Moojin Machinery",
   "Realgain",
+  "Woojin NTEC",
 ])
   assert(homeEn.includes(name), `Organization name missing on English home: ${name}`);
 for (const website of [
@@ -108,12 +110,13 @@ for (const website of [
   "http://www.bkvision.co.kr/",
   "https://newmoojin.co.kr/",
   "http://www.realgain.co.kr/kor/main/",
+  "https://woojinntec.com/",
 ])
   assert(homeKo.includes(`href="${website}"`), `Official organization link missing: ${website}`);
 for (const removedName of ["퍼스트키퍼스(주)", "(주)대원종합이엔지", "유림기술(주)"])
   assert(!homeKo.includes(removedName), `Removed organization still present: ${removedName}`);
 assert(
-  homeKo.includes("/images/partners/international-electric-text-outline.png"),
+  homeKo.includes("/images/partners/international-electric-black.png"),
   "Refined International Electric logo missing",
 );
 assert(homeKo.includes("제조 및 납품"), "Manufacturing business missing on Korean home");

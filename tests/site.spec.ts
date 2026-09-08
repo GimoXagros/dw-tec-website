@@ -309,7 +309,7 @@ test("language switch preserves the route and partner section is complete", asyn
   const partners = page.locator(".partners-section");
   const organizationList = partners.locator(".organization-logo-list:not(.is-clone)");
   const organizationLinks = organizationList.locator(".organization-logo-link");
-  await expect(organizationLinks).toHaveCount(13);
+  await expect(organizationLinks).toHaveCount(14);
   await expect
     .poll(() =>
       partners
@@ -352,7 +352,7 @@ test("language switch preserves the route and partner section is complete", asyn
   await expect(internationalElectric).toHaveCSS("background-color", "rgb(255, 255, 255)");
   await expect(internationalElectric.locator("img")).toHaveAttribute(
     "src",
-    "/images/partners/international-electric-text-outline.png",
+    "/images/partners/international-electric-black.png",
   );
   await expect(internationalElectric.locator("img")).toHaveCSS("filter", "none");
   for (const [name, website] of [
@@ -369,6 +369,7 @@ test("language switch preserves the route and partner section is complete", asyn
     ["BK Vision", "http://www.bkvision.co.kr/"],
     ["Moojin Machinery", "https://newmoojin.co.kr/"],
     ["Realgain", "http://www.realgain.co.kr/kor/main/"],
+    ["Woojin NTEC", "https://woojinntec.com/"],
   ]) {
     const link = organizationList.locator(`a[href="${website}"]`);
     await expect(link).toHaveCount(1);
