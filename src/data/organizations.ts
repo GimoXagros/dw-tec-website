@@ -105,7 +105,7 @@ export const organizations = organizationsSchema.parse([
     nameKo: "(주)국제전기",
     nameEn: "International Electric",
     website: "https://www.ieckr.com/",
-    logoSrc: "/images/partners/international-electric-text-outline.png",
+    logoSrc: "/images/partners/international-electric-black.png",
     displayOrder: 10,
   },
   {
@@ -131,5 +131,13 @@ export const organizations = organizationsSchema.parse([
     website: "http://www.realgain.co.kr/kor/main/",
     logoSrc: "/images/partners/realgain.png",
     displayOrder: 13,
+  },
+  {
+    id: "woojin-ntec",
+    nameKo: "(주)우진엔텍",
+    nameEn: "Woojin NTEC",
+    website: "https://woojinntec.com/",
+    logoSrc: "/images/partners/woojin-ntec.png",
+    displayOrder: 14,
   },
 ]);
