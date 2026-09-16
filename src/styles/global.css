@@ -652,6 +652,187 @@ main:focus {
   border-bottom: 1px solid var(--line);
   padding: 12px 0;
 }
+.project-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 2px solid var(--navy);
+  border-bottom: 1px solid var(--line);
+}
+.project-tabs a {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 12px;
+  font-size: 16px;
+  font-weight: 650;
+  border-right: 1px solid var(--line);
+}
+.project-tabs a:last-child {
+  border-right: 0;
+}
+.project-tabs a span {
+  font-size: 12px;
+  font-weight: 500;
+}
+.project-tabs a:hover {
+  background: var(--paper);
+}
+.project-tabs a[aria-selected="true"] {
+  color: var(--white);
+  background: var(--navy);
+}
+.project-tabs a:focus-visible {
+  outline-offset: -4px;
+}
+.project-source-note {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 20px 0 38px;
+}
+.project-panel[hidden] {
+  display: none;
+}
+.portfolio-item.project-panel {
+  border-top: 0;
+  padding: 0 0 48px;
+}
+.project-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.project-panel-heading h2 {
+  margin: 8px 0 0;
+}
+.portfolio-item .project-panel-heading .project-record-count {
+  color: var(--navy);
+  font-size: 36px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.project-record-count span {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 8px;
+}
+.project-summary {
+  margin: 20px 0;
+  max-width: 1000px;
+  color: var(--muted);
+}
+.project-basis {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 20px 0 12px;
+}
+.project-caution {
+  padding: 20px 24px;
+  border-left: 3px solid var(--blue);
+  background: var(--paper);
+  font-size: 15px;
+}
+.project-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.project-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 800px;
+  text-align: left;
+  font-size: 16px;
+}
+.project-units {
+  text-align: right;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 8px 0 12px;
+}
+.project-scroll-hint {
+  display: none;
+}
+.project-table th,
+.project-table td {
+  padding: 20px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.project-table thead th {
+  background: var(--paper);
+  border-top: 2px solid var(--navy);
+  color: var(--navy);
+  font-size: 14px;
+}
+.project-table tbody th {
+  font-weight: 550;
+  width: 36%;
+}
+.project-table tbody tr:hover {
+  background: #f8fafb;
+}
+.project-table .project-period {
+  font-size: 14px;
+  white-space: nowrap;
+}
+.project-period small {
+  display: block;
+  white-space: normal;
+  color: var(--muted);
+}
+.project-table .project-amount {
+  text-align: right;
+  font-weight: 650;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+.project-table thead th:last-child {
+  text-align: right;
+}
+.project-panel > .note {
+  margin-top: 18px;
+  font-size: 13px;
+}
+@media (max-width: 900px) {
+  .project-tabs {
+    display: flex;
+    overflow-x: auto;
+  }
+  .project-tabs a {
+    flex: 0 0 auto;
+    min-width: 156px;
+    padding: 18px;
+  }
+  .project-panel-heading {
+    align-items: flex-end;
+  }
+  .project-panel-heading h2 {
+    font-size: 26px;
+  }
+  .portfolio-item .project-panel-heading .project-record-count {
+    font-size: 28px;
+  }
+  .project-record-count span {
+    display: block;
+    margin: 0;
+    font-size: 12px;
+  }
+  .project-table th,
+  .project-table td {
+    padding: 16px 12px;
+  }
+  .project-units {
+    text-align: left;
+  }
+  .project-scroll-hint {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+}
 .portfolio-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

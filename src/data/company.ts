@@ -20,7 +20,7 @@ export const company = companySchema.parse({
   brand: "DW-TEC",
   representative: "김동현",
   founded: "2022-06-20",
-  updated: "2026-09-07",
+  updated: "2026-09-16",
   address: "경상북도 울진군 북면 남산길 64, 2층",
   phone: "054-783-9170",
   fax: "054-783-9171",
@@ -405,9 +405,9 @@ export const portfolio = z
       titleKo: "화재감지·방호 설비 작업",
       titleEn: "Fire Detection and Protection Works",
       textKo:
-        "자동화재탐지설비, 감지기 설치, 수신반·중계기 교체와 화재방호재 복원 관련 수행기록을 보유하고 있습니다.",
+        "전문소방시설공사업 등록을 기반으로 수행 범위를 확장하고 있습니다. 아래에서는 등록 전 화재방호재 복원 관련 수행 내역을 별도로 구분해 소개합니다.",
       textEn:
-        "Fire alarm and protection system work, including detector deployment and panel, repeater, and protective restoration tasks.",
+        "We are expanding our scope following specialized fire construction registration. The records below separately identify fire-protection restoration work carried out before registration.",
     },
     {
       categoryKo: "제조 및 납품",

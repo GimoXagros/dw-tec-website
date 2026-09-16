@@ -1,8 +1,8 @@
 ---
-import TechnicalMark from "../TechnicalMark.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageIntro from "../PageIntro.astro";
 import { portfolio, businesses } from "../../data/company";
+import { projectRecords, type ProjectField } from "../../data/project-records";
 import { pathForKey } from "../../i18n/routes";
 import type { Locale } from "../../i18n/types";
 interface Props {
@@ -10,58 +10,192 @@ interface Props {
 }
 const { locale } = Astro.props;
 const ko = locale === "ko";
+const tabNames = ko
+  ? ["전기공사", "기계가스설비공사", "구조물해체·비계공사", "소방 관련 수행", "제조 및 납품"]
+  : ["Electrical", "Mechanical", "Scaffolding", "Fire-related work", "Manufacturing & Supply"];
 ---
 
 <BaseLayout
   locale={locale}
   title={ko ? "수행실적" : "Project Experience"}
   description={ko
-    ? "발전설비 전기·계측, 기계설비·배관, 비계 정비 지원, 화재감지·방호 설비, 제조 및 납품 분야의 수행 경험을 소개합니다."
-    : "Experience in electrical and instrumentation, mechanical and piping, scaffolding support, fire detection and protection work, manufacturing, and supply."}
+    ? "전기·기계·비계·소방 관련 수행 및 제조·납품 내역을 분야별로 소개합니다. 신고 실적과 계약 기준을 구분하고 금액은 백만원 단위로 표시합니다."
+    : "Project records across five business areas, with reported work and supply contracts distinguished and amounts rounded up to KRW millions."}
 >
   <PageIntro
     locale={locale}
     title={ko ? "수행실적" : "Project Experience"}
     eyebrow="FIELD EXPERIENCE"
     description={ko
-      ? "현장의 안전과 품질을 지키며 시공부터 제조·납품까지 다양한 분야의 수행 경험을 축적하고 있습니다."
-      : "Building experience across construction, manufacturing, and supply with safety and quality at the center."}
+      ? "시공·정비부터 제조·납품까지, 분야별 주요 수행 내역을 확인하실 수 있습니다."
+      : "Explore our records across construction, maintenance, manufacturing, and supply."}
   />
   <div class="container page-content">
-    <div class="portfolio-grid">
-      {
-        portfolio.map((p, i) => (
-          <article class="portfolio-item" data-reveal="up">
-            <>
-              <TechnicalMark kind={businesses[i].slug} />
-              <p class="eyebrow">
-                {ko ? p.categoryKo : p.categoryEn} · {ko ? "수행 분야" : "Field"}
-              </p>
-              <h2>{ko ? p.titleKo : p.titleEn}</h2>
-              <p>{ko ? p.textKo : p.textEn}</p>
-            </>
-          </article>
-        ))
-      }
-    </div><section class="stack-section aside-panel">
-      <h2>
-        {ko ? "프로젝트별 실적 자료가 필요하신가요?" : "Need project-specific experience records?"}
-      </h2><p>
+    <section
+      class="project-records"
+      aria-label={ko ? "분야별 수행실적" : "Project records by field"}
+    >
+      <div class="project-tabs" aria-label={ko ? "수행 분야 선택" : "Select a field"}>
+        {
+          businesses.map((b, i) => (
+            <a id={`tab-${b.slug}`} href={`#records-${b.slug}`}>
+              <span>{b.number}</span>
+              {tabNames[i]}
+            </a>
+          ))
+        }
+      </div>
+      <p class="project-source-note">
         {
           ko
-            ? "현장과 발주처의 보안 기준을 고려해 웹사이트에는 수행유형 중심으로 소개합니다. 입찰·협력업체 등록 등 업무 목적에 맞는 상세 실적과 증빙은 별도로 안내해 드립니다."
-            : "To respect site and client security requirements, this website presents work by category. Detailed records and supporting documents can be provided for legitimate tendering and vendor-registration purposes."
+            ? "2026.09.16 자료 검토 기준 · 공사: 2025년 신고자료 29개 내역 / 제조·납품: 2023–2026년 계약자료 10개 내역. 확인 가능한 자료를 선별한 목록이며 전체 누적 실적은 아닙니다."
+            : "Reviewed September 16, 2026 · 29 entries from 2025 construction reporting and 10 manufacturing/supply contracts from 2023–2026. This is a source-verified selection, not an all-time total."
         }
-      </p><a class="text-link" href={pathForKey("contact", locale)}
-        >{ko ? "실적 자료 문의" : "Request experience information"}
-        <span aria-hidden="true">→</span></a
-      >
-    </section><p class="note">
+      </p>
       {
-        ko
-          ? "소방 관련 항목에는 전문소방시설공사업 등록 이전의 전기공사·협력 수행기록이 포함됩니다. 해당 기록을 모두 소방공사업 면허 실적으로 표현하지 않습니다."
-          : "Some fire-related records predate the specialized fire-facility registration and include electrical or collaborative work. They are not all represented as licensed fire-construction experience."
+        businesses.map((b, i) => {
+          const records = projectRecords[b.slug as ProjectField];
+          const manufacturing = b.slug === "manufacturing";
+          const fire = b.slug === "fire-protection";
+          return (
+            <section
+              class="portfolio-item project-panel"
+              id={`records-${b.slug}`}
+              aria-labelledby={`heading-${b.slug}`}
+            >
+              <div class="project-panel-heading">
+                <div>
+                  <>
+                    <p class="eyebrow">{b.shortEn}</p>
+                    <h2 id={`heading-${b.slug}`}>{tabNames[i]}</h2>
+                  </>
+                </div>
+                <p class="project-record-count">
+                  {records.length}
+                  <span>{ko ? "개 내역" : "entries"}</span>
+                </p>
+              </div>
+              <p class="project-summary">
+                {ko ? portfolio[i].titleKo : portfolio[i].titleEn} ·{" "}
+                {ko ? portfolio[i].textKo : portfolio[i].textEn}
+              </p>
+              {fire && (
+                <p class="project-caution">
+                  {ko
+                    ? "전문소방시설공사업 등록일은 2026.08.26입니다. 아래는 등록 전 전기공사로 신고된 화재방호재 복원 내역이며, 면허 취득 후의 소방공사 실적이 아닙니다. 전기공사 탭과 중복 게시하지 않았습니다."
+                    : "Specialized fire construction registration dates from August 26, 2026. The entry below was reported as electrical work before registration, not as post-registration licensed fire construction. It is not repeated in the Electrical tab."}
+                </p>
+              )}
+              <p class="project-basis">
+                {manufacturing
+                  ? ko
+                    ? "계약 기준 · 기간은 계약일–납품기한입니다. 계약자료만으로 납품 완료를 확정하지 않습니다."
+                    : "Contract basis · Periods run from contract date to delivery deadline. Contracts alone do not establish completed delivery."
+                  : ko
+                    ? "2025년 신고 실적 기준 · 금액은 해당 연도 신고분이며 총 계약대금이나 최종 준공금액과 다를 수 있습니다. 기간은 신고자료에 기재된 공사기간입니다."
+                    : "2025 reported work · Amounts cover that reporting year, not necessarily total contract or final completion values. Periods follow the reporting worksheet."}
+              </p>
+              <p class="project-units">
+                {ko
+                  ? "금액 단위: 백만원 · 백만원 미만 올림"
+                  : "Amounts: KRW million · rounded up to whole millions"}
+                {manufacturing ? (ko ? " · 부가세 포함" : " · VAT included") : ""}
+              </p>
+              <p class="project-scroll-hint">
+                {ko
+                  ? "표를 좌우로 밀면 기간과 금액을 확인할 수 있습니다. →"
+                  : "Scroll the table horizontally to see periods and amounts. →"}
+              </p>
+              <div
+                class="project-table-wrap"
+                tabindex="0"
+                role="region"
+                aria-label={`${tabNames[i]} ${ko ? "상세내역 표, 작은 화면에서 좌우 스크롤" : "records table; scroll horizontally on smaller screens"}`}
+              >
+                <table class="project-table">
+                  <caption class="sr-only">
+                    {ko
+                      ? "금액 단위: 백만원 · 백만원 미만 올림"
+                      : "Amounts: KRW million · rounded up to whole millions"}
+                    {manufacturing ? (ko ? " · 부가세 포함" : " · VAT included") : ""}
+                  </caption>
+                  <thead>
+                    <tr>
+                      <>
+                        <th scope="col">{ko ? "수행 내역" : "Scope of work"}</th>
+                        <th scope="col">{ko ? "발주·계약 상대" : "Client / counterparty"}</th>
+                        <th scope="col">
+                          {manufacturing
+                            ? ko
+                              ? "계약일–납품기한"
+                              : "Contract–delivery deadline"
+                            : ko
+                              ? "공사기간"
+                              : "Reported work period"}
+                        </th>
+                        <th scope="col">
+                          {manufacturing
+                            ? ko
+                              ? "계약 기준 금액"
+                              : "Contract value"
+                            : ko
+                              ? "2025 신고금액"
+                              : "2025 reported value"}
+                        </th>
+                      </>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {records.map((record) => (
+                      <tr>
+                        <th scope="row">{ko ? record.titleKo : record.titleEn}</th>
+                        <td>{ko ? record.clientKo : record.clientEn}</td>
+                        <td class="project-period">
+                          {record.period}
+                          {record.period === "2025" && (
+                            <small>
+                              {ko
+                                ? "신고연도만 표기 · 기간 재확인 대상"
+                                : "Reporting year only; dates require verification"}
+                            </small>
+                          )}
+                        </td>
+                        <td class="project-amount">
+                          {record.million.toLocaleString(ko ? "ko-KR" : "en-US")}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p class="note">
+                {ko
+                  ? "원자료 기재금액을 건별로 올림했습니다(예: 75,900,000원 → 76백만원). 공사명은 시설 보안을 고려해 수행 범위 중심으로 정리했으며, 서로 다른 금액 기준의 항목을 합산하지 않습니다."
+                  : "Each source amount is rounded up (for example, KRW 75,900,000 → 76 million). Titles summarize the work without sensitive facility details. Entries with different value bases are not combined into a total."}
+              </p>
+            </section>
+          );
+        })
       }
-    </p>
+    </section>
+    <section class="stack-section aside-panel">
+      <h2>{ko ? "상세 실적과 증빙 안내" : "Detailed records and supporting documents"}</h2>
+      <p>
+        {
+          ko
+            ? "입찰·협력업체 등록 등 업무 목적에 맞는 증빙과 최신 정산 내역은 별도로 안내합니다. 계약 원문과 시설 식별정보, 개인 연락처는 공개하지 않습니다."
+            : "Supporting documents and updated settlement records are available for tendering and vendor registration. Original contracts, facility identifiers, and personal contact details are not published."
+        }
+      </p>
+      <a class="text-link" href={pathForKey("contact", locale)}
+        >{ko ? "실적 자료 문의" : "Request experience information"}<span aria-hidden="true">→</span
+        ></a
+      >
+    </section>
   </div>
 </BaseLayout>
+
+<script>
+  import { initProjectTabs } from "../../scripts/project-tabs";
+  initProjectTabs();
+</script>

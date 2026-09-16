@@ -426,3 +426,63 @@ test("manufacturing scope, factory facts and home field list are complete", asyn
   await expect(page.locator(".portfolio-item")).toHaveCount(5);
   await expect(page.locator(".portfolio-item").last()).toContainText("Manufacturing & Supply");
 });
+
+test("five business areas and four construction registrations remain distinct", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const stat = page.locator(".corporate-stats > div").filter({ hasText: "사업영역" });
+  await expect(stat.locator("dd")).toHaveText("5개 분야");
+  await expect(page.locator(".performance-lines > a")).toHaveCount(5);
+  await page.goto("/company/capabilities/");
+  await expect(page.locator(".registration-list > li")).toHaveCount(4);
+  await expect(page.locator(".registration-list")).not.toContainText("제조");
+  await expect(page.locator(".license-card")).toHaveCount(5);
+  await expect(page.locator("main")).toContainText("제조·납품은 공사업 면허가 아닌");
+  await page.goto("/en/");
+  await expect(page.locator(".corporate-stats")).toContainText("Business areas5Fields");
+});
+
+test("portfolio tabs show verified records, value basis and keyboard navigation", async ({
+  page,
+}) => {
+  for (const route of ["/portfolio/", "/en/portfolio/"]) {
+    await page.goto(route);
+    const tabs = page.getByRole("tab");
+    await expect(tabs).toHaveCount(5);
+    for (const [index, count] of [17, 7, 4, 1, 10].entries()) {
+      await tabs.nth(index).click();
+      await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
+      await expect(page.getByRole("tabpanel")).toHaveCount(1);
+      await expect(page.getByRole("tabpanel").locator("tbody tr")).toHaveCount(count);
+      const accessibility = await new AxeBuilder({ page }).include(".project-records").analyze();
+      expect(accessibility.violations).toEqual([]);
+    }
+    await tabs.last().press("Home");
+    await expect(tabs.first()).toBeFocused();
+    await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+    await tabs.first().press("ArrowLeft");
+    await expect(tabs.last()).toBeFocused();
+    await expect(page).toHaveURL(/#records-manufacturing$/);
+    await page.reload();
+    await expect(tabs.last()).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tabpanel").locator("tbody tr").first()).toContainText(
+      "2026.10.16",
+    );
+    await expect(
+      page.getByRole("tabpanel").locator("tbody tr").first().locator(".project-amount"),
+    ).toHaveText("32");
+    await tabs.nth(3).click();
+    await expect(page.getByRole("tabpanel").locator(".project-amount")).toHaveText("76");
+    await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
+  }
+});
+
+test("portfolio records remain available without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/portfolio/");
+  await expect(page.locator(".project-panel:visible")).toHaveCount(5);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(39);
+  await context.close();
+});
