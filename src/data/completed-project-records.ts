@@ -138,6 +138,16 @@ export const completedProjectRecords = {
   manufacturing: [
     {
       ...completed(
+        "감지설비용 전선관·지지자재 납품",
+        "Conduit and support-material supply for detection equipment",
+        ...kps,
+        "2026.01.23",
+        3,
+      ),
+      basis: "delivery" as const,
+    },
+    {
+      ...completed(
         "전선관용 커넥터·전기자재 납품",
         "Conduit connector and electrical material supply",
         ...kps,

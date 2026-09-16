@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [86, 22, 23, 2, 12].entries()) {
+    for (const [index, count] of [86, 22, 23, 2, 13].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -487,7 +487,7 @@ test("portfolio records remain available without JavaScript", async ({ browser }
   const page = await context.newPage();
   await page.goto("/portfolio/");
   await expect(page.locator(".project-panel:visible")).toHaveCount(5);
-  await expect(page.locator(".project-table tbody tr")).toHaveCount(145);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(146);
   await context.close();
 });
 
@@ -558,13 +558,19 @@ test("completed deliveries stay separate from contracts and held records", async
     await page.goto(route + "#records-manufacturing");
     const panel = page.getByRole("tabpanel");
     await expect(panel.locator("table")).toHaveCount(2);
-    await expect(panel.locator('tr[data-basis="delivery"]')).toHaveCount(2);
+    await expect(panel.locator('tr[data-basis="delivery"]')).toHaveCount(3);
     await expect(panel.locator('tr[data-basis="delivery"] .project-period')).toHaveText(
-      Array(2).fill("2026.01.23"),
+      Array(3).fill("2026.01.23"),
     );
-    await expect(panel.locator('tr[data-basis="delivery"] .project-amount')).toHaveText(["5", "3"]);
+    await expect(panel.locator('tr[data-basis="delivery"] .project-amount')).toHaveText([
+      "3",
+      "5",
+      "3",
+    ]);
     await expect(panel.locator('tr[data-basis="delivery"]')).toContainText(
-      route === "/portfolio/" ? ["한전KPS", "수산인더스트리"] : ["KEPCO KPS", "Soosan Industries"],
+      route === "/portfolio/"
+        ? ["한전KPS", "한전KPS", "수산인더스트리"]
+        : ["KEPCO KPS", "KEPCO KPS", "Soosan Industries"],
     );
     await expect(panel.locator('tr[data-basis="contract"]')).toHaveCount(10);
     await expect(panel.locator("table").first().locator("thead")).toContainText(
