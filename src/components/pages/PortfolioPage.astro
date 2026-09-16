@@ -67,36 +67,15 @@ const tabNames = ko
                 {
                   label: ko ? "납품 완료 내역" : "Completed deliveries",
                   delivery: true,
-                  contract: false,
                   rows: records.filter((record) => record.basis === "delivery"),
                 },
                 {
                   label: ko ? "제조·납품 계약 내역" : "Manufacturing and supply contracts",
                   delivery: false,
-                  contract: true,
                   rows: records.filter((record) => record.basis === "contract"),
                 },
               ]
-            : [
-                {
-                  label: "",
-                  delivery: false,
-                  contract: false,
-                  rows: records.filter((record) => record.basis !== "contract"),
-                },
-                ...(records.some((record) => record.basis === "contract")
-                  ? [
-                      {
-                        label: ko
-                          ? "관련 기술지원 계약 내역"
-                          : "Related technical-service contracts",
-                        delivery: false,
-                        contract: true,
-                        rows: records.filter((record) => record.basis === "contract"),
-                      },
-                    ]
-                  : []),
-              ];
+            : [{ label: "", delivery: false, rows: records }];
           return (
             <section
               class="portfolio-item project-panel"
@@ -133,8 +112,8 @@ const tabNames = ko
                     : "Completed deliveries are listed separately from contracts. Contract periods run from contract date to delivery deadline."
                   : hasCompleted
                     ? ko
-                      ? "공사 내역은 2026년 준공 기준, 이전 연도는 연도별 신고 실적 기준입니다."
-                      : "Construction entries use completion values for 2026 and annual reported values for earlier years."
+                      ? "2026년은 준공 기준, 이전 연도는 연도별 신고 실적 기준입니다."
+                      : "2026 entries use completion values; earlier entries use annual reported values."
                     : ko
                       ? "연도별 신고 실적 기준 · 금액은 표시된 신고연도의 실적입니다."
                       : "Annual reporting basis · Values relate to the reporting year shown."}
@@ -145,16 +124,9 @@ const tabNames = ko
                   ? "표를 좌우로 밀면 기간과 금액을 확인할 수 있습니다. →"
                   : "Scroll the table horizontally to see periods and amounts. →"}
               </p>
-              {tableGroups.map(({ label, delivery, contract, rows }) => (
+              {tableGroups.map(({ label, delivery, rows }) => (
                 <>
                   {label && <h3 class="project-table-heading">{label}</h3>}
-                  {!manufacturing && contract && (
-                    <p class="project-basis">
-                      {ko
-                        ? "계약일–이행기한 기준이며, 연간 신고 공사실적 및 완료 확인 내역과 구분합니다."
-                        : "Contract date to performance deadline; separate from annual reported construction and confirmed completion records."}
-                    </p>
-                  )}
                   <div
                     class="project-table-wrap"
                     tabindex="0"
@@ -178,17 +150,13 @@ const tabNames = ko
                           <>
                             {!manufacturing && (
                               <th scope="col">
-                                {contract
-                                  ? ko
-                                    ? "계약연도"
-                                    : "Contract year"
-                                  : ko
-                                    ? hasCompleted
-                                      ? "기준연도"
-                                      : "신고연도"
-                                    : hasCompleted
-                                      ? "Year"
-                                      : "Reporting year"}
+                                {ko
+                                  ? hasCompleted
+                                    ? "기준연도"
+                                    : "신고연도"
+                                  : hasCompleted
+                                    ? "Year"
+                                    : "Reporting year"}
                               </th>
                             )}
                             <th scope="col">{ko ? "수행 내역" : "Scope of work"}</th>
@@ -202,34 +170,26 @@ const tabNames = ko
                                   : ko
                                     ? "계약일–납품기한"
                                     : "Contract–delivery deadline"
-                                : contract
-                                  ? ko
-                                    ? "계약기간"
-                                    : "Contract period"
-                                  : ko
-                                    ? "공사기간"
-                                    : "Reported work period"}
+                                : ko
+                                  ? "공사기간"
+                                  : "Reported work period"}
                             </th>
                             <th scope="col">
-                              {contract
-                                ? ko
-                                  ? "계약 기준 금액"
-                                  : "Contract value"
-                                : manufacturing
-                                  ? delivery
-                                    ? ko
-                                      ? "납품금액"
-                                      : "Delivery value"
-                                    : ko
-                                      ? "계약 기준 금액"
-                                      : "Contract value"
+                              {manufacturing
+                                ? delivery
+                                  ? ko
+                                    ? "납품금액"
+                                    : "Delivery value"
                                   : ko
-                                    ? hasCompleted
-                                      ? "금액"
-                                      : "신고금액"
-                                    : hasCompleted
-                                      ? "Value"
-                                      : "Reported value"}
+                                    ? "계약 기준 금액"
+                                    : "Contract value"
+                                : ko
+                                  ? hasCompleted
+                                    ? "금액"
+                                    : "신고금액"
+                                  : hasCompleted
+                                    ? "Value"
+                                    : "Reported value"}
                             </th>
                           </>
                         </tr>

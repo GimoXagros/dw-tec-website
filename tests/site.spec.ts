@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [87, 22, 23, 2, 15].entries()) {
+    for (const [index, count] of [86, 22, 23, 2, 15].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -487,7 +487,7 @@ test("portfolio records remain available without JavaScript", async ({ browser }
   const page = await context.newPage();
   await page.goto("/portfolio/");
   await expect(page.locator(".project-panel:visible")).toHaveCount(5);
-  await expect(page.locator(".project-table tbody tr")).toHaveCount(149);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(148);
   await context.close();
 });
 
@@ -588,15 +588,9 @@ test("completed deliveries stay separate from contracts and held records", async
 test("matched contracts remain separate from annual and completed records", async ({ page }) => {
   for (const route of ["/portfolio/", "/en/portfolio/"]) {
     await page.goto(route);
-    const panel = page.getByRole("tabpanel");
-    const service = panel.locator('tr[data-basis="contract"]');
-    await expect(service).toHaveCount(1);
-    await expect(service.locator(".project-year")).toHaveText("2025");
-    await expect(service.locator(".project-period")).toHaveText("2025.08");
-    await expect(service.locator(".project-amount")).toHaveText("7");
-    await expect(panel.locator("table").last().locator("thead")).toContainText(
-      route === "/portfolio/" ? "계약 기준 금액" : "Contract value",
-    );
+    await expect(page.locator('#records-electrical tr[data-basis="contract"]')).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText("앵커볼트 설치부 철근탐상");
+    await expect(page.locator("main")).not.toContainText("Related technical-service contracts");
     await page.locator("#tab-manufacturing").click();
     for (const [date, amount] of [
       ["2025.08.13", "7"],
@@ -614,7 +608,7 @@ test("matched contracts remain separate from annual and completed records", asyn
     await expect(page.locator('tr[data-basis="annual"]')).toHaveCount(119);
     await expect(page.locator('tr[data-basis="completion"]')).toHaveCount(14);
     await expect(page.locator('tr[data-basis="delivery"]')).toHaveCount(3);
-    await expect(page.locator('tr[data-basis="contract"]')).toHaveCount(13);
+    await expect(page.locator('tr[data-basis="contract"]')).toHaveCount(12);
   }
 });
 
