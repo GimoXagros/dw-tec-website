@@ -57,6 +57,7 @@ const tabNames = ko
           const records = projectRecords[b.slug as ProjectField];
           const manufacturing = b.slug === "manufacturing";
           const fire = b.slug === "fire-protection";
+          const hasCompleted = records.some((record) => record.basis === "completion");
           return (
             <section
               class="portfolio-item project-panel"
@@ -91,9 +92,13 @@ const tabNames = ko
                   ? ko
                     ? "계약 기준 · 기간은 계약일–납품기한입니다. 계약자료만으로 납품 완료를 확정하지 않습니다."
                     : "Contract basis · Periods run from contract date to delivery deadline. Contracts alone do not establish completed delivery."
-                  : ko
-                    ? "연도별 신고 실적 기준 · 금액은 표시된 신고연도의 실적입니다."
-                    : "Annual reporting basis · Values relate to the reporting year shown."}
+                  : hasCompleted
+                    ? ko
+                      ? "2026년은 준공 기준, 이전 연도는 연도별 신고 실적 기준입니다."
+                      : "2026 entries use completion values; earlier entries use annual reported values."
+                    : ko
+                      ? "연도별 신고 실적 기준 · 금액은 표시된 신고연도의 실적입니다."
+                      : "Annual reporting basis · Values relate to the reporting year shown."}
               </p>
               <p class="project-units">{ko ? "금액 단위: 백만원" : "Amounts: KRW million"}</p>
               <p class="project-scroll-hint">
@@ -115,7 +120,15 @@ const tabNames = ko
                     <tr>
                       <>
                         {!manufacturing && (
-                          <th scope="col">{ko ? "신고연도" : "Reporting year"}</th>
+                          <th scope="col">
+                            {ko
+                              ? hasCompleted
+                                ? "기준연도"
+                                : "신고연도"
+                              : hasCompleted
+                                ? "Year / basis"
+                                : "Reporting year"}
+                          </th>
                         )}
                         <th scope="col">{ko ? "수행 내역" : "Scope of work"}</th>
                         <th scope="col">{ko ? "발주·계약 상대" : "Client / counterparty"}</th>
@@ -134,8 +147,12 @@ const tabNames = ko
                               ? "계약 기준 금액"
                               : "Contract value"
                             : ko
-                              ? "신고금액"
-                              : "Reported value"}
+                              ? hasCompleted
+                                ? "금액"
+                                : "신고금액"
+                              : hasCompleted
+                                ? "Value"
+                                : "Reported value"}
                         </th>
                       </>
                     </tr>
@@ -143,7 +160,14 @@ const tabNames = ko
                   <tbody>
                     {records.map((record) => (
                       <tr>
-                        {!manufacturing && <td class="project-year">{record.reportYear}</td>}
+                        {!manufacturing && (
+                          <td class="project-year">
+                            <span>{record.reportYear}</span>
+                            {record.basis === "completion" && (
+                              <small>{ko ? "준공" : "Completed"}</small>
+                            )}
+                          </td>
+                        )}
                         <th scope="row">{ko ? record.titleKo : record.titleEn}</th>
                         <td>{ko ? record.clientKo : record.clientEn}</td>
                         <td class="project-period">

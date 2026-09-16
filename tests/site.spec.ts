@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [78, 21, 19, 1, 10].entries()) {
+    for (const [index, count] of [80, 22, 21, 1, 10].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -483,7 +483,7 @@ test("portfolio records remain available without JavaScript", async ({ browser }
   const page = await context.newPage();
   await page.goto("/portfolio/");
   await expect(page.locator(".project-panel:visible")).toHaveCount(5);
-  await expect(page.locator(".project-table tbody tr")).toHaveCount(129);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(134);
   await context.close();
 });
 
@@ -519,5 +519,34 @@ test("portfolio includes post-incorporation years and concise amount units", asy
     await expect(
       page.locator("#records-electrical tbody tr").last().locator(".project-amount"),
     ).toHaveText("26");
+  }
+});
+
+test("2026 completed works are distinct from prior annual reported records", async ({ page }) => {
+  for (const route of ["/portfolio/", "/en/portfolio/"]) {
+    await page.goto(route);
+    for (const [field, amounts] of [
+      ["electrical", [21, 64]],
+      ["mechanical", [132]],
+      ["scaffolding", [455, 12]],
+    ] as const) {
+      await page.locator(`#tab-${field}`).click();
+      const panel = page.getByRole("tabpanel");
+      const completedRows = panel
+        .locator("tbody tr")
+        .filter({ has: page.locator(".project-year small") });
+      await expect(completedRows).toHaveCount(amounts.length);
+      await expect(completedRows.locator(".project-amount")).toHaveText(amounts.map(String));
+      await expect(completedRows.locator(".project-year span")).toHaveText(
+        amounts.map(() => "2026"),
+      );
+      await expect(completedRows.locator(".project-year small")).toHaveText(
+        amounts.map(() => (route === "/portfolio/" ? "준공" : "Completed")),
+      );
+      await expect(panel.locator(".project-basis")).toContainText("2026");
+    }
+    await page.locator("#tab-fire-protection").click();
+    await expect(page.getByRole("tabpanel").locator(".project-year small")).toHaveCount(0);
+    await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
   }
 });
