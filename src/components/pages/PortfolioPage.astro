@@ -60,7 +60,6 @@ const tabNames = ko
         businesses.map((b, i) => {
           const records = projectRecords[b.slug as ProjectField];
           const manufacturing = b.slug === "manufacturing";
-          const fire = b.slug === "fire-protection";
           const hasCompleted = records.some((record) => record.basis === "completion");
           const tableGroups = manufacturing
             ? [
@@ -94,136 +93,143 @@ const tabNames = ko
                   <span>{ko ? "개 내역" : "entries"}</span>
                 </p>
               </div>
-              <p class="project-summary">
-                {ko ? portfolio[i].titleKo : portfolio[i].titleEn} ·{" "}
-                {ko ? portfolio[i].textKo : portfolio[i].textEn}
-              </p>
-              {fire && (
-                <p class="project-caution">
+              {records.length === 0 ? (
+                <p class="project-empty">
                   {ko
-                    ? "전문소방시설공사업 등록일은 2026.08.26입니다. 아래는 등록 전 관련 설비 작업 내역으로, 면허 취득 후의 소방공사 실적이 아닙니다. 전기공사 탭과 중복 게시하지 않았습니다."
-                    : "Specialized fire construction registration dates from August 26, 2026. These related equipment works predate registration and are not post-registration licensed fire construction records. They are not repeated in the Electrical tab."}
+                    ? "현재 공개된 수행실적이 없습니다."
+                    : "No project records are currently published in this category."}
                 </p>
-              )}
-              <p class="project-basis">
-                {manufacturing
-                  ? ko
-                    ? "납품 완료 내역과 계약 내역을 구분합니다. 계약 내역의 기간은 계약일–납품기한입니다."
-                    : "Completed deliveries are listed separately from contracts. Contract periods run from contract date to delivery deadline."
-                  : hasCompleted
-                    ? ko
-                      ? "2026년은 준공 기준, 이전 연도는 연도별 신고 실적 기준입니다."
-                      : "2026 entries use completion values; earlier entries use annual reported values."
-                    : ko
-                      ? "연도별 신고 실적 기준 · 금액은 표시된 신고연도의 실적입니다."
-                      : "Annual reporting basis · Values relate to the reporting year shown."}
-              </p>
-              <p class="project-units">{ko ? "금액 단위: 백만원" : "Amounts: KRW million"}</p>
-              <p class="project-scroll-hint">
-                {ko
-                  ? "표를 좌우로 밀면 기간과 금액을 확인할 수 있습니다. →"
-                  : "Scroll the table horizontally to see periods and amounts. →"}
-              </p>
-              {tableGroups.map(({ label, delivery, rows }) => (
+              ) : (
                 <>
-                  {label && <h3 class="project-table-heading">{label}</h3>}
-                  <div
-                    class="project-table-wrap"
-                    tabindex="0"
-                    role="region"
-                    aria-label={`${label || tabNames[i]} ${ko ? "상세내역 표, 작은 화면에서 좌우 스크롤" : "records table; scroll horizontally on smaller screens"}`}
-                  >
-                    <table class={`project-table${manufacturing ? " project-table-supply" : ""}`}>
-                      <caption class="sr-only">
-                        {ko ? "금액 단위: 백만원" : "Amounts: KRW million"}
-                      </caption>
-                      {manufacturing && (
-                        <colgroup>
-                          <col style="width:36%" />
-                          <col style="width:24%" />
-                          <col style="width:28%" />
-                          <col style="width:12%" />
-                        </colgroup>
-                      )}
-                      <thead>
-                        <tr>
-                          <>
-                            {!manufacturing && (
-                              <th scope="col">
-                                {ko
-                                  ? hasCompleted
-                                    ? "기준연도"
-                                    : "신고연도"
-                                  : hasCompleted
-                                    ? "Year"
-                                    : "Reporting year"}
-                              </th>
-                            )}
-                            <th scope="col">{ko ? "수행 내역" : "Scope of work"}</th>
-                            <th scope="col">{ko ? "발주·계약 상대" : "Client / counterparty"}</th>
-                            <th scope="col">
-                              {manufacturing
-                                ? delivery
-                                  ? ko
-                                    ? "납품일"
-                                    : "Delivery date"
-                                  : ko
-                                    ? "계약일–납품기한"
-                                    : "Contract–delivery deadline"
-                                : ko
-                                  ? "공사기간"
-                                  : "Reported work period"}
-                            </th>
-                            <th scope="col">
-                              {manufacturing
-                                ? delivery
-                                  ? ko
-                                    ? "납품금액"
-                                    : "Delivery value"
-                                  : ko
-                                    ? "계약 기준 금액"
-                                    : "Contract value"
-                                : ko
-                                  ? hasCompleted
-                                    ? "금액"
-                                    : "신고금액"
-                                  : hasCompleted
-                                    ? "Value"
-                                    : "Reported value"}
-                            </th>
-                          </>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rows.map((record) => (
-                          <tr data-basis={record.basis}>
-                            {!manufacturing && (
-                              <td class="project-year">
-                                <span>{record.reportYear}</span>
-                              </td>
-                            )}
-                            <th scope="row">{ko ? record.titleKo : record.titleEn}</th>
-                            <td>{ko ? record.clientKo : record.clientEn}</td>
-                            <td class="project-period">
-                              {manufacturing ? record.period : workMonths(record.period)}
-                              {record.period === "2025" && (
-                                <small>
-                                  {ko
-                                    ? "신고연도만 표기 · 기간 재확인 대상"
-                                    : "Reporting year only; dates require verification"}
-                                </small>
-                              )}
-                            </td>
-                            <td class="project-amount">
-                              {record.million.toLocaleString(ko ? "ko-KR" : "en-US")}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <p class="project-summary">
+                    {ko ? portfolio[i].titleKo : portfolio[i].titleEn} ·{" "}
+                    {ko ? portfolio[i].textKo : portfolio[i].textEn}
+                  </p>
+                  <p class="project-basis">
+                    {manufacturing
+                      ? ko
+                        ? "납품 완료 내역과 계약 내역을 구분합니다. 계약 내역의 기간은 계약일–납품기한입니다."
+                        : "Completed deliveries are listed separately from contracts. Contract periods run from contract date to delivery deadline."
+                      : hasCompleted
+                        ? ko
+                          ? "2026년은 준공 기준, 이전 연도는 연도별 신고 실적 기준입니다."
+                          : "2026 entries use completion values; earlier entries use annual reported values."
+                        : ko
+                          ? "연도별 신고 실적 기준 · 금액은 표시된 신고연도의 실적입니다."
+                          : "Annual reporting basis · Values relate to the reporting year shown."}
+                  </p>
+                  <p class="project-units">{ko ? "금액 단위: 백만원" : "Amounts: KRW million"}</p>
+                  <p class="project-scroll-hint">
+                    {ko
+                      ? "표를 좌우로 밀면 기간과 금액을 확인할 수 있습니다. →"
+                      : "Scroll the table horizontally to see periods and amounts. →"}
+                  </p>
+                  {tableGroups.map(({ label, delivery, rows }) => (
+                    <>
+                      {label && <h3 class="project-table-heading">{label}</h3>}
+                      <div
+                        class="project-table-wrap"
+                        tabindex="0"
+                        role="region"
+                        aria-label={`${label || tabNames[i]} ${ko ? "상세내역 표, 작은 화면에서 좌우 스크롤" : "records table; scroll horizontally on smaller screens"}`}
+                      >
+                        <table
+                          class={`project-table${manufacturing ? " project-table-supply" : ""}`}
+                        >
+                          <caption class="sr-only">
+                            {ko ? "금액 단위: 백만원" : "Amounts: KRW million"}
+                          </caption>
+                          {manufacturing && (
+                            <colgroup>
+                              <col style="width:36%" />
+                              <col style="width:24%" />
+                              <col style="width:28%" />
+                              <col style="width:12%" />
+                            </colgroup>
+                          )}
+                          <thead>
+                            <tr>
+                              <>
+                                {!manufacturing && (
+                                  <th scope="col">
+                                    {ko
+                                      ? hasCompleted
+                                        ? "기준연도"
+                                        : "신고연도"
+                                      : hasCompleted
+                                        ? "Year"
+                                        : "Reporting year"}
+                                  </th>
+                                )}
+                                <th scope="col">{ko ? "수행 내역" : "Scope of work"}</th>
+                                <th scope="col">
+                                  {ko ? "발주·계약 상대" : "Client / counterparty"}
+                                </th>
+                                <th scope="col">
+                                  {manufacturing
+                                    ? delivery
+                                      ? ko
+                                        ? "납품일"
+                                        : "Delivery date"
+                                      : ko
+                                        ? "계약일–납품기한"
+                                        : "Contract–delivery deadline"
+                                    : ko
+                                      ? "공사기간"
+                                      : "Reported work period"}
+                                </th>
+                                <th scope="col">
+                                  {manufacturing
+                                    ? delivery
+                                      ? ko
+                                        ? "납품금액"
+                                        : "Delivery value"
+                                      : ko
+                                        ? "계약 기준 금액"
+                                        : "Contract value"
+                                    : ko
+                                      ? hasCompleted
+                                        ? "금액"
+                                        : "신고금액"
+                                      : hasCompleted
+                                        ? "Value"
+                                        : "Reported value"}
+                                </th>
+                              </>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rows.map((record) => (
+                              <tr data-basis={record.basis}>
+                                {!manufacturing && (
+                                  <td class="project-year">
+                                    <span>{record.reportYear}</span>
+                                  </td>
+                                )}
+                                <th scope="row">{ko ? record.titleKo : record.titleEn}</th>
+                                <td>{ko ? record.clientKo : record.clientEn}</td>
+                                <td class="project-period">
+                                  {manufacturing ? record.period : workMonths(record.period)}
+                                  {record.period === "2025" && (
+                                    <small>
+                                      {ko
+                                        ? "신고연도만 표기 · 기간 재확인 대상"
+                                        : "Reporting year only; dates require verification"}
+                                    </small>
+                                  )}
+                                </td>
+                                <td class="project-amount">
+                                  {record.million.toLocaleString(ko ? "ko-KR" : "en-US")}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  ))}
                 </>
-              ))}
+              )}
             </section>
           );
         })

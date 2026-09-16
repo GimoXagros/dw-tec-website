@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [86, 22, 23, 2, 15].entries()) {
+    for (const [index, count] of [88, 22, 23, 0, 15].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -477,8 +477,8 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
         .locator(".project-amount"),
     ).toHaveText("32");
     await tabs.nth(3).click();
-    await expect(page.getByRole("tabpanel").locator(".project-amount")).toHaveText(["19", "76"]);
-    await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
+    await expect(page.getByRole("tabpanel").locator("table")).toHaveCount(0);
+    await expect(page.getByRole("tabpanel").locator(".project-empty")).toBeVisible();
   }
 });
 
@@ -500,13 +500,13 @@ test("portfolio includes post-incorporation years and concise amount units", asy
     await expect(page.locator(".project-source-note")).toContainText(
       route === "/portfolio/" ? "2022.06.20" : "June 20, 2022",
     );
-    await expect(page.locator(".project-units")).toHaveText(Array(5).fill(unit));
+    await expect(page.locator(".project-units")).toHaveText(Array(4).fill(unit));
     await expect(page.locator("main")).not.toContainText("백만원 미만 올림");
     await expect(page.locator("main")).not.toContainText("원자료 기재금액");
     await expect(page.locator("main")).not.toContainText("서로 다른 금액 기준");
     await expect(page.locator("main")).not.toContainText("rounded up");
     for (const [id, counts] of [
-      ["electrical", [6, 33, 22, 17]],
+      ["electrical", [6, 33, 22, 18]],
       ["mechanical", [0, 5, 9, 7]],
       ["scaffolding", [0, 9, 6, 4]],
     ] as const) {
@@ -532,10 +532,9 @@ test("2026 completed works are distinct from prior annual reported records", asy
   for (const route of ["/portfolio/", "/en/portfolio/"]) {
     await page.goto(route);
     for (const [field, amounts] of [
-      ["electrical", [6, 126, 21, 64, 6, 10, 17, 22]],
+      ["electrical", [6, 126, 21, 64, 6, 10, 17, 22, 19]],
       ["mechanical", [132]],
       ["scaffolding", [5, 7, 455, 12]],
-      ["fire-protection", [19]],
     ] as const) {
       await page.locator(`#tab-${field}`).click();
       const panel = page.getByRole("tabpanel");
@@ -551,7 +550,8 @@ test("2026 completed works are distinct from prior annual reported records", asy
     }
     await page.locator("#tab-fire-protection").click();
     await expect(page.getByRole("tabpanel").locator(".project-year small")).toHaveCount(0);
-    await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
+    await expect(page.getByRole("tabpanel").locator(".project-empty")).toBeVisible();
+    await expect(page.locator(".project-caution")).toHaveCount(0);
   }
 });
 
@@ -609,6 +609,46 @@ test("matched contracts remain separate from annual and completed records", asyn
     await expect(page.locator('tr[data-basis="completion"]')).toHaveCount(14);
     await expect(page.locator('tr[data-basis="delivery"]')).toHaveCount(3);
     await expect(page.locator('tr[data-basis="contract"]')).toHaveCount(12);
+  }
+});
+
+test("restoration and emergency lighting appear only under electrical with unchanged values", async ({
+  page,
+}) => {
+  for (const route of ["/portfolio/", "/en/portfolio/"]) {
+    const ko = route === "/portfolio/";
+    await page.goto(route);
+    for (const [title, period, amount, basis] of [
+      [
+        ko ? "화재방호재 복원 · 4건" : "Fire-protection material restoration · 4 work items",
+        "2025.07 – 2025.08",
+        "76",
+        "annual",
+      ],
+      [
+        ko ? "비상조명등 추가 설치" : "Additional emergency lighting installation",
+        "2026.07",
+        "19",
+        "completion",
+      ],
+    ]) {
+      const allRows = page.locator(".project-table tbody tr").filter({ hasText: title });
+      await expect(allRows).toHaveCount(1);
+      const electrical = page.locator("#records-electrical tbody tr").filter({ hasText: title });
+      await expect(electrical).toHaveCount(1);
+      await expect(electrical).toHaveAttribute("data-basis", basis);
+      await expect(electrical.locator(".project-period")).toHaveText(period);
+      await expect(electrical.locator(".project-amount")).toHaveText(amount);
+    }
+    await expect(page.locator("main")).not.toContainText("면허 취득 후의 소방공사 실적이 아닙니다");
+    await expect(page.locator("main")).not.toContainText(
+      "These related equipment works predate registration",
+    );
+    await page.locator("#tab-fire-protection").click();
+    await expect(page.getByRole("tabpanel").locator(".project-empty")).toBeVisible();
+    await expect(page.getByRole("tabpanel").locator("tbody tr")).toHaveCount(0);
+    await page.locator("#tab-electrical").click();
+    await expect(page.getByRole("tabpanel").locator("tbody tr")).toHaveCount(88);
   }
 });
 
