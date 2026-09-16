@@ -10,6 +10,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const ko = locale === "ko";
+const registeredBusinesses = businesses.filter((b) => b.slug !== "manufacturing");
 ---
 
 <BaseLayout
@@ -34,7 +35,7 @@ const ko = locale === "ko";
         class="registration-list"
       >
         {
-          businesses.map((b) => (
+          registeredBusinesses.map((b) => (
             <li>
               <span>
                 {b.number} / {b.shortEn}
@@ -46,13 +47,13 @@ const ko = locale === "ko";
       </ul><p class="note">
         {
           ko
-            ? "전문소방시설공사업 등록 완료: 2026년 8월 26일"
-            : "Specialized fire facility construction registration completed on August 26, 2026."
+            ? "공사업 등록 4종과 제조·납품을 합쳐 5개 사업영역을 운영합니다. 제조·납품은 공사업 면허가 아닌 등록 공장 기반의 사업영역입니다. 전문소방시설공사업 등록 완료: 2026년 8월 26일"
+            : "Five business areas combine four construction registrations with manufacturing and supply from our registered factory. Manufacturing is not a fifth construction license. Specialized fire facility construction registration completed on August 26, 2026."
         }
       </p>
     </section>
     <section class="stack-section">
-      <h2>{ko ? "등록 분야별 수행 역량" : "Execution capability by registered discipline"}</h2><div
+      <h2>{ko ? "5개 사업영역의 수행 역량" : "Capabilities across five business areas"}</h2><div
         class="license-grid"
       >
         {
