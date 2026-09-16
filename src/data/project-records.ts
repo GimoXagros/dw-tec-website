@@ -28,6 +28,20 @@ const kps = ["한전KPS", "KEPCO KPS"] as const;
 const ens = ["수산ENS", "Soosan ENS"] as const;
 const hyundai = ["현대건설", "Hyundai E&C"] as const;
 
+// Separately evidenced technical-service contract, not an annual construction filing.
+const technicalServiceContracts = [
+  recordSchema.parse({
+    titleKo: "앵커볼트 설치부 철근탐상",
+    titleEn: "Rebar scanning at anchor-bolt locations",
+    clientKo: "한전KPS",
+    clientEn: "KEPCO KPS",
+    period: "2025.08.18 – 2025.08.29",
+    million: 7,
+    reportYear: 2025,
+    basis: "contract",
+  }),
+];
+
 const recentProjectRecords = {
   electrical: [
     r(
@@ -258,6 +272,20 @@ const recentProjectRecords = {
       32,
     ),
     r(
+      "전선관·설비 정비자재 공급",
+      "Conduit and equipment maintenance material supply",
+      ...kps,
+      "2025.12.30 – 2026.01.22",
+      15,
+    ),
+    r(
+      "전선관용 커넥터·전기자재 공급",
+      "Conduit connector and electrical material supply",
+      ...kps,
+      "2025.08.13 – 2025.08.30",
+      7,
+    ),
+    r(
       "전기용 모의부하 시험기 제작·공급",
       "Electrical load test equipment manufacturing and supply",
       ...khnp,
@@ -329,6 +357,7 @@ export const projectRecords = {
     ...completedProjectRecords.electrical.map((record) => recordSchema.parse(record)),
     ...recentProjectRecords.electrical,
     ...historicalProjectRecords.electrical.map((record) => recordSchema.parse(record)),
+    ...technicalServiceContracts,
   ],
   mechanical: [
     ...completedProjectRecords.mechanical.map((record) => recordSchema.parse(record)),
