@@ -154,6 +154,13 @@ const recentProjectRecords = {
       "2025.09.29 – 2025.10.22",
       15,
     ),
+    r(
+      "화재방호재 복원 · 4건",
+      "Fire-protection material restoration · 4 work items",
+      ...ens,
+      "2025.07.01 – 2025.08.31",
+      76,
+    ),
   ],
   mechanical: [
     r(
@@ -240,15 +247,7 @@ const recentProjectRecords = {
       14,
     ),
   ],
-  "fire-protection": [
-    r(
-      "화재방호재 복원 · 4건",
-      "Fire-protection material restoration · 4 work items",
-      ...ens,
-      "2025.07.01 – 2025.08.31",
-      76,
-    ),
-  ],
+  "fire-protection": [],
   manufacturing: [
     r(
       "파이프 스풀 제작·공급",

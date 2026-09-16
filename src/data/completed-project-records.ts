@@ -84,6 +84,13 @@ export const completedProjectRecords = {
       "2026.01.09 – 2026.02.13",
       22,
     ),
+    completed(
+      "비상조명등 추가 설치",
+      "Additional emergency lighting installation",
+      ...khnp,
+      "2026.07.06 – 2026.07.28",
+      19,
+    ),
   ],
   mechanical: [
     completed(
@@ -126,15 +133,7 @@ export const completedProjectRecords = {
       12,
     ),
   ],
-  "fire-protection": [
-    completed(
-      "비상조명등 추가 설치",
-      "Additional emergency lighting installation",
-      ...khnp,
-      "2026.07.06 – 2026.07.28",
-      19,
-    ),
-  ],
+  "fire-protection": [],
   manufacturing: [
     {
       ...completed(
