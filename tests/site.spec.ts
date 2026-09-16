@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [17, 7, 4, 1, 10].entries()) {
+    for (const [index, count] of [78, 21, 19, 1, 10].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -483,6 +483,41 @@ test("portfolio records remain available without JavaScript", async ({ browser }
   const page = await context.newPage();
   await page.goto("/portfolio/");
   await expect(page.locator(".project-panel:visible")).toHaveCount(5);
-  await expect(page.locator(".project-table tbody tr")).toHaveCount(39);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(129);
   await context.close();
+});
+
+test("portfolio includes post-incorporation years and concise amount units", async ({ page }) => {
+  for (const [route, unit] of [
+    ["/portfolio/", "금액 단위: 백만원"],
+    ["/en/portfolio/", "Amounts: KRW million"],
+  ]) {
+    await page.goto(route);
+    await expect(page.locator(".project-source-note")).toContainText(
+      route === "/portfolio/" ? "2022.06.20" : "June 20, 2022",
+    );
+    await expect(page.locator(".project-units")).toHaveText(Array(5).fill(unit));
+    await expect(page.locator("main")).not.toContainText("백만원 미만 올림");
+    await expect(page.locator("main")).not.toContainText("원자료 기재금액");
+    await expect(page.locator("main")).not.toContainText("서로 다른 금액 기준");
+    await expect(page.locator("main")).not.toContainText("rounded up");
+    for (const [id, counts] of [
+      ["electrical", [6, 33, 22, 17]],
+      ["mechanical", [0, 5, 9, 7]],
+      ["scaffolding", [0, 9, 6, 4]],
+    ] as const) {
+      for (const [index, count] of counts.entries()) {
+        await expect(
+          page.locator(`#records-${id} .project-year`).filter({ hasText: String(2022 + index) }),
+        ).toHaveCount(count);
+      }
+    }
+    await expect(page.locator("#records-manufacturing .project-year")).toHaveCount(0);
+    await expect(page.locator("#records-electrical tbody tr").last()).toContainText(
+      "2022.07 – 2022.12",
+    );
+    await expect(
+      page.locator("#records-electrical tbody tr").last().locator(".project-amount"),
+    ).toHaveText("26");
+  }
 });

@@ -777,6 +777,12 @@ main:focus {
   font-size: 14px;
   white-space: nowrap;
 }
+.project-table .project-year {
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 .project-period small {
   display: block;
   white-space: normal;

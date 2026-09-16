@@ -1,4 +1,5 @@
 import { z } from "astro/zod";
+import { historicalProjectRecords } from "./historical-project-records.ts";
 
 // Public summaries only. Amounts are already rounded UP to whole KRW millions.
 // Original documents, exact amounts, identifiers and private contacts are not shipped.
@@ -9,6 +10,7 @@ const recordSchema = z.object({
   clientEn: z.string().min(1),
   period: z.string().min(1),
   million: z.number().int().positive(),
+  reportYear: z.number().int().min(2022).max(2025).default(2025),
 });
 type Record = z.infer<typeof recordSchema>;
 const r = (
@@ -24,7 +26,7 @@ const kps = ["한전KPS", "KEPCO KPS"] as const;
 const ens = ["수산ENS", "Soosan ENS"] as const;
 const hyundai = ["현대건설", "Hyundai E&C"] as const;
 
-export const projectRecords = {
+const recentProjectRecords = {
   electrical: [
     r(
       "발전시설 지원실 전기설비 개선",
@@ -318,5 +320,21 @@ export const projectRecords = {
     ),
   ],
 } satisfies { [key: string]: Record[] };
+
+export const projectRecords = {
+  ...recentProjectRecords,
+  electrical: [
+    ...recentProjectRecords.electrical,
+    ...historicalProjectRecords.electrical.map((record) => recordSchema.parse(record)),
+  ],
+  mechanical: [
+    ...recentProjectRecords.mechanical,
+    ...historicalProjectRecords.mechanical.map((record) => recordSchema.parse(record)),
+  ],
+  scaffolding: [
+    ...recentProjectRecords.scaffolding,
+    ...historicalProjectRecords.scaffolding.map((record) => recordSchema.parse(record)),
+  ],
+};
 
 export type ProjectField = keyof typeof projectRecords;
