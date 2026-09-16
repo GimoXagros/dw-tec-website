@@ -1,5 +1,6 @@
 import { z } from "astro/zod";
 import { historicalProjectRecords } from "./historical-project-records.ts";
+import { completedProjectRecords } from "./completed-project-records.ts";
 
 // Public summaries only. Amounts are already rounded UP to whole KRW millions.
 // Original documents, exact amounts, identifiers and private contacts are not shipped.
@@ -10,7 +11,8 @@ const recordSchema = z.object({
   clientEn: z.string().min(1),
   period: z.string().min(1),
   million: z.number().int().positive(),
-  reportYear: z.number().int().min(2022).max(2025).default(2025),
+  reportYear: z.number().int().min(2022).max(2026).default(2025),
+  basis: z.enum(["annual", "completion", "delivery", "contract"]).default("annual"),
 });
 type Record = z.infer<typeof recordSchema>;
 const r = (
@@ -256,6 +258,20 @@ const recentProjectRecords = {
       32,
     ),
     r(
+      "전선관·설비 정비자재 공급",
+      "Conduit and equipment maintenance material supply",
+      ...kps,
+      "2025.12.30 – 2026.01.22",
+      15,
+    ),
+    r(
+      "전선관용 커넥터·전기자재 공급",
+      "Conduit connector and electrical material supply",
+      ...kps,
+      "2025.08.13 – 2025.08.30",
+      7,
+    ),
+    r(
       "전기용 모의부하 시험기 제작·공급",
       "Electrical load test equipment manufacturing and supply",
       ...khnp,
@@ -324,16 +340,29 @@ const recentProjectRecords = {
 export const projectRecords = {
   ...recentProjectRecords,
   electrical: [
+    ...completedProjectRecords.electrical.map((record) => recordSchema.parse(record)),
     ...recentProjectRecords.electrical,
     ...historicalProjectRecords.electrical.map((record) => recordSchema.parse(record)),
   ],
   mechanical: [
+    ...completedProjectRecords.mechanical.map((record) => recordSchema.parse(record)),
     ...recentProjectRecords.mechanical,
     ...historicalProjectRecords.mechanical.map((record) => recordSchema.parse(record)),
   ],
   scaffolding: [
+    ...completedProjectRecords.scaffolding.map((record) => recordSchema.parse(record)),
     ...recentProjectRecords.scaffolding,
     ...historicalProjectRecords.scaffolding.map((record) => recordSchema.parse(record)),
+  ],
+  "fire-protection": [
+    ...completedProjectRecords["fire-protection"].map((record) => recordSchema.parse(record)),
+    ...recentProjectRecords["fire-protection"],
+  ],
+  manufacturing: [
+    ...completedProjectRecords.manufacturing.map((record) => recordSchema.parse(record)),
+    ...recentProjectRecords.manufacturing.map((record) =>
+      recordSchema.parse({ ...record, basis: "contract" }),
+    ),
   ],
 };
 

@@ -738,6 +738,10 @@ main:focus {
   max-width: 100%;
   overflow-x: auto;
 }
+.project-table-heading {
+  margin: 36px 0 20px;
+  font-size: 22px;
+}
 .project-table {
   border-collapse: collapse;
   width: 100%;
@@ -750,6 +754,10 @@ main:focus {
   font-size: 14px;
   color: var(--muted);
   padding: 8px 0 12px;
+}
+.project-table-supply {
+  table-layout: fixed;
+  min-width: 900px;
 }
 .project-scroll-hint {
   display: none;
