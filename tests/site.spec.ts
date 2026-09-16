@@ -450,7 +450,7 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await page.goto(route);
     const tabs = page.getByRole("tab");
     await expect(tabs).toHaveCount(5);
-    for (const [index, count] of [80, 22, 21, 1, 10].entries()) {
+    for (const [index, count] of [86, 22, 23, 2, 12].entries()) {
       await tabs.nth(index).click();
       await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
       await expect(page.getByRole("tabpanel")).toHaveCount(1);
@@ -466,14 +466,18 @@ test("portfolio tabs show verified records, value basis and keyboard navigation"
     await expect(page).toHaveURL(/#records-manufacturing$/);
     await page.reload();
     await expect(tabs.last()).toHaveAttribute("aria-selected", "true");
-    await expect(page.getByRole("tabpanel").locator("tbody tr").first()).toContainText(
-      "2026.10.16",
-    );
     await expect(
-      page.getByRole("tabpanel").locator("tbody tr").first().locator(".project-amount"),
+      page.getByRole("tabpanel").locator('tr[data-basis="contract"]').first(),
+    ).toContainText("2026.10.16");
+    await expect(
+      page
+        .getByRole("tabpanel")
+        .locator('tr[data-basis="contract"]')
+        .first()
+        .locator(".project-amount"),
     ).toHaveText("32");
     await tabs.nth(3).click();
-    await expect(page.getByRole("tabpanel").locator(".project-amount")).toHaveText("76");
+    await expect(page.getByRole("tabpanel").locator(".project-amount")).toHaveText(["19", "76"]);
     await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
   }
 });
@@ -483,7 +487,7 @@ test("portfolio records remain available without JavaScript", async ({ browser }
   const page = await context.newPage();
   await page.goto("/portfolio/");
   await expect(page.locator(".project-panel:visible")).toHaveCount(5);
-  await expect(page.locator(".project-table tbody tr")).toHaveCount(134);
+  await expect(page.locator(".project-table tbody tr")).toHaveCount(145);
   await context.close();
 });
 
@@ -526,27 +530,63 @@ test("2026 completed works are distinct from prior annual reported records", asy
   for (const route of ["/portfolio/", "/en/portfolio/"]) {
     await page.goto(route);
     for (const [field, amounts] of [
-      ["electrical", [21, 64]],
+      ["electrical", [6, 126, 21, 64, 6, 10, 17, 22]],
       ["mechanical", [132]],
-      ["scaffolding", [455, 12]],
+      ["scaffolding", [5, 7, 455, 12]],
+      ["fire-protection", [19]],
     ] as const) {
       await page.locator(`#tab-${field}`).click();
       const panel = page.getByRole("tabpanel");
-      const completedRows = panel
-        .locator("tbody tr")
-        .filter({ has: page.locator(".project-year small") });
+      const completedRows = panel.locator('tr[data-basis="completion"]');
       await expect(completedRows).toHaveCount(amounts.length);
       await expect(completedRows.locator(".project-amount")).toHaveText(amounts.map(String));
       await expect(completedRows.locator(".project-year span")).toHaveText(
         amounts.map(() => "2026"),
       );
-      await expect(completedRows.locator(".project-year small")).toHaveText(
-        amounts.map(() => (route === "/portfolio/" ? "준공" : "Completed")),
-      );
+      await expect(completedRows.locator(".project-year small")).toHaveCount(0);
+      await expect(completedRows.locator(".project-year")).toHaveText(amounts.map(() => "2026"));
       await expect(panel.locator(".project-basis")).toContainText("2026");
     }
     await page.locator("#tab-fire-protection").click();
     await expect(page.getByRole("tabpanel").locator(".project-year small")).toHaveCount(0);
     await expect(page.getByRole("tabpanel").locator(".project-caution")).toBeVisible();
+  }
+});
+
+test("completed deliveries stay separate from contracts and held records", async ({ page }) => {
+  for (const route of ["/portfolio/", "/en/portfolio/"]) {
+    await page.goto(route + "#records-manufacturing");
+    const panel = page.getByRole("tabpanel");
+    await expect(panel.locator("table")).toHaveCount(2);
+    await expect(panel.locator('tr[data-basis="delivery"]')).toHaveCount(2);
+    await expect(panel.locator('tr[data-basis="delivery"] .project-period')).toHaveText(
+      Array(2).fill("2026.01.23"),
+    );
+    await expect(panel.locator('tr[data-basis="delivery"] .project-amount')).toHaveText(["5", "3"]);
+    await expect(panel.locator('tr[data-basis="delivery"]')).toContainText(
+      route === "/portfolio/" ? ["한전KPS", "수산인더스트리"] : ["KEPCO KPS", "Soosan Industries"],
+    );
+    await expect(panel.locator('tr[data-basis="contract"]')).toHaveCount(10);
+    await expect(panel.locator("table").first().locator("thead")).toContainText(
+      route === "/portfolio/" ? "납품일" : "Delivery date",
+    );
+    await expect(panel.locator("table").last().locator("thead")).toContainText(
+      route === "/portfolio/" ? "계약일–납품기한" : "Contract–delivery deadline",
+    );
+    await expect(page.locator('tr[data-basis="completion"]')).not.toContainText(["신황"]);
+  }
+});
+
+test("construction periods display months without inventing daily precision", async ({ page }) => {
+  for (const route of ["/portfolio/", "/en/portfolio/"]) {
+    await page.goto(route);
+    const periods = await page
+      .locator(".project-panel:not(#records-manufacturing) .project-period")
+      .allTextContents();
+    expect(periods.every((period) => !/\d{4}\.\d{2}\.\d{2}/.test(period))).toBe(true);
+    const rows = page.locator('#records-electrical tr[data-basis="completion"]');
+    await expect(rows.nth(0).locator(".project-period")).toHaveText("2026.08");
+    await expect(rows.nth(2).locator(".project-period")).toHaveText("2026.04 – 2026.06");
+    await expect(rows.nth(4).locator(".project-period")).toHaveText("2026.06");
   }
 });

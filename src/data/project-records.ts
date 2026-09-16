@@ -12,7 +12,7 @@ const recordSchema = z.object({
   period: z.string().min(1),
   million: z.number().int().positive(),
   reportYear: z.number().int().min(2022).max(2026).default(2025),
-  basis: z.enum(["annual", "completion"]).default("annual"),
+  basis: z.enum(["annual", "completion", "delivery", "contract"]).default("annual"),
 });
 type Record = z.infer<typeof recordSchema>;
 const r = (
@@ -339,6 +339,16 @@ export const projectRecords = {
     ...completedProjectRecords.scaffolding.map((record) => recordSchema.parse(record)),
     ...recentProjectRecords.scaffolding,
     ...historicalProjectRecords.scaffolding.map((record) => recordSchema.parse(record)),
+  ],
+  "fire-protection": [
+    ...completedProjectRecords["fire-protection"].map((record) => recordSchema.parse(record)),
+    ...recentProjectRecords["fire-protection"],
+  ],
+  manufacturing: [
+    ...completedProjectRecords.manufacturing.map((record) => recordSchema.parse(record)),
+    ...recentProjectRecords.manufacturing.map((record) =>
+      recordSchema.parse({ ...record, basis: "contract" }),
+    ),
   ],
 };
 
