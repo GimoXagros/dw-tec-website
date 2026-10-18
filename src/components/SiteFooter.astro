@@ -25,55 +25,57 @@ const ceoTitle =
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-identity">
-      <a class="footer-brand" href={pathForKey("home", locale)}>{company.name}</a><p>
-        {company.englishName}
-      </p><p>
-        {footerCompanyLabel}
-      </p>
+      <a class="footer-brand" href={pathForKey("home", locale)}>
+        {company.name}
+      </a>
+      <p>{company.englishName}</p>
+      <p>{footerCompanyLabel}</p>
     </div>
     <nav
       class="footer-links"
       aria-label={locale === "ko" ? "하단 회사 메뉴" : "Footer company menu"}
     >
       <strong>{t.footer.companyHeading}</strong>
-      <a href={pathForKey("company", locale)}>{companyOverview}</a><a
-        href={pathForKey("companyHistory", locale)}>{companyHistory}</a
-      ><a href={pathForKey("companyCapabilities", locale)}>{capabilitiesTitle}</a><a
-        href={pathForKey("portfolio", locale)}>{experienceTitle}</a
-      ><a href={pathForKey("contact", locale)}>{contactTitle}</a>
+      <a href={pathForKey("company", locale)}>{companyOverview}</a>
+      <a href={pathForKey("companyHistory", locale)}>{companyHistory}</a>
+      <a href={pathForKey("companyCapabilities", locale)}>{capabilitiesTitle}</a>
+      <a href={pathForKey("portfolio", locale)}>{experienceTitle}</a>
+      <a href={pathForKey("contact", locale)}>{contactTitle}</a>
     </nav>
     <nav
       class="footer-links"
       aria-label={locale === "ko" ? "하단 사업 메뉴" : "Footer business menu"}
     >
-      <strong>{t.footer.businessHeading}</strong>{
-        businesses.map((b) => (
-          <a href={businessDetailPath(locale, b.slug)}>{locale === "ko" ? b.titleKo : b.titleEn}</a>
-        ))
-      }
+      <strong>{t.footer.businessHeading}</strong>
+      {businesses.map((b) => (
+        <a href={businessDetailPath(locale, b.slug)}>{locale === "ko" ? b.titleKo : b.titleEn}</a>
+      ))}
     </nav>
     <div class="footer-details">
-      <strong>{t.footer.contactHeading}</strong><a
-        class="footer-contact"
-        href={`tel:${company.phone}`}>{company.phone}</a
-      ><a href={`mailto:${company.email}`}>{company.email}</a><p>
-        {locale === "ko" ? "팩스" : "FAX"}{" "}{company.fax}
-      </p><p>
-        {
-          locale === "ko"
-            ? company.address
-            : "2F, 64 Namsan-gil, Buk-myeon, Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
-        }
+      <strong>{t.footer.contactHeading}</strong>
+      <a class="footer-contact" href={`tel:${company.phone}`}>
+        {company.phone}
+      </a>
+      <a href={`mailto:${company.email}`}>{company.email}</a>
+      <p>
+        {locale === "ko" ? "팩스" : "FAX"} {company.fax}
+      </p>
+      <p>
+        {locale === "ko"
+          ? company.address
+          : "2F, 64 Namsan-gil, Buk-myeon, Uljin-gun, Gyeongsangbuk-do, Republic of Korea"}
       </p>
     </div>
   </div>
   <div class="container footer-bottom">
     <p>
-      {ceoTitle}<br />©
-      {new Date().getFullYear()} DW-TEC. All rights reserved.
-    </p><a href={pathForKey("privacy", locale)}>{t.footer.privacy}</a><a
-      class="back-top"
-      href="#page-top">{t.footer.backTop}<span aria-hidden="true">{t.footer.toTop}</span></a
-    >
+      {ceoTitle}
+      <br />©{new Date().getFullYear()} DW-TEC. All rights reserved.
+    </p>
+    <a href={pathForKey("privacy", locale)}>{t.footer.privacy}</a>
+    <a class="back-top" href="#page-top">
+      {t.footer.backTop}
+      <span aria-hidden="true">{t.footer.toTop}</span>
+    </a>
   </div>
 </footer>

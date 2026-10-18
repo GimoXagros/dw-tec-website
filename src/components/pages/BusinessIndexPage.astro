@@ -15,52 +15,54 @@ const ko = locale === "ko";
 <BaseLayout
   locale={locale}
   title={ko ? "사업영역" : "Business"}
-  description={ko
-    ? "대원기술의 전기공사, 기계가스설비공사, 구조물해체·비계공사, 전문소방시설공사, 제조·납품 사업영역을 소개합니다."
-    : "Electrical, mechanical and gas facilities, structural demolition and scaffolding, specialized fire protection construction, manufacturing, and supply by DAEWON TECHNOLOGY."}
+  description={
+    ko
+      ? "대원기술의 전기공사, 기계가스설비공사, 구조물해체·비계공사, 전문소방시설공사, 제조·납품 사업영역을 소개합니다."
+      : "Electrical, mechanical and gas facilities, structural demolition and scaffolding, specialized fire protection construction, manufacturing, and supply by DAEWON TECHNOLOGY."
+  }
 >
   <PageIntro
     locale={locale}
     title={ko ? "사업영역" : "Business"}
     eyebrow="OUR BUSINESS"
-    description={ko
-      ? "4개 공사업과 등록 공장의 제조 역량을 연결해 발전·산업 플랜트의 시공·정비·납품을 수행합니다."
-      : "Four registered construction disciplines and factory capability connected for power and industrial plant construction, maintenance, and supply."}
+    description={
+      ko
+        ? "4개 공사업과 등록 공장의 제조 역량을 연결해 발전·산업 플랜트의 시공·정비·납품을 수행합니다."
+        : "Four registered construction disciplines and factory capability connected for power and industrial plant construction, maintenance, and supply."
+    }
   />
   <div class="container page-content">
     <div class="service-grid">
-      {
-        businesses.map((b) => (
-          <article class="service-box" data-reveal="up">
-            <>
-              <span class="eyebrow">
-                {b.number} / {b.shortEn}
-              </span>
-              <TechnicalMark kind={b.slug} />
-              <h2>{ko ? b.titleKo : b.titleEn}</h2>
-              <p>{ko ? b.summaryKo : b.summaryEn}</p>
-              <ul class="clean-list">
-                {(ko ? b.servicesKo : b.servicesEn).map((service) => (
-                  <li>{service}</li>
-                ))}
-              </ul>
-              <a class="text-link" href={businessDetailPath(locale, b.slug)}>
-                {ko ? "수행 범위 자세히 보기" : "View detailed scope"}{" "}
-                <span aria-hidden="true">→</span>
-              </a>
-            </>
-          </article>
-        ))
-      }
-    </div><section class="stack-section prose">
+      {businesses.map((b) => (
+        <article class="service-box" data-reveal="up">
+          <>
+            <span class="eyebrow">
+              {b.number} / {b.shortEn}
+            </span>
+            <TechnicalMark kind={b.slug} />
+            <h2>{ko ? b.titleKo : b.titleEn}</h2>
+            <p>{ko ? b.summaryKo : b.summaryEn}</p>
+            <ul class="clean-list">
+              {(ko ? b.servicesKo : b.servicesEn).map((service) => (
+                <li>{service}</li>
+              ))}
+            </ul>
+            <a class="text-link" href={businessDetailPath(locale, b.slug)}>
+              {ko ? "수행 범위 자세히 보기" : "View detailed scope"}{" "}
+              <span aria-hidden="true">→</span>
+            </a>
+          </>
+        </article>
+      ))}
+    </div>
+    <section class="stack-section prose">
       <h2>
         {ko ? "공종 사이의 연결까지 관리합니다." : "We manage the interfaces between disciplines."}
-      </h2><p>
-        {
-          ko
-            ? "착공 전 현장 조건과 공종 간 간섭을 검토하고, 시공 과정의 변경과 품질기록을 공유합니다. 설치·정비 이후에는 시험·검사·정리·인계까지 일관되게 마무리합니다."
-            : "Before mobilization, we review field conditions and trade interfaces. During execution, changes and quality records are controlled, followed by testing, inspection, closeout, and handover."
-        }
+      </h2>
+      <p>
+        {ko
+          ? "착공 전 현장 조건과 공종 간 간섭을 검토하고, 시공 과정의 변경과 품질기록을 공유합니다. 설치·정비 이후에는 시험·검사·정리·인계까지 일관되게 마무리합니다."
+          : "Before mobilization, we review field conditions and trade interfaces. During execution, changes and quality records are controlled, followed by testing, inspection, closeout, and handover."}
       </p>
     </section>
   </div>

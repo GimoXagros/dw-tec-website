@@ -31,9 +31,11 @@ const {
   <div class="container">
     <nav class="breadcrumb" aria-label={locale === "ko" ? "현재 위치" : "Breadcrumb"}>
       <a href={breadcrumbHomeHref}>{breadcrumbHomeLabel ?? (locale === "ko" ? "홈" : "Home")}</a>
-      <span aria-hidden="true">/</span><span aria-current="page">{title}</span>
-    </nav><p class="eyebrow">
-      {eyebrow}
-    </p><h1>{title}</h1><p class="lead">{description}</p>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{title}</span>
+    </nav>
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="lead">{description}</p>
   </div>
 </section>
