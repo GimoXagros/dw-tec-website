@@ -26,9 +26,11 @@ const localCertifications = capabilities.certifications.map((c) => ({
 <BaseLayout
   locale={locale}
   title={ko ? "발전·산업 플랜트 전문 시공" : "Power & Industrial Plant Construction"}
-  description={ko
-    ? "주식회사 대원기술은 전기·기계가스설비·구조물해체비계·전문소방시설공사와 제조·납품을 수행하는 발전·산업 플랜트 파트너입니다."
-    : "DAEWON TECHNOLOGY provides electrical, mechanical and gas facilities, structural demolition and scaffolding, specialized fire protection construction, manufacturing, and supply for power and industrial plants."}
+  description={
+    ko
+      ? "주식회사 대원기술은 전기·기계가스설비·구조물해체비계·전문소방시설공사와 제조·납품을 수행하는 발전·산업 플랜트 파트너입니다."
+      : "DAEWON TECHNOLOGY provides electrical, mechanical and gas facilities, structural demolition and scaffolding, specialized fire protection construction, manufacturing, and supply for power and industrial plants."
+  }
 >
   <section class="corporate-hero" aria-labelledby="hero-title">
     <img
@@ -44,112 +46,115 @@ const localCertifications = capabilities.certifications.map((c) => ({
     <div class="container corporate-hero-content">
       <p class="corporate-kicker">DAEWON TECHNOLOGY</p>
       <h1 id="hero-title">
-        <span class="hero-line">{ko ? "발전·산업 플랜트," : "Power & industrial plants,"}</span
-        ><span class="hero-line">{ko ? "현장을 완성하는 기술." : "built on field expertise."}</span>
+        <span class="hero-line">{ko ? "발전·산업 플랜트," : "Power & industrial plants,"}</span>
+        <span class="hero-line">{ko ? "현장을 완성하는 기술." : "built on field expertise."}</span>
       </h1>
       <p class="corporate-hero-copy">
-        {
-          ko
-            ? "전기·기계·비계·소방·제조 역량을 연결해"
-            : "We connect construction, fire protection, and manufacturing expertise"
-        }<br />{
-          ko
-            ? "안전한 시공과 신뢰할 수 있는 결과를 만듭니다."
-            : "to deliver safe execution and dependable results."
-        }
+        {ko
+          ? "전기·기계·비계·소방·제조 역량을 연결해"
+          : "We connect construction, fire protection, and manufacturing expertise"}
+        <br />
+        {ko
+          ? "안전한 시공과 신뢰할 수 있는 결과를 만듭니다."
+          : "to deliver safe execution and dependable results."}
       </p>
       <div class="hero-actions">
-        <a class="button button-light" href={pathForKey("business", locale)}
-          >{ko ? "사업영역 보기" : "Explore our business"} <span aria-hidden="true">↗</span></a
-        ><a class="hero-inquiry" href={pathForKey("contact", locale)}
-          >{ko ? "프로젝트 문의" : "Project inquiry"} <span aria-hidden="true">→</span></a
-        >
+        <a class="button button-light" href={pathForKey("business", locale)}>
+          {ko ? "사업영역 보기" : "Explore our business"} <span aria-hidden="true">↗</span>
+        </a>
+        <a class="hero-inquiry" href={pathForKey("contact", locale)}>
+          {ko ? "프로젝트 문의" : "Project inquiry"} <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
     <div class="container corporate-hero-base">
-      <a class="scroll-cue" href="#intro-title"
-        >SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a
-      >
+      <a class="scroll-cue" href="#intro-title">
+        SCROLL TO EXPLORE <span aria-hidden="true">↓</span>
+      </a>
     </div>
   </section>
   <nav class="business-shortcuts" aria-label={ko ? "핵심 사업 바로가기" : "Business shortcuts"}>
     <div class="container business-shortcut-grid">
-      {
-        localBusiness.map((b) => (
-          <a href={businessDetailPath(locale, b.slug)}>
-            <>
-              <span class="shortcut-number">{b.number}</span>
-              <div>
-                <>
-                  <span class="shortcut-en">{b.shortEn}</span>
-                  <strong>{b.title}</strong>
-                  <span class="shortcut-description">{b.services[0]}</span>
-                  <TechnicalMark kind={b.slug} />
-                </>
-              </div>
-              <span class="shortcut-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </>
-          </a>
-        ))
-      }
+      {localBusiness.map((b) => (
+        <a href={businessDetailPath(locale, b.slug)}>
+          <>
+            <span class="shortcut-number">{b.number}</span>
+            <div>
+              <>
+                <span class="shortcut-en">{b.shortEn}</span>
+                <strong>{b.title}</strong>
+                <span class="shortcut-description">{b.services[0]}</span>
+                <TechnicalMark kind={b.slug} />
+              </>
+            </div>
+            <span class="shortcut-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </>
+        </a>
+      ))}
     </div>
   </nav>
   <section class="corporate-intro section container" aria-labelledby="intro-title">
     <div>
-      <p class="eyebrow">THE DW-TEC STANDARD</p><h2 id="intro-title">
-        {
-          ko ? (
-            <>
-              기술은 현장에서,
-              <br />
-              신뢰는 결과로.
-            </>
-          ) : (
-            <>
-              Expertise in the field.
-              <br />
-              Trust in the result.
-            </>
-          )
-        }
-      </h2><a class="text-link" href={pathForKey("company", locale)}
-        >{ko ? "대원기술 소개" : "About DW-TEC"} <span aria-hidden="true">→</span></a
-      >
+      <p class="eyebrow">THE DW-TEC STANDARD</p>
+      <h2 id="intro-title">
+        {ko ? (
+          <>
+            기술은 현장에서,
+            <br />
+            신뢰는 결과로.
+          </>
+        ) : (
+          <>
+            Expertise in the field.
+            <br />
+            Trust in the result.
+          </>
+        )}
+      </h2>
+      <a class="text-link" href={pathForKey("company", locale)}>
+        {ko ? "대원기술 소개" : "About DW-TEC"} <span aria-hidden="true">→</span>
+      </a>
     </div>
     <div class="corporate-intro-right" data-reveal="up">
       <p class="intro-lead">
-        {
-          ko ? (
-            <>
-              대원기술은 발전·산업 플랜트의
-              <br />
-              시공과 정비를 함께하는 전문기업입니다.
-            </>
-          ) : (
-            <>
-              A specialist construction and maintenance partner
-              <br />
-              for power and industrial plants.
-            </>
-          )
-        }
-      </p><p>
-        {
-          ko
-            ? "서로 다른 공종과 제작·납품의 작업 조건을 이해하고, 계획부터 시공·검사·인계까지 하나의 흐름으로 관리합니다. 안전을 우선하고 품질을 기록하며 현장의 약속을 지킵니다."
-            : "We understand the interfaces between field disciplines and manufacturing, managing planning, execution, inspection, and handover as one workflow. Safety comes first, quality is documented, and commitments are honored."
-        }
-      </p><dl class="corporate-stats">
+        {ko ? (
+          <>
+            대원기술은 발전·산업 플랜트의
+            <br />
+            시공과 정비를 함께하는 전문기업입니다.
+          </>
+        ) : (
+          <>
+            A specialist construction and maintenance partner
+            <br />
+            for power and industrial plants.
+          </>
+        )}
+      </p>
+      <p>
+        {ko
+          ? "서로 다른 공종과 제작·납품의 작업 조건을 이해하고, 계획부터 시공·검사·인계까지 하나의 흐름으로 관리합니다. 안전을 우선하고 품질을 기록하며 현장의 약속을 지킵니다."
+          : "We understand the interfaces between field disciplines and manufacturing, managing planning, execution, inspection, and handover as one workflow. Safety comes first, quality is documented, and commitments are honored."}
+      </p>
+      <dl class="corporate-stats">
         <div>
-          <dt>{ko ? "설립" : "Founded"}</dt><dd>2022<span>{ko ? "년" : "Year"}</span></dd>
-        </div><div>
-          <dt>{ko ? "사업영역" : "Business areas"}</dt><dd>
-            {businesses.length}<span>{ko ? "개 분야" : "Fields"}</span>
+          <dt>{ko ? "설립" : "Founded"}</dt>
+          <dd>
+            2022<span>{ko ? "년" : "Year"}</span>
           </dd>
-        </div><div>
-          <dt>{ko ? "ISO 인증" : "ISO systems"}</dt><dd>
+        </div>
+        <div>
+          <dt>{ko ? "사업영역" : "Business areas"}</dt>
+          <dd>
+            {businesses.length}
+            <span>{ko ? "개 분야" : "Fields"}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>{ko ? "ISO 인증" : "ISO systems"}</dt>
+          <dd>
             3<span>{ko ? "개 시스템" : "Systems"}</span>
           </dd>
         </div>
@@ -163,14 +168,14 @@ const localCertifications = capabilities.certifications.map((c) => ({
         height="676"
         alt={ko ? "대원기술 사옥" : "DAEWON TECHNOLOGY headquarters"}
         loading="lazy"
-      /><figcaption>
-        <strong>{ko ? company.name : company.englishName}</strong>{
-          ko ? company.address : "Uljin-gun, Gyeongsangbuk-do, Republic of Korea"
-        }<br />{
-          ko
-            ? "전기·기계·비계·소방·제조 분야의 전문성을 연결합니다."
-            : "Integrated expertise in construction, fire protection, and manufacturing."
-        }
+      />
+      <figcaption>
+        <strong>{ko ? company.name : company.englishName}</strong>
+        {ko ? company.address : "Uljin-gun, Gyeongsangbuk-do, Republic of Korea"}
+        <br />
+        {ko
+          ? "전기·기계·비계·소방·제조 분야의 전문성을 연결합니다."
+          : "Integrated expertise in construction, fire protection, and manufacturing."}
       </figcaption>
     </figure>
   </section>
@@ -178,206 +183,204 @@ const localCertifications = capabilities.certifications.map((c) => ({
     <div class="container">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">OUR BUSINESS</p><h2 id="business-heading">
-            {
-              ko ? (
-                <>
-                  5개 수행 분야,
-                  <br />
-                  하나의 현장 수행체계
-                </>
-              ) : (
-                <>
-                  Five delivery areas.
-                  <br />
-                  One field delivery system.
-                </>
-              )
-            }
-          </h2>
-        </div><p>
-          {
-            ko ? (
+          <p class="eyebrow">OUR BUSINESS</p>
+          <h2 id="business-heading">
+            {ko ? (
               <>
-                공종별 전문성과 제조 기반을 바탕으로
+                5개 수행 분야,
                 <br />
-                현장의 작업과 품질을 통합 관리합니다.
+                하나의 현장 수행체계
               </>
             ) : (
               <>
-                Trade expertise and factory capability,
+                Five delivery areas.
                 <br />
-                coordinated for field quality.
+                One field delivery system.
               </>
-            )
-          }
+            )}
+          </h2>
+        </div>
+        <p>
+          {ko ? (
+            <>
+              공종별 전문성과 제조 기반을 바탕으로
+              <br />
+              현장의 작업과 품질을 통합 관리합니다.
+            </>
+          ) : (
+            <>
+              Trade expertise and factory capability,
+              <br />
+              coordinated for field quality.
+            </>
+          )}
         </p>
-      </div><div class="business-feature-grid" data-reveal-group>
-        {
-          localBusiness.map((b) => (
-            <article class={`business-feature business-feature-${b.slug}`} data-reveal="up">
-              <>
-                <div class="business-feature-top">
-                  <>
-                    <span>{b.number}</span>
-                    <span>{b.shortEn}</span>
-                  </>
-                </div>
-                <TechnicalMark kind={b.slug} />
-                <h3>{b.title}</h3>
-                <p>{b.summary}</p>
-                <ul>
-                  {b.services.map((service) => (
-                    <li>{service}</li>
-                  ))}
-                </ul>
-                <a
-                  href={businessDetailPath(locale, b.slug)}
-                  aria-label={`${b.title} ${ko ? "자세히 보기" : "details"}`}
-                >
-                  {ko ? "사업 자세히 보기" : "View details"} <span aria-hidden="true">→</span>
-                </a>
-              </>
-            </article>
-          ))
-        }
+      </div>
+      <div class="business-feature-grid" data-reveal-group>
+        {localBusiness.map((b) => (
+          <article class={`business-feature business-feature-${b.slug}`} data-reveal="up">
+            <>
+              <div class="business-feature-top">
+                <>
+                  <span>{b.number}</span>
+                  <span>{b.shortEn}</span>
+                </>
+              </div>
+              <TechnicalMark kind={b.slug} />
+              <h3>{b.title}</h3>
+              <p>{b.summary}</p>
+              <ul>
+                {b.services.map((service) => (
+                  <li>{service}</li>
+                ))}
+              </ul>
+              <a
+                href={businessDetailPath(locale, b.slug)}
+                aria-label={`${b.title} ${ko ? "자세히 보기" : "details"}`}
+              >
+                {ko ? "사업 자세히 보기" : "View details"} <span aria-hidden="true">→</span>
+              </a>
+            </>
+          </article>
+        ))}
       </div>
     </div>
   </section>
   <section class="section container credentials-section" aria-labelledby="credentials-heading">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">PROVEN CAPABILITIES</p><h2 id="credentials-heading">
-          {
-            ko ? (
-              <>
-                확인 가능한 역량으로
-                <br />
-                파트너의 신뢰를 쌓습니다.
-              </>
-            ) : (
-              <>
-                Verified capabilities.
-                <br />
-                Dependable partnership.
-              </>
-            )
-          }
-        </h2>
-      </div><a class="text-link" href={pathForKey("companyCapabilities", locale)}
-        >{ko ? "면허·기술 역량" : "Licenses & capabilities"} <span aria-hidden="true">→</span></a
-      >
-    </div><ul class="registration-list">
-      {
-        localBusiness.map((b) => (
-          <li>
-            <span>
-              {b.number} / {b.shortEn}
-            </span>
-            {b.title}
-          </li>
-        ))
-      }
-    </ul><div class="certification-row" data-reveal-group>
-      {
-        localCertifications.map((c) => (
-          <article data-reveal="up">
+        <p class="eyebrow">PROVEN CAPABILITIES</p>
+        <h2 id="credentials-heading">
+          {ko ? (
             <>
-              <span>{c.code}</span>
-              <h3>{c.title}</h3>
-              <p>{c.text}</p>
+              확인 가능한 역량으로
+              <br />
+              파트너의 신뢰를 쌓습니다.
             </>
-          </article>
-        ))
-      }
+          ) : (
+            <>
+              Verified capabilities.
+              <br />
+              Dependable partnership.
+            </>
+          )}
+        </h2>
+      </div>
+      <a class="text-link" href={pathForKey("companyCapabilities", locale)}>
+        {ko ? "면허·기술 역량" : "Licenses & capabilities"} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <ul class="registration-list">
+      {localBusiness.map((b) => (
+        <li>
+          <span>
+            {b.number} / {b.shortEn}
+          </span>
+          {b.title}
+        </li>
+      ))}
+    </ul>
+    <div class="certification-row" data-reveal-group>
+      {localCertifications.map((c) => (
+        <article data-reveal="up">
+          <>
+            <span>{c.code}</span>
+            <h3>{c.title}</h3>
+            <p>{c.text}</p>
+          </>
+        </article>
+      ))}
     </div>
   </section>
   <section class="performance-section" aria-labelledby="performance-heading">
-    <TechnicalMark kind="scaffolding" /><div class="container performance-layout">
+    <TechnicalMark kind="scaffolding" />
+    <div class="container performance-layout">
       <div>
-        <p class="eyebrow light">FIELD EXPERIENCE</p><h2 id="performance-heading">
-          {
-            ko ? (
-              <>
-                발전설비에서
-                <br />
-                산업시설·제조공장까지.
-              </>
-            ) : (
-              <>
-                From power plants
-                <br />
-                to industrial facilities and manufacturing.
-              </>
-            )
-          }
-        </h2><p>
-          {
-            ko ? (
-              <>
-                현장 조건에 맞춘 시공과 설비 개선,
-                <br />
-                제작·납품까지 연결된 수행체계를 제공합니다.
-              </>
-            ) : (
-              <>
-                Construction, facility improvement, manufacturing, and supply
-                <br />
-                coordinated around real field conditions.
-              </>
-            )
-          }
-        </p><a class="button button-light" href={pathForKey("portfolio", locale)}
-          >{ko ? "수행 분야 살펴보기" : "View experience"} <span aria-hidden="true">↗</span></a
-        >
-      </div><div class="performance-lines" data-reveal="up">
-        {
-          localBusiness.map((b) => (
-            <a href={businessDetailPath(locale, b.slug)}>
-              <>
-                <span>{b.number}</span>
-                <div>
-                  <>
-                    <h3>{b.title}</h3>
-                    <p>{b.services.slice(0, 3).join(" · ")}</p>
-                  </>
-                </div>
-                <span aria-hidden="true">↗</span>
-              </>
-            </a>
-          ))
-        }
+        <p class="eyebrow light">FIELD EXPERIENCE</p>
+        <h2 id="performance-heading">
+          {ko ? (
+            <>
+              발전설비에서
+              <br />
+              산업시설·제조공장까지.
+            </>
+          ) : (
+            <>
+              From power plants
+              <br />
+              to industrial facilities and manufacturing.
+            </>
+          )}
+        </h2>
+        <p>
+          {ko ? (
+            <>
+              현장 조건에 맞춘 시공과 설비 개선,
+              <br />
+              제작·납품까지 연결된 수행체계를 제공합니다.
+            </>
+          ) : (
+            <>
+              Construction, facility improvement, manufacturing, and supply
+              <br />
+              coordinated around real field conditions.
+            </>
+          )}
+        </p>
+        <a class="button button-light" href={pathForKey("portfolio", locale)}>
+          {ko ? "수행 분야 살펴보기" : "View experience"} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="performance-lines" data-reveal="up">
+        {localBusiness.map((b) => (
+          <a href={businessDetailPath(locale, b.slug)}>
+            <>
+              <span>{b.number}</span>
+              <div>
+                <>
+                  <h3>{b.title}</h3>
+                  <p>{b.services.slice(0, 3).join(" · ")}</p>
+                </>
+              </div>
+              <span aria-hidden="true">↗</span>
+            </>
+          </a>
+        ))}
       </div>
     </div>
   </section>
   <PartnersSection locale={locale} />
   <section class="corporate-contact container" data-reveal="up">
     <div>
-      <p class="eyebrow">CONTACT US</p><h2>
-        {
-          ko ? (
-            <>
-              현장의 다음 과제,
-              <br />
-              대원기술과 상의하세요.
-            </>
-          ) : (
-            <>
-              Your next field challenge,
-              <br />
-              let's solve it together.
-            </>
-          )
-        }
+      <p class="eyebrow">CONTACT US</p>
+      <h2>
+        {ko ? (
+          <>
+            현장의 다음 과제,
+            <br />
+            대원기술과 상의하세요.
+          </>
+        ) : (
+          <>
+            Your next field challenge,
+            <br />
+            let's solve it together.
+          </>
+        )}
       </h2>
-    </div><div>
-      <a class="contact-phone" href={`tel:${company.phone}`}>{company.phone}</a><p>
+    </div>
+    <div>
+      <a class="contact-phone" href={`tel:${company.phone}`}>
+        {company.phone}
+      </a>
+      <p>
         FAX {company.fax}
         <span>·</span>
         <a href={`mailto:${company.email}`}>{company.email}</a>
-      </p><a class="text-link" href={pathForKey("contact", locale)}
-        >{ko ? "사업 문의·오시는 길" : "Contact & directions"} <span aria-hidden="true">↗</span></a
-      >
+      </p>
+      <a class="text-link" href={pathForKey("contact", locale)}>
+        {ko ? "사업 문의·오시는 길" : "Contact & directions"} <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </section>
 </BaseLayout>

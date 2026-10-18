@@ -75,53 +75,53 @@ const currentLanguage = languageItems.find((item) => item.short === currentShort
       aria-controls="site-nav"
       aria-label={locale === "ko" ? "메뉴 열기" : "Open menu"}
     >
-      <span></span><span></span><span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
     <nav id="site-nav" aria-label={locale === "ko" ? "주 메뉴" : "Main menu"}>
       <ul class="nav-list">
-        {
-          nav.map((item) => (
-            <li
-              class:list={[
-                "nav-item",
-                {
-                  "has-submenu": item.children.length > 0,
-                  "is-current": currentPath.startsWith(item.href),
-                },
-              ]}
-            >
-              <div class="nav-item-top">
-                <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
-                  {item.label}
-                </a>
-                {item.children.length > 0 && (
-                  <button
-                    class="submenu-toggle"
-                    aria-label={`${item.label} ${locale === "ko" ? "하위 메뉴" : "submenu"}`}
-                    aria-expanded="false"
-                    aria-controls={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}
-                  >
-                    <span aria-hidden="true">⌄</span>
-                  </button>
-                )}
-              </div>
+        {nav.map((item) => (
+          <li
+            class:list={[
+              "nav-item",
+              {
+                "has-submenu": item.children.length > 0,
+                "is-current": currentPath.startsWith(item.href),
+              },
+            ]}
+          >
+            <div class="nav-item-top">
+              <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+                {item.label}
+              </a>
               {item.children.length > 0 && (
-                <ul class="submenu" id={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}>
-                  {item.children.map((child) => (
-                    <li>
-                      <a
-                        href={child.href}
-                        aria-current={currentPath === child.href ? "page" : undefined}
-                      >
-                        {child.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <button
+                  class="submenu-toggle"
+                  aria-label={`${item.label} ${locale === "ko" ? "하위 메뉴" : "submenu"}`}
+                  aria-expanded="false"
+                  aria-controls={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}
+                >
+                  <span aria-hidden="true">⌄</span>
+                </button>
               )}
-            </li>
-          ))
-        }
+            </div>
+            {item.children.length > 0 && (
+              <ul class="submenu" id={`sub-${item.href.split("/").filter(Boolean).at(-1)}`}>
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      aria-current={currentPath === child.href ? "page" : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
         <li class="nav-item language-switch has-submenu">
           <div class="nav-item-top">
             <button
@@ -130,43 +130,40 @@ const currentLanguage = languageItems.find((item) => item.short === currentShort
               aria-expanded="false"
               aria-controls="lang-switch-menu"
             >
-              <span>{currentLanguage?.short}</span><span aria-hidden="true">⌄</span>
+              <span>{currentLanguage?.short}</span>
+              <span aria-hidden="true">⌄</span>
             </button>
           </div>
           <ul class="submenu" id="lang-switch-menu">
-            {
-              languageItems.map((language) => (
-                <li>
-                  <a
-                    href={language.href}
-                    aria-current={language.short === currentShort ? "page" : undefined}
-                  >
-                    {language.short} {language.label}
-                  </a>
-                </li>
-              ))
-            }
+            {languageItems.map((language) => (
+              <li>
+                <a
+                  href={language.href}
+                  aria-current={language.short === currentShort ? "page" : undefined}
+                >
+                  {language.short} {language.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </li>
       </ul>
       <div class="mobile-language" aria-label={t.languageSwitcher.optionsLabel}>
         <strong>{currentShort}</strong>
-        {
-          languageItems.map((language) => (
-            <a
-              href={language.href}
-              data-language-link
-              aria-current={language.short === currentShort ? "page" : undefined}
-            >
-              {language.label}
-            </a>
-          ))
-        }
+        {languageItems.map((language) => (
+          <a
+            href={language.href}
+            data-language-link
+            aria-current={language.short === currentShort ? "page" : undefined}
+          >
+            {language.label}
+          </a>
+        ))}
       </div>
       <div class="mobile-contact">
-        <span>{contactTitle}</span><a href={`tel:${company.phone}`}>{company.phone}</a><a
-          href={`mailto:${company.email}`}>{company.email}</a
-        >
+        <span>{contactTitle}</span>
+        <a href={`tel:${company.phone}`}>{company.phone}</a>
+        <a href={`mailto:${company.email}`}>{company.email}</a>
       </div>
     </nav>
   </div>

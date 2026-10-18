@@ -56,31 +56,27 @@ const structured = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {
-      ["/", "/en/"].includes(Astro.url.pathname) && (
-        <link
-          rel="preload"
-          as="image"
-          href="/images/plant-concept-1600.avif"
-          imagesrcset="/images/plant-concept-800.avif 800w, /images/plant-concept-1600.avif 1600w"
-          imagesizes="100vw"
-          fetchpriority="high"
-        />
-      )
-    }
+    {["/", "/en/"].includes(Astro.url.pathname) && (
+      <link
+        rel="preload"
+        as="image"
+        href="/images/plant-concept-1600.avif"
+        imagesrcset="/images/plant-concept-800.avif 800w, /images/plant-concept-1600.avif 1600w"
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+    )}
     <title>{title} | {locale === "ko" ? "대원기술" : "DAEWON TECHNOLOGY"}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <link rel="canonical" href={canonical} />
-    {
-      !isNotFound && (
-        <>
-          <link rel="alternate" hreflang="ko" href={`${company.url}${alternateKo}`} />
-          <link rel="alternate" hreflang="en" href={`${company.url}${alternateEn}`} />
-          <link rel="alternate" hreflang="x-default" href={`${company.url}${alternateKo}`} />
-        </>
-      )
-    }
+    {!isNotFound && (
+      <>
+        <link rel="alternate" hreflang="ko" href={`${company.url}${alternateKo}`} />
+        <link rel="alternate" hreflang="en" href={`${company.url}${alternateEn}`} />
+        <link rel="alternate" hreflang="x-default" href={`${company.url}${alternateKo}`} />
+      </>
+    )}
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#102e55" />
@@ -94,16 +90,14 @@ const structured = {
     />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {
-      socialImage && (
-        <>
-          <meta property="og:image" content={`${company.url}/og/company.png`} />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content={ogAlt} />
-        </>
-      )
-    }
+    {socialImage && (
+      <>
+        <meta property="og:image" content={`${company.url}/og/company.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={ogAlt} />
+      </>
+    )}
     <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
     <meta
       name="twitter:title"
@@ -122,7 +116,9 @@ const structured = {
       {t.skipLink}
     </a>
     <SiteHeader locale={locale} />
-    <main id="main" tabindex="-1"><slot /></main>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
     <SiteFooter locale={locale} />
     <script>
       import { initMotion } from "../scripts/motion";

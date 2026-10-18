@@ -13,57 +13,48 @@ const orderedOrganizations = [...organizations].sort(byOrder);
   <div class="section-heading">
     <div>
       <p class="eyebrow">CLIENTS &amp; PARTNERS</p>
-      <h2>
-        {locale === "ko" ? "주요 발주처 및 협력사" : "Clients & Partners"}
-      </h2>
+      <h2>{locale === "ko" ? "주요 발주처 및 협력사" : "Clients & Partners"}</h2>
     </div>
     <p>
-      {
-        locale === "ko"
-          ? "공개 가능한 수행·협력 기록을 기준으로 정리했습니다."
-          : "Compiled from publicly shareable project and collaboration records."
-      }
+      {locale === "ko"
+        ? "공개 가능한 수행·협력 기록을 기준으로 정리했습니다."
+        : "Compiled from publicly shareable project and collaboration records."}
     </p>
   </div>
   <div class="organization-logo-marquee">
     <div class="organization-logo-track">
-      {
-        [false, true].map((isClone) => (
-          <ul
-            class:list={["organization-logo-list", { "is-clone": isClone }]}
-            aria-hidden={isClone}
-          >
-            {orderedOrganizations.map((org) => {
-              const name = locale === "ko" ? org.nameKo : org.nameEn;
-              return (
-                <li>
-                  <a
-                    class:list={["organization-logo-link", { "is-dark": org.logoTheme === "dark" }]}
-                    href={org.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-organization={org.id}
-                    tabindex={isClone ? -1 : undefined}
-                    aria-label={
-                      isClone
-                        ? undefined
-                        : `${name} ${locale === "ko" ? "공식 홈페이지" : "official website"} (${locale === "ko" ? "새 창" : "opens in a new tab"})`
-                    }
-                  >
-                    <img
-                      src={org.logoSrc}
-                      width="240"
-                      height="80"
-                      alt={isClone ? "" : name}
-                      loading="eager"
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        ))
-      }
+      {[false, true].map((isClone) => (
+        <ul class:list={["organization-logo-list", { "is-clone": isClone }]} aria-hidden={isClone}>
+          {orderedOrganizations.map((org) => {
+            const name = locale === "ko" ? org.nameKo : org.nameEn;
+            return (
+              <li>
+                <a
+                  class:list={["organization-logo-link", { "is-dark": org.logoTheme === "dark" }]}
+                  href={org.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-organization={org.id}
+                  tabindex={isClone ? -1 : undefined}
+                  aria-label={
+                    isClone
+                      ? undefined
+                      : `${name} ${locale === "ko" ? "공식 홈페이지" : "official website"} (${locale === "ko" ? "새 창" : "opens in a new tab"})`
+                  }
+                >
+                  <img
+                    src={org.logoSrc}
+                    width="240"
+                    height="80"
+                    alt={isClone ? "" : name}
+                    loading="eager"
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ))}
     </div>
   </div>
 </section>
