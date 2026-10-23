@@ -36,6 +36,14 @@ const prohibitedPublicClaims = [
 ];
 for (const file of pages) {
   const html = fs.readFileSync(file, "utf8");
+  assert(
+    html.includes('name="referrer" content="no-referrer"'),
+    `Missing referrer policy: ${file}`,
+  );
+  assert(
+    html.includes("object-src 'none'; base-uri 'self'; form-action 'none'"),
+    `Missing baseline CSP: ${file}`,
+  );
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
   const description = html.match(/name="description" content="([^"]+)"/)?.[1];
   assert(title && !titles.has(title), `Missing/duplicate title: ${file}`);
