@@ -1,5 +1,5 @@
 let cleanup: (() => void) | undefined;
-export function initNavigation() {
+function initNavigation() {
   cleanup?.();
   const header = document.querySelector<HTMLElement>(".site-header");
   const button = header?.querySelector<HTMLButtonElement>(".menu-button");
@@ -8,11 +8,6 @@ export function initNavigation() {
   const controller = new AbortController();
   const signal = controller.signal;
   const mobile = matchMedia("(max-width: 1023px)");
-  const background = [
-    document.querySelector<HTMLElement>("main"),
-    document.querySelector<HTMLElement>("footer"),
-    header.querySelector<HTMLElement>(".brand"),
-  ];
   let open = false;
   const savedOverflow = document.body.style.overflow;
   const isEnglish = document.documentElement.lang === "en";
@@ -25,7 +20,11 @@ export function initNavigation() {
     );
     nav.classList.toggle("is-open", open);
     document.body.style.overflow = open ? "hidden" : savedOverflow;
-    background.forEach((element) => {
+    [
+      document.querySelector<HTMLElement>("main"),
+      document.querySelector<HTMLElement>("footer"),
+      header.querySelector<HTMLElement>(".brand"),
+    ].forEach((element) => {
       if (element) element.inert = open;
     });
     if (restoreFocus) button.focus();
@@ -149,3 +148,6 @@ export function initNavigation() {
     header.classList.remove("nav-ready");
   };
 }
+
+initNavigation();
+document.addEventListener("astro:page-load", initNavigation);

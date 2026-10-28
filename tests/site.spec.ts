@@ -687,3 +687,32 @@ test("construction periods display months without inventing daily precision", as
     await expect(rows.nth(4).locator(".project-period")).toHaveText("2026.06");
   }
 });
+
+test("mobile navigation is ready even when deferred scripts cannot load", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route("**/*", async (route) => {
+    if (route.request().resourceType() !== "document") return route.continue();
+    const response = await route.fetch();
+    const body = (await response.text()).replace(
+      /<script\b[^>]*type="module"[^>]*>[\s\S]*?<\/script>/g,
+      "",
+    );
+    await route.fulfill({ response, body });
+  });
+  for (const route of ["/", "/en/"]) {
+    await page.goto(route, { waitUntil: "domcontentloaded" });
+    await expect(page.locator(".site-header")).toHaveClass(/nav-ready/);
+    expect(await page.locator("main").evaluate((main) => main.getBoundingClientRect().top)).toBe(
+      76,
+    );
+    const menu = page.locator(".menu-button");
+    await menu.click();
+    await expect(menu).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator("main")).toHaveJSProperty("inert", true);
+    await expect(page.locator("footer")).toHaveJSProperty("inert", true);
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeFocused();
+    await expect(page.locator("main")).toHaveJSProperty("inert", false);
+    await expect(page.locator("footer")).toHaveJSProperty("inert", false);
+  }
+});
