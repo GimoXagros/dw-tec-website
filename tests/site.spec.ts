@@ -30,6 +30,28 @@ const routes = [
   "/en/privacy/",
   "/404.html",
 ];
+test("CSP blocks injected inline scripts and external connections", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    const violations: string[] = [];
+    document.addEventListener("securitypolicyviolation", (event) => {
+      violations.push(event.effectiveDirective);
+    });
+    const script = document.createElement("script");
+    script.textContent = "document.documentElement.dataset.cspProbe = 'executed'";
+    document.body.append(script);
+    const connectionBlocked = await fetch("https://example.invalid/csp-probe")
+      .then(() => false)
+      .catch(() => true);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    script.remove();
+    return { executed: document.documentElement.dataset.cspProbe, connectionBlocked, violations };
+  });
+  expect(result.executed).toBeUndefined();
+  expect(result.connectionBlocked).toBe(true);
+  expect(result.violations).toContain("script-src-elem");
+  expect(result.violations).toContain("connect-src");
+});
 for (const width of [360, 390, 768, 1024, 1440, 1920]) {
   test(`all pages, links and accessibility at ${width}px`, async ({ page }) => {
     test.setTimeout(120_000);
