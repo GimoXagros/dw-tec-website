@@ -138,10 +138,10 @@ const tabNames = ko
                         </caption>
                         {manufacturing && (
                           <colgroup>
-                            <col style="width:36%" />
-                            <col style="width:24%" />
-                            <col style="width:28%" />
-                            <col style="width:12%" />
+                            <col class="scope-column" />
+                            <col class="client-column" />
+                            <col class="period-column" />
+                            <col class="amount-column" />
                           </colgroup>
                         )}
                         <thead>
@@ -248,3 +248,18 @@ const tabNames = ko
   import { initProjectTabs } from "../../scripts/project-tabs";
   initProjectTabs();
 </script>
+
+<style>
+  .scope-column {
+    width: 36%;
+  }
+  .client-column {
+    width: 24%;
+  }
+  .period-column {
+    width: 28%;
+  }
+  .amount-column {
+    width: 12%;
+  }
+</style>

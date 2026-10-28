@@ -40,10 +40,27 @@ for (const file of pages) {
     html.includes('name="referrer" content="no-referrer"'),
     `Missing referrer policy: ${file}`,
   );
-  assert(
-    html.includes("object-src 'none'; base-uri 'self'; form-action 'none'"),
-    `Missing baseline CSP: ${file}`,
-  );
+  const policies = [
+    ...html.matchAll(/<meta\s+http-equiv="content-security-policy"\s+content="([^"]+)"/gi),
+  ];
+  assert.equal(policies.length, 1, `Expected one CSP: ${file}`);
+  const policy = policies[0][1];
+  for (const directive of [
+    "default-src 'none'",
+    "base-uri 'none'",
+    "object-src 'none'",
+    "form-action 'none'",
+    "frame-src 'none'",
+    "connect-src 'self'",
+    "img-src 'self'",
+    "font-src 'self'",
+    "script-src-attr 'none'",
+    "style-src-attr 'none'",
+  ])
+    assert(policy.includes(directive), `Missing ${directive}: ${file}`);
+  assert(!/unsafe-inline|unsafe-eval/.test(policy), `Unsafe CSP allowance: ${file}`);
+  assert(/script-src[^;]*'sha256-/.test(policy), `Missing script hashes: ${file}`);
+  assert(/style-src[^;]*'sha256-/.test(policy), `Missing style hashes: ${file}`);
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
   const description = html.match(/name="description" content="([^"]+)"/)?.[1];
   assert(title && !titles.has(title), `Missing/duplicate title: ${file}`);
