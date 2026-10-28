@@ -6,9 +6,10 @@ import { businessDetailPath, pathForKey, toLocalePath } from "../i18n/routes";
 
 interface Props {
   locale: Locale;
+  navigationScript: string;
 }
 
-const { locale = "ko" } = Astro.props;
+const { locale = "ko", navigationScript } = Astro.props;
 const t = getMessages(locale);
 const currentPath = toLocalePath(Astro.url.pathname, locale);
 const languagePath = Astro.url.pathname.startsWith("/404") ? "/" : currentPath;
@@ -168,3 +169,5 @@ const currentLanguage = languageItems.find((item) => item.short === currentShort
     </nav>
   </div>
 </header>
+
+<script is:inline set:html={navigationScript} />
