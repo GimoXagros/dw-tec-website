@@ -1,5 +1,14 @@
 # DW-TEC 기업형 홈페이지 개편 최종 보고서
 
+## 현재 운영 상태 — 2026-11-02 확인
+
+- 기본 브랜치 `main`: `c43831c2e764c3e1089fa2b1fa49aa4c58bb2f9f`.
+- 최근 웹 변경: [PR #41](https://github.com/GimoXagros/dw-tec-website/pull/41)의 성능 개선. [Pages 배포](https://github.com/GimoXagros/dw-tec-website/actions/runs/40657251623)와 [품질 검사](https://github.com/GimoXagros/dw-tec-website/actions/runs/40657251691)는 성공했다.
+- GitHub Pages 도메인은 `dw-tec.co.kr`, HTTPS 강제 설정은 활성 상태다. 이번 문서 점검에서 한국어·영어 홈의 HTTPS 200 응답을 확인했다.
+- 현재 사업영역은 5개이며 등록 공사업은 4종이다. Node.js는 `.nvmrc`의 24.22.1, Astro는 `package.json`의 7.4.2를 기준으로 한다.
+
+아래는 2026-09-02·09-04 개편 당시의 기록이다. 당시 커밋·페이지 수·검사 수·성능 수치와 롤백 예시는 현재 버전의 새 검증이나 현재 장애의 복구 명령으로 사용하지 않는다. 현재 복구 절차는 [배포 안내](docs/deployment.md)를 따른다. 이번 문서 점검에서는 Lighthouse·브라우저 회귀·실물 기기 검사를 다시 실행하지 않았다.
+
 ## 2026-09-04 한·영 사이트 및 공개 콘텐츠 조정 — 운영 배포 완료
 
 - 기준선: `f3714ec5bd91c3a10dd23217de5a3974f5fc28f4`
@@ -28,9 +37,9 @@
 - ko/en 자기 canonical과 대응 `hreflang` ko/en/x-default, 언어 전환, 키보드·Escape·바깥 클릭, 모바일 focus trap, reduced-motion, JS 비활성 탐색을 확인.
 - 운영의 한국어·영어 홈, 기술·인증, 문의 페이지가 200이고 `lang`·제거 문구·연락처·파트너 목록이 정상임을 확인.
 - 운영 모바일에서 `/business/electrical/` → `/en/business/electrical/` 클릭 전환과 가로 넘침 없음 확인.
-- `npm audit --audit-level=high`는 PR 및 main 품질 검사에서 성공. Pages 첫 시도는 npm 보안 서버 네트워크 타임아웃으로 게시 전 실패했고, 동일 설정의 attempt 2에서 성공했다.
+- `npm audit --audit-level=high`는 PR 및 main 품질 검사에서 성공. Pages 첫 시도는 npm 보안 서버 네트워크 타임아웃으로 게시 전 실패했고 동일 설정의 attempt 2에서 성공했다.
 
-이번 작업에서 새 dependency는 추가하지 않았다. 최종 초기 실행 JavaScript는 raw 4,132 bytes, gzip 1,570 bytes다. Lighthouse는 이번 콘텐츠·i18n 조정에서 재측정하지 않았으며, 브라우저 회귀·Axe·레이아웃 검사를 수행했다. 이전 개편의 Lighthouse 결과는 아래 기록을 유지한다.
+이번 작업에서 새 dependency는 추가하지 않았다. 최종 초기 실행 JavaScript는 raw 4,132 bytes, gzip 1,570 bytes다. Lighthouse는 이번 콘텐츠·i18n 조정에서 재측정하지 않았으며 브라우저 회귀·Axe·레이아웃 검사를 수행했다. 이전 개편의 Lighthouse 결과는 아래 기록을 유지한다.
 
 ### 운영 주소와 변경하지 않은 설정
 
@@ -45,7 +54,7 @@
 
 롤백 기준 SHA는 `f3714ec5bd91c3a10dd23217de5a3974f5fc28f4`다. 신규 복구 브랜치에서 `git revert -m 1 a3ad23470f1e673b6c8a850bb61bae3a99047d3c` 후 `git revert -m 1 baa10403f52a7fb0b1b3fd03dde34012bdf1ad72`를 실행하고 검증·PR·정상 병합·Pages 배포 순으로 복구한다. 이력 재작성, force push, DNS·메일 변경은 하지 않는다.
 
-## 상태 및 버전
+## 2026-09-02 상태 및 버전
 
 - 현재 단계: **DEPLOYED — 운영 배포 및 실제 주소 검증 완료**
 - 기준선 SHA: `21c9676f8f90f2df45cd16cc01ae56518931ba17`
@@ -54,7 +63,7 @@
 - 브랜치: `codex/corporate-motion-refresh`
 - PR: [#1 기업형 디자인·이미지·모션 개편](https://github.com/GimoXagros/dw-tec-website/pull/1)
 - 배포 Actions: [33601522673 · attempt 2 성공](https://github.com/GimoXagros/dw-tec-website/actions/runs/33601522673/attempts/2), 2026-09-02 16:15 KST 완료.
-- 이 보고서는 위 웹 배포를 검증한 기록이다. 이후 보고서만 변경하는 커밋은 웹 구현 변경과 구분하며, 웹 배포 산출물의 동일성을 별도로 확인한다.
+- 이 보고서는 위 웹 배포를 검증한 기록이다. 이후 보고서만 변경하는 커밋은 웹 구현 변경과 구분하며 웹 배포 산출물의 동일성을 별도로 확인한다.
 - 운영 주소: [https://dw-tec.co.kr/](https://dw-tec.co.kr/)
 - 이번 문서는 기존 보고서의 미완료 DNS 연결 설명을 대체한다. 이번 작업은 기존 도메인·HTTPS·GitHub Pages를 유지한 콘텐츠/디자인 재배포다.
 
@@ -78,7 +87,7 @@
 
 ## 모션·성능
 
-새 외부 의존성 없이 CSS와 IntersectionObserver로 1회 등장, 짧은 hover/focus, 헤더 축소, 메뉴 진입을 구현했다. reduced-motion·JavaScript 비활성·observer 실패 시에도 정보 접근이 가능하다. 위치를 일괄 읽도록 초기화 비용을 줄였고, 숫자는 처음부터 최종값을 표시한다. 페이지 전환 라이브러리는 추가하지 않았다.
+새 외부 의존성 없이 CSS와 IntersectionObserver로 1회 등장, 짧은 hover/focus, 헤더 축소, 메뉴 진입을 구현했다. reduced-motion·JavaScript 비활성·observer 실패 시에도 정보 접근이 가능하다. 위치를 일괄 읽도록 초기화 비용을 줄였고 숫자는 처음부터 최종값을 표시한다. 페이지 전환 라이브러리는 추가하지 않았다.
 
 최종 후보 로컬 Lighthouse 모바일: 메인 **90/100/100/100**, 기술·인증 **91/100/100/100**, 문의 **100/100/100/100**. 순서는 성능/접근성/권장사항/SEO. 기준선은 각각 94/100/100/100, 100/100/100/100, 100/100/100/100이다. 최종 CLS는 0.004918 / 0.000280 / 0.000154다. 목표는 통과했지만 일부 기준선 성능보다 낮고 측정 변동이 있다. 실제 사용자 지표로 표현하지 않는다.
 
@@ -98,7 +107,7 @@
 
 사용자 제공 회사 데이터·로고·실제 사옥 사진을 보존했다. 회사 데이터와 CNAME·lockfile 변경 없음. 공개 미승인 원전 내부 사진이나 인증서/직원 개인정보를 추가하지 않았다.
 
-사용자 허용에 따라 내장 이미지 생성 도구로 산업 플랜트 콘셉트 1장을 제작했다. 사용자의 후속 요청으로 화면 설명 문구는 제거했으며, 실제 본사·시공 실적이라고 주장하지 않는다. 생성 원본과 출처를 보관한다. 타사 참고 사이트의 사진·코드·문구를 복사하지 않았다. [이미지 파일·프롬프트·출처](docs/visual-assets.md).
+사용자 허용에 따라 내장 이미지 생성 도구로 산업 플랜트 콘셉트 1장을 제작했다. 사용자의 후속 요청으로 화면 설명 문구는 제거했으며 실제 본사·시공 실적이라고 주장하지 않는다. 생성 원본과 출처를 보관한다. 타사 참고 사이트의 사진·코드·문구를 복사하지 않았다. [이미지 파일·프롬프트·출처](docs/visual-assets.md).
 
 ## 변경하지 않은 설정 / 수행하지 않은 검사
 
