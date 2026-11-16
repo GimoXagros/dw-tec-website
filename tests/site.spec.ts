@@ -242,7 +242,7 @@ test("all routes readable without JavaScript", async ({ browser }) => {
   });
   const page = await context.newPage();
   for (const route of routes) {
-    await page.goto(`http://127.0.0.1:4322${route}`);
+    await page.goto(route);
     await expect(page.locator("h1")).toBeVisible();
     const businessHref = route.startsWith("/en/") ? "/en/business/" : "/business/";
     await expect(page.locator(`.nav-item-top a[href='${businessHref}']`)).toBeVisible();
